@@ -34,11 +34,11 @@ class ExperimentsTest(unittest.TestCase):
                 if experiment != 'chunk_size':
                     self.assertEqual(row['chunk_size'], 10)
                 if experiment != 'image_area':
-                    self.assertEqual((row['width'], row['height']), (1000, 1000))
+                    self.assertEqual((row['width'], row['height']), (3000, 3000))
         self.assertEqual(sorted({r['chunk_size'] for r in self.rows if r['experiment'] == 'chunk_size'}),
-                         [1, 3, 7, 15, 31, 62, 125])
+                         [3, 11, 23, 46, 93, 187, 375])
         self.assertEqual(sorted({r['width'] for r in self.rows if r['experiment'] == 'image_area'}),
-                         [100, 673, 947, 1158, 1335, 1492, 1634, 1764, 1886, 2000])
+                         [1000, 2211, 2963, 3559, 4069, 4522, 4933, 5312, 5667, 6000])
         self.assertEqual(self.config['defaults']['iterations'], 100)
         self.assertEqual(self.config['defaults']['xlim'], '-2.2:0.75')
         self.assertEqual(self.config['defaults']['ylim'], '-1.3:1.3')
@@ -83,9 +83,19 @@ class ExperimentsTest(unittest.TestCase):
 
     def test_pilot_estimate_has_allowance(self):
         pilots = [dict(implementation=impl, width=side, runtime_seconds=1 if side == 100 else 10)
-                  for impl in self.config['implementations'] for side in [100, 1000]]
-        expected = sum(10 * max(1, row['actual_area'] / 1e6) for row in self.rows) * 2
+                  for impl in self.config['implementations'] for side in self.config['pilot']['sides']]
+        expected = sum(max(1, 1 + 9 * (row['actual_area'] - 10_000) / (9_000_000 - 10_000)) for row in self.rows) * 2
         self.assertAlmostEqual(estimated_seconds(self.config, pilots), expected)
+
+    def test_historical_grid_and_results_still_validate(self):
+        root = Path(__file__).resolve().parent / 'results' / 'job_29611697'
+        with (root / 'measurements.csv').open(newline='') as stream:
+            rows = list(csv.DictReader(stream))
+        old_config = read_config(root / 'experiments.yaml')
+        points = validated_medians(rows, old_config)
+        self.assertEqual(len(points), 80)
+        self.assertEqual(old_config['defaults']['width'], 1000)
+        self.assertEqual(max(r['width'] for r in points), 2000)
 
     def test_launcher_failure_and_timeout_are_logged(self):
         with tempfile.TemporaryDirectory() as name:

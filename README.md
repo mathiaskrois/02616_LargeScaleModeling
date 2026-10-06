@@ -2,7 +2,7 @@
 
 Group workspace for Project 1: compare four MPI implementations of the Mandelbrot
 calculation using static/dynamic scheduling and blocking/nonblocking communication.
-The complete experiment suite has run successfully: **240 measurements**, with
+The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
 ## Start here
@@ -26,6 +26,39 @@ The project files are in `Week05/`. Read [the assignment](Week05/Project.tex) an
 implementations assign chunks cyclically in advance; the dynamic implementations
 use rank zero to manage work for seven workers when running with eight ranks.
 All preserve the original argument order and use 100 iterations.
+
+## Heavier follow-up suite (configured; not yet started)
+
+The current configuration increases the node/chunk image to **3000×3000** and the
+area sweep maximum to **6000×6000**. Both contain nine times as many pixels as the
+corresponding initial sizes. The changes will be pushed before submitting the new
+HPC job; its measurements will be saved under a new job ID. Job 29611697 below
+continues to describe the initial, smaller experiment.
+
+| Sweep | Values | Fixed settings |
+|---|---|---|
+| Physical nodes | 2, 4, 8 | 8 ranks; 3000×3000 image; chunk size 10 |
+| Chunk size (rows) | 3, 11, 23, 46, 93, 187, 375 | 8 ranks on 2 hosts; 3000×3000 image |
+| Image side (pixels) | 1000, 2211, 2963, 3559, 4069, 4522, 4933, 5312, 5667, 6000 | 8 ranks on 2 hosts; chunk size 10 |
+
+The chunk sweep retains the previous formula, now using 3000 rows:
+`max(1, floor(3000 / (8*x)))`, for `x = [125, 32, 16, 8, 4, 2, 1]`.
+The area sweep uses ten equally spaced target areas from 1,000,000 to 36,000,000
+pixels, rounding each square root to obtain a square side. Both target and actual
+areas are saved; figures use actual area.
+
+There are still **240 measured runs**: four implementations, 80 configurations,
+three shuffled repetition rounds. The algorithms, limits, 100 iterations, eight
+ranks, placement, seed and 12-hour allocation are unchanged. Larger images reduce
+MPI startup's fraction of complete runtime; they do not guarantee wider differences
+between algorithms. The comparison should be based on the resulting measurements.
+
+Pilots now use **100×100 and 3000×3000** for each implementation. The duration
+estimate separates a nonnegative startup cost from an area-dependent compute cost,
+then applies the factor-of-two allowance. The runner stops before measurements
+if that estimate exceeds the remaining budget. It reserves five minutes for
+analysis. Current captions come from each run's saved configuration, so plotting
+the initial results still uses the original dimensions.
 
 ## Completed results
 
@@ -106,8 +139,8 @@ python3 plot_experiments.py results/job_29611697 --output-dir figures_local
 ```
 
 The dry run expands the exact 240-command measurement grid without running it.
-Eight acceptance tests check the grid, placement guards, pilot estimates, known
-medians, rejection of invalid data, failure recording and plot exports.
+Nine acceptance tests check the grid, placement guards, pilot estimates, known
+medians, rejection of invalid data, failure recording, historical-data compatibility and plot exports.
 Plotting rejects failed, duplicate, off-grid or incomplete data.
 `experiments.yaml` uses JSON syntax, which is also valid YAML, so PyYAML is unnecessary.
 The bundled `vendor/six.py` supplies a fallback for the cluster Matplotlib module.
@@ -134,7 +167,7 @@ the experiment runner executes commands sequentially in the one allocation.
 Do not run MPI benchmarks on the login host.
 
 Before timing, the runner checks all three placements and core binding, then runs
-each implementation at 100×100 and 1000×1000. It stops before measurements if the
+each implementation at 100×100 and the configured 3000×3000 baseline. It stops before measurements if the
 pilot estimate with a factor-of-two allowance exceeds the remaining time budget.
 Each measured attempt is logged immediately; a failure stops the suite.
 

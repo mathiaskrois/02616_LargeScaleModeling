@@ -75,10 +75,13 @@ def plot_results(result_dir, output_dir=None):
     import matplotlib.pyplot as plt
     output_dir = Path(output_dir) if output_dir else result_dir / 'figures'
     output_dir.mkdir(parents=True, exist_ok=True)
+    defaults = config['defaults']
+    dimensions = f"{defaults['width']}×{defaults['height']}"
+    ranks, nodes, chunk = defaults['ranks'], defaults['nodes'], defaults['chunk_size']
     settings = {
-        'nodes': ('nodes', 'Physical nodes', '8 total ranks; 1000×1000 pixels; chunk size 10 rows.'),
-        'chunk_size': ('chunk_size', 'Chunk size (rows)', '8 total ranks on the first 2 hosts; 1000×1000 pixels.'),
-        'image_area': ('actual_area', 'Actual image area (pixels)', '8 total ranks on the first 2 hosts; chunk size 10 rows.')}
+        'nodes': ('nodes', 'Physical nodes', f'{ranks} total ranks; {dimensions} pixels; chunk size {chunk} rows.'),
+        'chunk_size': ('chunk_size', 'Chunk size (rows)', f'{ranks} total ranks on the first {nodes} hosts; {dimensions} pixels.'),
+        'image_area': ('actual_area', 'Actual image area (pixels)', f'{ranks} total ranks on the first {nodes} hosts; chunk size {chunk} rows.')}
     paths = []
     for experiment, (key, xlabel, caption) in settings.items():
         fig, axes = plt.subplots(2, 2, figsize=(10, 7), sharex=True, sharey=True)
@@ -96,7 +99,7 @@ def plot_results(result_dir, output_dir=None):
             ax.grid(alpha=0.3)
             if experiment == 'nodes':
                 ax.set_xticks(config['experiments']['nodes']['values'])
-        fig.text(0.5, 0.025, caption + '\nDefault image limits; 100 iterations; median of 3 repetitions.',
+        fig.text(0.5, 0.025, caption + f"\nImage limits {defaults['xlim']}, {defaults['ylim']}; {defaults['iterations']} iterations; median of {defaults['repetitions']} repetitions.",
                  ha='center', fontsize=10)
         fig.tight_layout(rect=(0, 0.09, 1, 1))
         for extension in ['png', 'pdf']:

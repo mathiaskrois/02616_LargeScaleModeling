@@ -137,13 +137,17 @@ def check_probe(records, hosts, ranks_per_host, model):
 
 
 def estimated_seconds(config, pilots):
+    """Estimate startup plus area-dependent compute from two pilot sizes."""
+    small_side, baseline_side = sorted(config['pilot']['sides'])
+    small_area, baseline_area = small_side ** 2, baseline_side ** 2
     times = {(p['implementation'], p['width']): p['runtime_seconds'] for p in pilots}
     total = 0
     for row in measurements(config):
-        # Do not extrapolate below the observed small-run startup cost.
-        small = times[row['implementation'], 100]
-        baseline = times[row['implementation'], 1000]
-        total += max(small, baseline * max(1, row['actual_area'] / 1_000_000))
+        small = times[row['implementation'], small_side]
+        baseline = times[row['implementation'], baseline_side]
+        per_pixel = max(0, (baseline - small) / (baseline_area - small_area))
+        startup = max(0, small - per_pixel * small_area)
+        total += max(small, startup + per_pixel * row['actual_area'])
     return total * config['pilot']['allowance_factor']
 
 
@@ -171,6 +175,9 @@ def run(config, result_dir):
                     versions={p: importlib.metadata.version(p) for p in ['numpy', 'mpi4py', 'matplotlib']},
                     source_hashes={str(p.name): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
                     pilots=[], probes={}, status='preflight', commands=[])
+    revision = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=HERE,
+                              text=True, capture_output=True, check=False)
+    metadata['git_commit'] = revision.stdout.strip() if revision.returncode == 0 else None
     sources = result_dir / 'sources'
     sources.mkdir()
     for path in paths:
@@ -212,7 +219,7 @@ def run(config, result_dir):
             for side in config['pilot']['sides']:
                 row = dict(implementation=impl, nodes=2, ranks=8, ranks_per_host=4, width=side)
                 info = attempt(f'pilot_{impl}_{side}', row, HERE / filename,
-                               [10, f'{side}x{side}', config['defaults']['xlim'], config['defaults']['ylim']])
+                               [config['defaults']['chunk_size'], f'{side}x{side}', config['defaults']['xlim'], config['defaults']['ylim']])
                 metadata['pilots'].append(dict(row, **info))
                 save()
                 if info['exit_status']:
