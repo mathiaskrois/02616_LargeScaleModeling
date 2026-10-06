@@ -1,0 +1,317 @@
+1/240 run_001_chunk_size_dynamic_blocking_r1
+1/240 run_001_chunk_size_dynamic_blocking_r1
+2/240 run_002_chunk_size_dynamic_nonblocking_r1
+3/240 run_003_image_area_static_nonblocking_r1
+4/240 run_004_nodes_dynamic_nonblocking_r1
+5/240 run_005_chunk_size_dynamic_blocking_r1
+6/240 run_006_image_area_dynamic_blocking_r1
+7/240 run_007_chunk_size_static_nonblocking_r1
+8/240 run_008_chunk_size_dynamic_blocking_r1
+9/240 run_009_image_area_dynamic_blocking_r1
+10/240 run_010_image_area_static_blocking_r1
+11/240 run_011_chunk_size_dynamic_blocking_r1
+12/240 run_012_nodes_dynamic_blocking_r1
+13/240 run_013_image_area_dynamic_nonblocking_r1
+14/240 run_014_chunk_size_static_nonblocking_r1
+15/240 run_015_image_area_static_blocking_r1
+16/240 run_016_chunk_size_dynamic_nonblocking_r1
+17/240 run_017_image_area_static_nonblocking_r1
+18/240 run_018_image_area_dynamic_blocking_r1
+19/240 run_019_image_area_static_nonblocking_r1
+20/240 run_020_nodes_dynamic_blocking_r1
+21/240 run_021_image_area_static_blocking_r1
+22/240 run_022_image_area_static_nonblocking_r1
+23/240 run_023_chunk_size_static_nonblocking_r1
+24/240 run_024_image_area_static_blocking_r1
+25/240 run_025_chunk_size_static_blocking_r1
+26/240 run_026_nodes_static_blocking_r1
+27/240 run_027_nodes_dynamic_blocking_r1
+28/240 run_028_nodes_static_nonblocking_r1
+29/240 run_029_chunk_size_dynamic_nonblocking_r1
+30/240 run_030_chunk_size_static_nonblocking_r1
+31/240 run_031_image_area_dynamic_blocking_r1
+32/240 run_032_image_area_dynamic_blocking_r1
+33/240 run_033_chunk_size_static_nonblocking_r1
+34/240 run_034_image_area_static_blocking_r1
+35/240 run_035_chunk_size_static_blocking_r1
+36/240 run_036_image_area_static_nonblocking_r1
+37/240 run_037_chunk_size_static_blocking_r1
+38/240 run_038_chunk_size_dynamic_blocking_r1
+39/240 run_039_chunk_size_static_blocking_r1
+40/240 run_040_image_area_static_blocking_r1
+41/240 run_041_image_area_static_blocking_r1
+42/240 run_042_image_area_static_nonblocking_r1
+43/240 run_043_chunk_size_dynamic_blocking_r1
+44/240 run_044_chunk_size_dynamic_nonblocking_r1
+45/240 run_045_image_area_static_blocking_r1
+46/240 run_046_chunk_size_static_nonblocking_r1
+47/240 run_047_chunk_size_dynamic_nonblocking_r1
+48/240 run_048_nodes_static_blocking_r1
+49/240 run_049_image_area_static_nonblocking_r1
+50/240 run_050_image_area_dynamic_blocking_r1
+51/240 run_051_chunk_size_dynamic_nonblocking_r1
+52/240 run_052_image_area_static_nonblocking_r1
+53/240 run_053_image_area_dynamic_blocking_r1
+54/240 run_054_image_area_dynamic_blocking_r1
+55/240 run_055_nodes_dynamic_nonblocking_r1
+56/240 run_056_image_area_dynamic_blocking_r1
+57/240 run_057_nodes_static_nonblocking_r1
+58/240 run_058_image_area_static_nonblocking_r1
+59/240 run_059_image_area_dynamic_nonblocking_r1
+60/240 run_060_image_area_dynamic_nonblocking_r1
+61/240 run_061_image_area_dynamic_nonblocking_r1
+62/240 run_062_chunk_size_static_blocking_r1
+63/240 run_063_image_area_dynamic_blocking_r1
+64/240 run_064_image_area_dynamic_nonblocking_r1
+65/240 run_065_image_area_dynamic_nonblocking_r1
+66/240 run_066_nodes_static_nonblocking_r1
+67/240 run_067_image_area_dynamic_nonblocking_r1
+68/240 run_068_image_area_static_nonblocking_r1
+69/240 run_069_nodes_dynamic_nonblocking_r1
+70/240 run_070_chunk_size_static_blocking_r1
+71/240 run_071_image_area_static_blocking_r1
+72/240 run_072_chunk_size_dynamic_blocking_r1
+73/240 run_073_chunk_size_dynamic_nonblocking_r1
+74/240 run_074_image_area_dynamic_nonblocking_r1
+75/240 run_075_chunk_size_static_nonblocking_r1
+76/240 run_076_image_area_dynamic_nonblocking_r1
+77/240 run_077_image_area_dynamic_nonblocking_r1
+78/240 run_078_nodes_static_blocking_r1
+79/240 run_079_image_area_static_blocking_r1
+80/240 run_080_chunk_size_static_blocking_r1
+81/240 run_081_image_area_static_nonblocking_r2
+82/240 run_082_image_area_dynamic_blocking_r2
+83/240 run_083_chunk_size_dynamic_nonblocking_r2
+84/240 run_084_chunk_size_dynamic_blocking_r2
+85/240 run_085_image_area_static_blocking_r2
+86/240 run_086_chunk_size_dynamic_nonblocking_r2
+87/240 run_087_image_area_static_blocking_r2
+88/240 run_088_chunk_size_dynamic_nonblocking_r2
+89/240 run_089_chunk_size_dynamic_nonblocking_r2
+90/240 run_090_chunk_size_static_nonblocking_r2
+91/240 run_091_image_area_dynamic_nonblocking_r2
+92/240 run_092_image_area_static_nonblocking_r2
+93/240 run_093_image_area_static_blocking_r2
+94/240 run_094_chunk_size_dynamic_blocking_r2
+95/240 run_095_image_area_static_blocking_r2
+96/240 run_096_image_area_dynamic_nonblocking_r2
+97/240 run_097_chunk_size_dynamic_blocking_r2
+98/240 run_098_image_area_dynamic_blocking_r2
+99/240 run_099_image_area_static_blocking_r2
+100/240 run_100_image_area_dynamic_nonblocking_r2
+101/240 run_101_nodes_static_nonblocking_r2
+102/240 run_102_image_area_static_nonblocking_r2
+103/240 run_103_nodes_static_blocking_r2
+104/240 run_104_nodes_dynamic_blocking_r2
+105/240 run_105_chunk_size_static_nonblocking_r2
+106/240 run_106_chunk_size_dynamic_nonblocking_r2
+107/240 run_107_chunk_size_static_nonblocking_r2
+108/240 run_108_image_area_static_nonblocking_r2
+109/240 run_109_image_area_dynamic_blocking_r2
+110/240 run_110_image_area_static_blocking_r2
+111/240 run_111_nodes_dynamic_nonblocking_r2
+112/240 run_112_image_area_dynamic_nonblocking_r2
+113/240 run_113_image_area_static_nonblocking_r2
+114/240 run_114_image_area_dynamic_blocking_r2
+115/240 run_115_chunk_size_static_blocking_r2
+116/240 run_116_chunk_size_static_blocking_r2
+117/240 run_117_chunk_size_static_nonblocking_r2
+118/240 run_118_image_area_static_nonblocking_r2
+119/240 run_119_chunk_size_dynamic_blocking_r2
+120/240 run_120_image_area_static_nonblocking_r2
+121/240 run_121_image_area_dynamic_nonblocking_r2
+122/240 run_122_image_area_dynamic_nonblocking_r2
+123/240 run_123_chunk_size_dynamic_blocking_r2
+124/240 run_124_image_area_static_blocking_r2
+125/240 run_125_image_area_static_blocking_r2
+126/240 run_126_image_area_dynamic_blocking_r2
+127/240 run_127_chunk_size_static_blocking_r2
+128/240 run_128_image_area_dynamic_blocking_r2
+129/240 run_129_chunk_size_dynamic_blocking_r2
+130/240 run_130_chunk_size_dynamic_nonblocking_r2
+131/240 run_131_image_area_static_blocking_r2
+132/240 run_132_chunk_size_static_nonblocking_r2
+133/240 run_133_chunk_size_static_nonblocking_r2
+134/240 run_134_image_area_static_nonblocking_r2
+135/240 run_135_nodes_static_nonblocking_r2
+136/240 run_136_nodes_static_blocking_r2
+137/240 run_137_image_area_dynamic_blocking_r2
+138/240 run_138_nodes_static_nonblocking_r2
+139/240 run_139_image_area_dynamic_blocking_r2
+140/240 run_140_image_area_dynamic_nonblocking_r2
+141/240 run_141_nodes_static_blocking_r2
+142/240 run_142_nodes_dynamic_blocking_r2
+143/240 run_143_image_area_static_blocking_r2
+144/240 run_144_image_area_static_nonblocking_r2
+145/240 run_145_image_area_dynamic_blocking_r2
+146/240 run_146_nodes_dynamic_blocking_r2
+147/240 run_147_image_area_static_nonblocking_r2
+148/240 run_148_nodes_dynamic_nonblocking_r2
+149/240 run_149_image_area_dynamic_nonblocking_r2
+150/240 run_150_image_area_dynamic_nonblocking_r2
+151/240 run_151_chunk_size_static_blocking_r2
+152/240 run_152_chunk_size_static_nonblocking_r2
+153/240 run_153_chunk_size_static_blocking_r2
+154/240 run_154_chunk_size_dynamic_blocking_r2
+155/240 run_155_image_area_dynamic_blocking_r2
+156/240 run_156_chunk_size_static_blocking_r2
+157/240 run_157_image_area_dynamic_nonblocking_r2
+158/240 run_158_nodes_dynamic_nonblocking_r2
+159/240 run_159_chunk_size_dynamic_nonblocking_r2
+160/240 run_160_chunk_size_static_blocking_r2
+161/240 run_161_chunk_size_static_nonblocking_r3
+162/240 run_162_chunk_size_dynamic_blocking_r3
+163/240 run_163_image_area_static_nonblocking_r3
+164/240 run_164_nodes_static_blocking_r3
+165/240 run_165_image_area_static_blocking_r3
+166/240 run_166_image_area_dynamic_blocking_r3
+167/240 run_167_chunk_size_dynamic_blocking_r3
+168/240 run_168_chunk_size_static_blocking_r3
+169/240 run_169_chunk_size_static_nonblocking_r3
+170/240 run_170_chunk_size_dynamic_nonblocking_r3
+171/240 run_171_image_area_dynamic_blocking_r3
+172/240 run_172_image_area_dynamic_nonblocking_r3
+173/240 run_173_image_area_static_nonblocking_r3
+174/240 run_174_nodes_static_nonblocking_r3
+175/240 run_175_chunk_size_static_nonblocking_r3
+176/240 run_176_chunk_size_static_nonblocking_r3
+177/240 run_177_image_area_static_blocking_r3
+178/240 run_178_chunk_size_dynamic_blocking_r3
+179/240 run_179_chunk_size_static_blocking_r3
+180/240 run_180_image_area_static_nonblocking_r3
+181/240 run_181_image_area_dynamic_blocking_r3
+182/240 run_182_chunk_size_dynamic_nonblocking_r3
+183/240 run_183_image_area_static_nonblocking_r3
+184/240 run_184_image_area_static_nonblocking_r3
+185/240 run_185_image_area_static_nonblocking_r3
+186/240 run_186_chunk_size_static_blocking_r3
+187/240 run_187_image_area_static_blocking_r3
+188/240 run_188_image_area_dynamic_nonblocking_r3
+189/240 run_189_image_area_static_nonblocking_r3
+190/240 run_190_image_area_dynamic_nonblocking_r3
+191/240 run_191_nodes_dynamic_nonblocking_r3
+192/240 run_192_image_area_static_blocking_r3
+193/240 run_193_image_area_static_nonblocking_r3
+194/240 run_194_nodes_static_nonblocking_r3
+195/240 run_195_chunk_size_static_blocking_r3
+196/240 run_196_image_area_dynamic_nonblocking_r3
+197/240 run_197_image_area_dynamic_nonblocking_r3
+198/240 run_198_chunk_size_dynamic_blocking_r3
+199/240 run_199_image_area_dynamic_blocking_r3
+200/240 run_200_chunk_size_dynamic_nonblocking_r3
+201/240 run_201_chunk_size_static_blocking_r3
+202/240 run_202_chunk_size_dynamic_nonblocking_r3
+203/240 run_203_nodes_dynamic_blocking_r3
+204/240 run_204_chunk_size_static_nonblocking_r3
+205/240 run_205_chunk_size_dynamic_nonblocking_r3
+206/240 run_206_image_area_dynamic_blocking_r3
+207/240 run_207_chunk_size_dynamic_blocking_r3
+208/240 run_208_image_area_dynamic_nonblocking_r3
+209/240 run_209_chunk_size_static_nonblocking_r3
+210/240 run_210_image_area_static_nonblocking_r3
+211/240 run_211_chunk_size_dynamic_nonblocking_r3
+212/240 run_212_nodes_static_blocking_r3
+213/240 run_213_image_area_static_blocking_r3
+214/240 run_214_image_area_static_blocking_r3
+215/240 run_215_nodes_static_blocking_r3
+216/240 run_216_image_area_dynamic_nonblocking_r3
+217/240 run_217_chunk_size_static_nonblocking_r3
+218/240 run_218_nodes_dynamic_blocking_r3
+219/240 run_219_image_area_dynamic_nonblocking_r3
+220/240 run_220_image_area_static_blocking_r3
+221/240 run_221_image_area_dynamic_blocking_r3
+222/240 run_222_nodes_dynamic_blocking_r3
+223/240 run_223_nodes_dynamic_nonblocking_r3
+224/240 run_224_image_area_dynamic_blocking_r3
+225/240 run_225_image_area_static_blocking_r3
+226/240 run_226_chunk_size_static_blocking_r3
+227/240 run_227_chunk_size_static_blocking_r3
+228/240 run_228_image_area_static_blocking_r3
+229/240 run_229_chunk_size_dynamic_blocking_r3
+230/240 run_230_image_area_dynamic_blocking_r3
+231/240 run_231_nodes_dynamic_nonblocking_r3
+232/240 run_232_chunk_size_dynamic_blocking_r3
+233/240 run_233_image_area_static_nonblocking_r3
+234/240 run_234_nodes_static_nonblocking_r3
+235/240 run_235_image_area_static_blocking_r3
+236/240 run_236_image_area_dynamic_nonblocking_r3
+237/240 run_237_image_area_dynamic_nonblocking_r3
+238/240 run_238_chunk_size_dynamic_nonblocking_r3
+239/240 run_239_image_area_dynamic_blocking_r3
+240/240 run_240_image_area_dynamic_blocking_r3
+Results: /zhome/c3/1/167609/02616-student/Week05/results/job_29611697
+Validated 240 successful measurements; saved /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/nodes.png, /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/nodes.pdf, /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/chunk_size.png, /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/chunk_size.pdf, /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/image_area.png, /zhome/c3/1/167609/02616-student/Week05/results/job_29611697/figures/image_area.pdf
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 29611697: <mandelbrot_experiments> in cluster <dcc> Done
+
+Job <mandelbrot_experiments> was submitted from host <hpclogin1> by user <s214422> in cluster <dcc> at Tue Oct  6 13:31:17 2026
+Job was executed on host(s) <4*n-62-29-11>, in queue <hpc>, as user <s214422> in cluster <dcc> at Tue Oct  6 13:33:14 2026
+                            <4*n-62-29-14>
+                            <4*n-62-29-15>
+                            <4*n-62-29-18>
+                            <4*n-62-29-21>
+                            <4*n-62-29-17>
+                            <4*n-62-29-24>
+                            <4*n-62-29-9>
+</zhome/c3/1/167609> was used as the home directory.
+</zhome/c3/1/167609/02616-student/Week05> was used as the working directory.
+Started at Tue Oct  6 13:33:14 2026
+Terminated at Tue Oct  6 14:07:28 2026
+Results reported at Tue Oct  6 14:07:28 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+# Submit this script only: bsub < experiments_job.sh
+#BSUB -J mandelbrot_experiments
+#BSUB -q hpc
+#BSUB -n 32
+#BSUB -W 12:00
+#BSUB -R "span[ptile=4]"
+#BSUB -R "select[model == XeonE5_2660v3]"
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -R "affinity[core(1)]"
+#BSUB -o mandelbrot_experiments_%J.out
+#BSUB -e mandelbrot_experiments_%J.err
+set -euo pipefail
+export EXPERIMENT_BATCH_START=$(date +%s)
+module load numpy/2.3.1-python-3.12.11-openblas-0.3.30
+module load mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
+module load matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MPLBACKEND=Agg
+cd "${EXPERIMENT_WORK_DIR:-/zhome/c3/1/167609/02616-student/Week05}"
+RESULTS_DIR="$PWD/results/job_${LSB_JOBID}"
+python3 -m unittest -v test_experiments
+python3 run_experiments.py --dry-run > /dev/null
+python3 run_experiments.py --results-dir "$RESULTS_DIR"
+python3 plot_experiments.py "$RESULTS_DIR"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   13177.00 sec.
+    Max Memory :                                 540 MB
+    Average Memory :                             297.42 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               32228.00 MB
+    Max Swap :                                   -
+    Max Processes :                              9
+    Max Threads :                                20
+    Run time :                                   2020 sec.
+    Turnaround time :                            2171 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <mandelbrot_experiments_29611697.err> for stderr output of this job.
+
