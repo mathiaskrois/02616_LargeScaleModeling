@@ -49,7 +49,9 @@ remain shared, so other jobs can affect timings. Node tests use 4, 2 and 1 rank
 per host on the first 2, 4 and 8 hosts. Rank zero stays on the first host. Chunk
 and image tests use the same first two hosts. Preflight probes verify CPU models,
 rank placement, core binding and that ranks do not share a physical core.
-The script requests `same[type:model]` and imposes no fixed CPU model. LSF chooses
+The `hpc` queue enforces `same[type:model]`; the script imposes no fixed CPU
+model. DTU’s submission filter rejects user `same[...]` resource directives, so
+the script uses the existing queue policy and verifies it with probes. LSF chooses
 the model; probes require exact equality across all eight hosts and across all
 three placements. Every test runs consecutively in the same allocation, with
 explicit hostfiles and a saved host list/model. Mixed-model allocations stop

@@ -50,7 +50,7 @@ areas are saved; figures use actual area.
 There are still **240 measured runs**: four implementations, 80 configurations,
 three shuffled repetition rounds. The algorithms, limits, 100 iterations, eight
 ranks, placement, seed and 12-hour allocation are unchanged. LSF can now choose
-any CPU model, with the explicit `same[type:model]` requirement and runtime probes
+any CPU model, with the `hpc` queue’s `same[type:model]` policy and runtime probes
 ensuring that all eight allocated hosts have exactly the same CPU model. Every
 probe, pilot and measured command executes sequentially within this single
 allocation. The host list and detected model are saved in metadata. Node tests
@@ -173,7 +173,10 @@ bsub < experiments_job.sh
 
 The batch script loads its modules too. It reserves 32 slots, four per host,
 1 GB per slot, for up to 12 hours on the `hpc` queue. All eight hosts must use
-one CPU model, selected by LSF; there is no fixed-model restriction. Only that script is submitted;
+one CPU model, selected by LSF; there is no fixed-model restriction. The queue
+enforces `same[type:model]`; DTU’s submission filter rejects adding `same[...]`
+as a user resource directive, so the script relies on that queue policy and
+verifies exact model equality in the probes. Only that script is submitted;
 the experiment runner executes commands sequentially in the one allocation.
 Do not run MPI benchmarks on the login host.
 

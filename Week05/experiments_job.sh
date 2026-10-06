@@ -5,7 +5,7 @@
 #BSUB -n 32
 #BSUB -W 12:00
 #BSUB -R "span[ptile=4]"
-#BSUB -R "same[type:model]"
+# The hpc queue enforces same[type:model]; probes verify the exact CPU model.
 #BSUB -R "rusage[mem=1GB]"
 #BSUB -R "affinity[core(1)]"
 #BSUB -o mandelbrot_experiments_%J.out

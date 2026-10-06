@@ -74,6 +74,10 @@ class ExperimentsTest(unittest.TestCase):
         records = [dict(rank=i, host=host, cpu_model='Intel Xeon Gold 6226R',
                         affinity=[0], physical_cores=[['0', '0']])
                    for i, host in enumerate(hosts)]
+        script = (Path(__file__).resolve().parent / 'experiments_job.sh').read_text()
+        self.assertIn('#BSUB -q hpc', script)
+        directives = [line for line in script.splitlines() if line.startswith('#BSUB')]
+        self.assertFalse(any('same[' in line or 'select[model' in line for line in directives))
         self.assertIsNone(self.config['cluster']['model'])
         self.assertIsNone(self.config['cluster']['cpu_model_contains'])
         self.assertEqual(check_probe(records, hosts, 1), 'Intel Xeon Gold 6226R')
