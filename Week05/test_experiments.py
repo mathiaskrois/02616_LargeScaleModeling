@@ -69,6 +69,21 @@ class ExperimentsTest(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     check_probe(bad, hosts, 8 // nodes, 'E5-2660 v3')
 
+    def test_any_model_is_accepted_but_mixed_models_are_rejected(self):
+        hosts = [f'n{i}' for i in range(8)]
+        records = [dict(rank=i, host=host, cpu_model='Intel Xeon Gold 6226R',
+                        affinity=[0], physical_cores=[['0', '0']])
+                   for i, host in enumerate(hosts)]
+        self.assertIsNone(self.config['cluster']['model'])
+        self.assertIsNone(self.config['cluster']['cpu_model_contains'])
+        self.assertEqual(check_probe(records, hosts, 1), 'Intel Xeon Gold 6226R')
+        mixed = [dict(r) for r in records]
+        mixed[-1]['cpu_model'] = 'AMD EPYC 9354'
+        with self.assertRaisesRegex(ValueError, 'same CPU model'):
+            check_probe(mixed, hosts, 1)
+        with self.assertRaisesRegex(ValueError, 'changed between placement probes'):
+            check_probe(records, hosts, 1, expected_model='AMD EPYC 9354')
+
     def test_known_medians_and_rejections(self):
         points = validated_medians(self.rows, self.config)
         self.assertEqual(len(points), 80)

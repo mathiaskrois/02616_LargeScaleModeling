@@ -27,7 +27,7 @@ implementations assign chunks cyclically in advance; the dynamic implementations
 use rank zero to manage work for seven workers when running with eight ranks.
 All preserve the original argument order and use 100 iterations.
 
-## Heavier follow-up suite (configured; not yet started)
+## Heavier follow-up suite
 
 The current configuration increases the node/chunk image to **3000×3000** and the
 area sweep maximum to **6000×6000**. Both contain nine times as many pixels as the
@@ -49,9 +49,19 @@ areas are saved; figures use actual area.
 
 There are still **240 measured runs**: four implementations, 80 configurations,
 three shuffled repetition rounds. The algorithms, limits, 100 iterations, eight
-ranks, placement, seed and 12-hour allocation are unchanged. Larger images reduce
+ranks, placement, seed and 12-hour allocation are unchanged. LSF can now choose
+any CPU model, with the explicit `same[type:model]` requirement and runtime probes
+ensuring that all eight allocated hosts have exactly the same CPU model. Every
+probe, pilot and measured command executes sequentially within this single
+allocation. The host list and detected model are saved in metadata. Node tests
+select the first 2, 4 or 8 hosts; all chunk and area tests use the same first two. Larger images reduce
 MPI startup's fraction of complete runtime; they do not guarantee wider differences
 between algorithms. The comparison should be based on the resulting measurements.
+
+The selected CPU may differ from the initial E5-2660 v3 run. Compare algorithms
+within each suite; differences between the initial and follow-up suites may
+reflect both image size and hardware. A model change does not guarantee a fix
+for the earlier MPI launcher crash; placement probes remain mandatory.
 
 Pilots now use **100×100 and 3000×3000** for each implementation. The duration
 estimate separates a nonnegative startup cost from an area-dependent compute cost,
@@ -139,8 +149,8 @@ python3 plot_experiments.py results/job_29611697 --output-dir figures_local
 ```
 
 The dry run expands the exact 240-command measurement grid without running it.
-Nine acceptance tests check the grid, placement guards, pilot estimates, known
-medians, rejection of invalid data, failure recording, historical-data compatibility and plot exports.
+Ten acceptance tests check the grid, placement guards, pilot estimates, known
+medians, rejection of invalid data, failure recording, historical-data compatibility, rejection of mixed CPU models and plot exports.
 Plotting rejects failed, duplicate, off-grid or incomplete data.
 `experiments.yaml` uses JSON syntax, which is also valid YAML, so PyYAML is unnecessary.
 The bundled `vendor/six.py` supplies a fallback for the cluster Matplotlib module.
@@ -162,7 +172,8 @@ bsub < experiments_job.sh
 ```
 
 The batch script loads its modules too. It reserves 32 slots, four per host,
-1 GB per slot, for up to 12 hours on the `hpc` queue. Only that script is submitted;
+1 GB per slot, for up to 12 hours on the `hpc` queue. All eight hosts must use
+one CPU model, selected by LSF; there is no fixed-model restriction. Only that script is submitted;
 the experiment runner executes commands sequentially in the one allocation.
 Do not run MPI benchmarks on the login host.
 

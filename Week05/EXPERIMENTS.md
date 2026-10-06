@@ -39,7 +39,7 @@ export EXPERIMENT_WORK_DIR="$PWD"
 bsub < experiments_job.sh
 ```
 
-The batch script reserves 32 slots across eight Xeon E5-2660 v3 hosts, four slots
+The batch script reserves 32 slots across eight hosts of one CPU model, four slots
 per host and 1 GB per slot (about 32 GB total), for 12 hours on `hpc`. It loads
 NumPy 2.3.1/Python 3.12.11, mpi4py 4.0.3/OpenMPI 5.0.8 and matching Matplotlib.
 `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MPLBACKEND=Agg`.
@@ -49,6 +49,12 @@ remain shared, so other jobs can affect timings. Node tests use 4, 2 and 1 rank
 per host on the first 2, 4 and 8 hosts. Rank zero stays on the first host. Chunk
 and image tests use the same first two hosts. Preflight probes verify CPU models,
 rank placement, core binding and that ranks do not share a physical core.
+The script requests `same[type:model]` and imposes no fixed CPU model. LSF chooses
+the model; probes require exact equality across all eight hosts and across all
+three placements. Every test runs consecutively in the same allocation, with
+explicit hostfiles and a saved host list/model. Mixed-model allocations stop
+before pilots or measurements. The selected model may differ from the initial
+E5-2660 v3 suite, so cross-suite changes can reflect both image size and CPU.
 No nested batch jobs are submitted; MPI commands execute sequentially.
 
 ## Pilots and timing
@@ -91,9 +97,10 @@ static, nonblocking static, blocking dynamic, nonblocking dynamic. Axes share
 limits within each figure. Markers show medians, connected by lines; captions
 state that run's fixed settings and repetition count.
 
-Nine acceptance tests cover the grid, placement guards, known medians, invalid
+Ten acceptance tests cover the grid, placement guards, known medians, invalid
 data, pilot estimates, failure persistence, plot exports and compatibility with
-the initial saved results. `experiments.yaml` uses JSON syntax, a subset of YAML,
+the initial saved results. They also reject mixed CPU models and model changes
+between placement probes. `experiments.yaml` uses JSON syntax, a subset of YAML,
 avoiding a PyYAML dependency. Plotting can fall back to the existing `vendor/six.py`
 for the missing dependency in the cluster Matplotlib module.
 

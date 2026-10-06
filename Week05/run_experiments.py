@@ -116,17 +116,23 @@ def timed_command(command, stdout, stderr, timeout):
         return time.monotonic() - start, status
 
 
-def check_probe(records, hosts, ranks_per_host, model):
+def check_probe(records, hosts, ranks_per_host, model=None, expected_model=None):
     if len(records) != 8 or sorted(r['rank'] for r in records) != list(range(8)):
         raise ValueError('Probe did not report eight distinct ranks')
+    models = {r['cpu_model'] for r in records}
+    if len(models) != 1 or not next(iter(models)):
+        raise ValueError('Every allocated host must use the same CPU model')
+    detected_model = next(iter(models))
+    if model and model not in detected_model:
+        raise ValueError(f'Unexpected CPU model: {detected_model}')
+    if expected_model is not None and detected_model != expected_model:
+        raise ValueError('CPU model changed between placement probes')
     short = lambda host: host.split('.')[0]
     expected = [short(host) for host in hosts for _ in range(ranks_per_host)]
     cores = set()
     for r in records:
         if short(r['host']) != expected[r['rank']]:
             raise ValueError(f'Unexpected placement: {r}')
-        if model not in r['cpu_model']:
-            raise ValueError(f'Unexpected CPU model: {r}')
         # SMT siblings can share one physical core; different ranks must not.
         if not r['affinity'] or len(r['physical_cores']) != 1:
             raise ValueError(f'Rank must be bound to one physical core: {r}')
@@ -134,6 +140,7 @@ def check_probe(records, hosts, ranks_per_host, model):
         if key in cores:
             raise ValueError('Two ranks share a physical core')
         cores.add(key)
+    return detected_model
 
 
 def estimated_seconds(config, pilots):
@@ -211,10 +218,13 @@ def run(config, result_dir):
             if info['exit_status']:
                 raise RuntimeError(f'MPI probe failed: {info}')
             records = json.loads((result_dir / info['stdout_log']).read_text())
-            check_probe(records, hosts[:nodes], 8 // nodes, config['cluster']['cpu_model_contains'])
+            detected_model = check_probe(
+                records, hosts[:nodes], 8 // nodes,
+                config['cluster'].get('cpu_model_contains'),
+                expected_model=metadata.get('cpu_model'))
+            metadata['cpu_model'] = detected_model
             metadata['probes'][str(nodes)]['ranks'] = records
             save()
-        metadata['cpu_model'] = records[0]['cpu_model']
         for impl, filename in config['implementations'].items():
             for side in config['pilot']['sides']:
                 row = dict(implementation=impl, nodes=2, ranks=8, ranks_per_host=4, width=side)

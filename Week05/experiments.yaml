@@ -69,8 +69,8 @@
     "slots_per_host": 4,
     "hosts": 8,
     "walltime_seconds": 43200,
-    "model": "XeonE5_2660v3",
-    "cpu_model_contains": "E5-2660 v3",
+    "model": null,
+    "cpu_model_contains": null,
     "memory_per_slot": "1GB",
     "modules": [
       "numpy/2.3.1-python-3.12.11-openblas-0.3.30",

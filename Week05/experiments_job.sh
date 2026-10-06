@@ -5,7 +5,7 @@
 #BSUB -n 32
 #BSUB -W 12:00
 #BSUB -R "span[ptile=4]"
-#BSUB -R "select[model == XeonE5_2660v3]"
+#BSUB -R "same[type:model]"
 #BSUB -R "rusage[mem=1GB]"
 #BSUB -R "affinity[core(1)]"
 #BSUB -o mandelbrot_experiments_%J.out
