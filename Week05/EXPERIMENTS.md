@@ -41,7 +41,8 @@ bsub < experiments_job.sh
 
 The batch script reserves 32 slots across eight hosts of one CPU model, four slots
 per host and 1 GB per slot (about 32 GB total), for 12 hours on `hpc`. It loads
-NumPy 2.3.1/Python 3.12.11, mpi4py 4.0.3/OpenMPI 5.0.8 and matching Matplotlib.
+NumPy 2.4.1/Python 3.13.11, mpi4py 4.1.1/OpenMPI 5.0.10 and Matplotlib 3.10.8.
+Inherited modules are purged first to avoid mixing MPI or Python libraries.
 `OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MPLBACKEND=Agg`.
 
 The affinity request reserves cores and MPI binds each rank to one core. Hosts
@@ -58,6 +59,25 @@ explicit hostfiles and a saved host list/model. Mixed-model allocations stop
 before pilots or measurements. The selected model may differ from the initial
 E5-2660 v3 suite, so cross-suite changes can reflect both image size and CPU.
 No nested batch jobs are submitted; MPI commands execute sequentially.
+
+## MPI launcher validation
+
+The failed heavier runs hit the Open MPI 5.0.8 / PRRTE topology-cache startup
+path described in [upstream issue 13357](https://github.com/open-mpi/ompi/issues/13357).
+The current stack uses Open MPI 5.0.10 with PRRTE 3.0.13, which incorporates
+[topology and launch fixes](https://github.com/openpmix/prrte/compare/v3.0.11...v3.0.13).
+Each rank reports its MPI library version; probes reject an older or mixed build.
+
+Following the three placement probes, the runner executes 30 additional
+eight-host probe launches, consecutively on the same allocation. All must pass
+CPU equality, placement, core binding and MPI-version checks before pilots or
+measurements begin. Their logs and timings are recorded as `launcher_stress`,
+excluded from medians. A failure stops the suite before expensive computation.
+Passing these checks reduces uncertainty but cannot prove future launch success.
+
+The failed job's 25 successful measurements remain separate. The replacement
+starts all 240 measurements fresh on one allocation; no automatic retries or
+cross-allocation data mixing are used. Benchmark algorithms are unchanged.
 
 ## Pilots and timing
 
@@ -99,10 +119,11 @@ static, nonblocking static, blocking dynamic, nonblocking dynamic. Axes share
 limits within each figure. Markers show medians, connected by lines; captions
 state that run's fixed settings and repetition count.
 
-Ten acceptance tests cover the grid, placement guards, known medians, invalid
+Twelve acceptance tests cover the grid, placement guards, known medians, invalid
 data, pilot estimates, failure persistence, plot exports and compatibility with
 the initial saved results. They also reject mixed CPU models and model changes
-between placement probes. `experiments.yaml` uses JSON syntax, a subset of YAML,
+between placement probes, old or mixed MPI libraries, and verify all 30
+startup checks occur before measurements. `experiments.yaml` uses JSON syntax, a subset of YAML,
 avoiding a PyYAML dependency. Plotting can fall back to the existing `vendor/six.py`
 for the missing dependency in the cluster Matplotlib module.
 

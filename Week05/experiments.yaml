@@ -73,15 +73,16 @@
     "cpu_model_contains": null,
     "memory_per_slot": "1GB",
     "modules": [
-      "numpy/2.3.1-python-3.12.11-openblas-0.3.30",
-      "mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8",
-      "matplotlib/3.10.3-numpy-2.3.1-python-3.12.11"
+      "numpy/2.4.1-python-3.13.11-openblas-0.3.31",
+      "mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10",
+      "matplotlib/3.10.8-numpy-2.4.1-python-3.13.11"
     ],
     "env": {
       "OMP_NUM_THREADS": "1",
       "OPENBLAS_NUM_THREADS": "1",
       "MPLBACKEND": "Agg"
-    }
+    },
+    "mpi_version": "5.0.10"
   },
   "pilot": {
     "sides": [
@@ -94,5 +95,8 @@
   "output": {
     "directory": "results",
     "csv": "measurements.csv"
+  },
+  "preflight": {
+    "eight_host_repetitions": 30
   }
 }

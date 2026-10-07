@@ -61,7 +61,8 @@ between algorithms. The comparison should be based on the resulting measurements
 The selected CPU may differ from the initial E5-2660 v3 run. Compare algorithms
 within each suite; differences between the initial and follow-up suites may
 reflect both image size and hardware. A model change does not guarantee a fix
-for the earlier MPI launcher crash; placement probes remain mandatory.
+for the earlier MPI launcher crash; the MPI runtime update below addresses that
+separate failure, and placement probes remain mandatory.
 
 Pilots now use **100×100 and 3000×3000** for each implementation. The duration
 estimate separates a nonnegative startup cost from an area-dependent compute cost,
@@ -69,6 +70,35 @@ then applies the factor-of-two allowance. The runner stops before measurements
 if that estimate exceeds the remaining budget. It reserves five minutes for
 analysis. Current captions come from each run's saved configuration, so plotting
 the initial results still uses the original dimensions.
+
+## MPI launcher repair
+
+The heavier runs 29612971 and 29617652 stopped in Open MPI 5.0.8's PRRTE runtime
+with `prte_hwloc_base_setup_summary` in the crash stack. The latter completed
+25 measurements before its first measured eight-host launch crashed. Those partial
+results are retained locally and are not combined with a replacement allocation.
+
+The failure closely matches [Open MPI issue 13357](https://github.com/open-mpi/ompi/issues/13357),
+which describes intermittent topology-cache failures during startup. The current
+suite uses **Open MPI 5.0.10 / PRRTE 3.0.13** and matching Python 3.13.11,
+mpi4py 4.1.1, NumPy 2.4.1, OpenBLAS 0.3.31 and Matplotlib 3.10.8 modules. PRRTE's
+[upstream changes](https://github.com/openpmix/prrte/compare/v3.0.11...v3.0.13)
+include topology and daemon-launch corrections. The batch script purges inherited
+modules before loading this consistent stack. MPI probes verify the library
+version on every rank, alongside CPU model, placement and binding.
+
+There are **30 additional eight-host launch checks** before the pilots. They
+are unmeasured, logged under `launcher_stress_*.out/.err`, and recorded separately
+in `metadata.json` as `launcher_stress`. Any failure stops the job before measured
+runs; successful checks do not guarantee that a later launch cannot fail. The
+existing stop-on-failure policy remains in force, without silently retrying or
+mixing allocations. The complete 240-run suite starts fresh after these checks.
+
+Algorithms, image sizes, limits, iteration count, placement and three-repetition
+medians remain as documented. Changing the software stack is recorded in the
+configuration and metadata; comparisons to the initial run can reflect software,
+CPU and image-size changes. All four implementations within a new suite use the
+same software and the same reserved hosts, sequentially.
 
 ## Completed results
 
@@ -134,7 +164,7 @@ blocking dynamic, nonblocking dynamic.
 
 ## Replot saved data or run tests locally
 
-Use Python 3.12 with an MPI installation available for `mpi4py`. For plotting and
+Use Python 3.13.11 with an MPI installation available for `mpi4py`. For plotting and
 experiment-tool tests alone, only NumPy, Matplotlib and six are needed; the
 analysis does not launch MPI or import mpi4py.
 
@@ -149,8 +179,8 @@ python3 plot_experiments.py results/job_29611697 --output-dir figures_local
 ```
 
 The dry run expands the exact 240-command measurement grid without running it.
-Ten acceptance tests check the grid, placement guards, pilot estimates, known
-medians, rejection of invalid data, failure recording, historical-data compatibility, rejection of mixed CPU models and plot exports.
+Twelve acceptance tests check the grid, placement guards, pilot estimates, known
+medians, rejection of invalid data, failure recording, historical-data compatibility, rejection of mixed CPU models, MPI-version checks and plot exports.
 Plotting rejects failed, duplicate, off-grid or incomplete data.
 `experiments.yaml` uses JSON syntax, which is also valid YAML, so PyYAML is unnecessary.
 The bundled `vendor/six.py` supplies a fallback for the cluster Matplotlib module.
@@ -162,9 +192,9 @@ local dry runs or plotting:
 
 ```sh
 cd Week05
-module load numpy/2.3.1-python-3.12.11-openblas-0.3.30
-module load mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
-module load matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+module load numpy/2.4.1-python-3.13.11-openblas-0.3.31
+module load mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10
+module load matplotlib/3.10.8-numpy-2.4.1-python-3.13.11
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MPLBACKEND=Agg
 python3 run_experiments.py --dry-run
 export EXPERIMENT_WORK_DIR="$PWD"
@@ -180,7 +210,9 @@ verifies exact model equality in the probes. Only that script is submitted;
 the experiment runner executes commands sequentially in the one allocation.
 Do not run MPI benchmarks on the login host.
 
-Before timing, the runner checks all three placements and core binding, then runs
+Before timing, the runner checks all three placements and core binding, then
+passes 30 additional eight-host startup checks with the same CPU model and
+MPI library. Only then it runs
 each implementation at 100×100 and the configured 3000×3000 baseline. It stops before measurements if the
 pilot estimate with a factor-of-two allowance exceeds the remaining time budget.
 Each measured attempt is logged immediately; a failure stops the suite.

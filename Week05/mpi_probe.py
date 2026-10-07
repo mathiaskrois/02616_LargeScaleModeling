@@ -15,7 +15,8 @@ for block in Path('/proc/cpuinfo').read_text().strip().split('\n\n'):
 cpus = sorted(os.sched_getaffinity(0))
 cores = sorted({(cpu_info[cpu]['physical id'], cpu_info[cpu]['core id']) for cpu in cpus})
 record = dict(rank=MPI.COMM_WORLD.rank, host=socket.gethostname(), affinity=cpus,
-              physical_cores=cores, cpu_model=cpu_info[cpus[0]]['model name'])
+              physical_cores=cores, cpu_model=cpu_info[cpus[0]]['model name'],
+              mpi_library_version=MPI.Get_library_version().rstrip('\x00\n'))
 records = MPI.COMM_WORLD.gather(record, root=0)
 if MPI.COMM_WORLD.rank == 0:
     print(json.dumps(records))

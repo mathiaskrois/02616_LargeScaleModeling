@@ -12,9 +12,10 @@
 #BSUB -e mandelbrot_experiments_%J.err
 set -euo pipefail
 export EXPERIMENT_BATCH_START=$(date +%s)
-module load numpy/2.3.1-python-3.12.11-openblas-0.3.30
-module load mpi4py/4.0.3-python-3.12.11-openmpi-5.0.8
-module load matplotlib/3.10.3-numpy-2.3.1-python-3.12.11
+module purge
+module load numpy/2.4.1-python-3.13.11-openblas-0.3.31
+module load mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10
+module load matplotlib/3.10.8-numpy-2.4.1-python-3.13.11
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MPLBACKEND=Agg
 cd "${EXPERIMENT_WORK_DIR:-${LS_SUBCWD:-${LSB_SUBCWD:-$PWD}}}"
 RESULTS_DIR="$PWD/results/job_${LSB_JOBID}"

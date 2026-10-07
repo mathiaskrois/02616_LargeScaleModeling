@@ -116,7 +116,7 @@ def timed_command(command, stdout, stderr, timeout):
         return time.monotonic() - start, status
 
 
-def check_probe(records, hosts, ranks_per_host, model=None, expected_model=None):
+def check_probe(records, hosts, ranks_per_host, model=None, expected_model=None, expected_mpi=None):
     if len(records) != 8 or sorted(r['rank'] for r in records) != list(range(8)):
         raise ValueError('Probe did not report eight distinct ranks')
     models = {r['cpu_model'] for r in records}
@@ -127,6 +127,10 @@ def check_probe(records, hosts, ranks_per_host, model=None, expected_model=None)
         raise ValueError(f'Unexpected CPU model: {detected_model}')
     if expected_model is not None and detected_model != expected_model:
         raise ValueError('CPU model changed between placement probes')
+    if expected_mpi is not None:
+        libraries = {r.get('mpi_library_version', '') for r in records}
+        if len(libraries) != 1 or not next(iter(libraries)).startswith(f'Open MPI v{expected_mpi},'):
+            raise ValueError(f'Every rank must use Open MPI {expected_mpi}')
     short = lambda host: host.split('.')[0]
     expected = [short(host) for host in hosts for _ in range(ranks_per_host)]
     cores = set()
@@ -181,7 +185,7 @@ def run(config, result_dir):
                     modules=os.environ.get('LOADEDMODULES', '').split(':'),
                     versions={p: importlib.metadata.version(p) for p in ['numpy', 'mpi4py', 'matplotlib']},
                     source_hashes={str(p.name): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
-                    pilots=[], probes={}, status='preflight', commands=[])
+                    pilots=[], probes={}, launcher_stress=[], status='preflight', commands=[])
     revision = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=HERE,
                               text=True, capture_output=True, check=False)
     metadata['git_commit'] = revision.stdout.strip() if revision.returncode == 0 else None
@@ -221,10 +225,26 @@ def run(config, result_dir):
             detected_model = check_probe(
                 records, hosts[:nodes], 8 // nodes,
                 config['cluster'].get('cpu_model_contains'),
-                expected_model=metadata.get('cpu_model'))
+                expected_model=metadata.get('cpu_model'),
+                expected_mpi=config['cluster'].get('mpi_version'))
             metadata['cpu_model'] = detected_model
             metadata['probes'][str(nodes)]['ranks'] = records
             save()
+        # Exercise the intermittent eight-host startup path before expensive runs.
+        for repetition in range(1, config.get('preflight', {}).get('eight_host_repetitions', 0) + 1):
+            row = dict(nodes=8, ranks=8, ranks_per_host=1)
+            info = attempt(f'launcher_stress_{repetition:02d}', row, HERE / 'mpi_probe.py', [])
+            metadata['launcher_stress'].append(dict(repetition=repetition, **info))
+            save()
+            if info['exit_status']:
+                raise RuntimeError(f'Eight-host launcher stress check {repetition} failed: {info}')
+            records = json.loads((result_dir / info['stdout_log']).read_text())
+            check_probe(records, hosts, 1, expected_model=metadata['cpu_model'],
+                        expected_mpi=config['cluster'].get('mpi_version'))
+            metadata['launcher_stress'][-1]['validated'] = True
+            save()
+            if repetition % 10 == 0:
+                print(f'Eight-host launcher checks passed: {repetition}', flush=True)
         for impl, filename in config['implementations'].items():
             for side in config['pilot']['sides']:
                 row = dict(implementation=impl, nodes=2, ranks=8, ranks_per_host=4, width=side)

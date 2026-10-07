@@ -88,6 +88,21 @@ class ExperimentsTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'changed between placement probes'):
             check_probe(records, hosts, 1, expected_model='AMD EPYC 9354')
 
+    def test_probe_rejects_old_or_mixed_mpi_libraries(self):
+        hosts = [f'n{i}' for i in range(8)]
+        records = [dict(rank=i, host=host, cpu_model='Intel Xeon Gold 6226R',
+                        affinity=[0], physical_cores=[['0', '0']],
+                        mpi_library_version='Open MPI v5.0.10, test runtime')
+                   for i, host in enumerate(hosts)]
+        check_probe(records, hosts, 1, expected_mpi='5.0.10')
+        self.assertEqual(self.config['cluster']['mpi_version'], '5.0.10')
+        self.assertEqual(self.config['preflight']['eight_host_repetitions'], 30)
+        for bad_version in ['Open MPI v5.0.8, test runtime', 'Open MPI v5.0.10, different build', '']:
+            mixed = [dict(r) for r in records]
+            mixed[-1]['mpi_library_version'] = bad_version
+            with self.assertRaisesRegex(ValueError, 'Every rank must use Open MPI'):
+                check_probe(mixed, hosts, 1, expected_mpi='5.0.10')
+
     def test_known_medians_and_rejections(self):
         points = validated_medians(self.rows, self.config)
         self.assertEqual(len(points), 80)
@@ -142,19 +157,20 @@ class ExperimentsTest(unittest.TestCase):
                 nodes = int(Path(command[command.index('--hostfile') + 1]).stem.split('_')[1])
                 per_host = 8 // nodes
                 records = [dict(rank=i, host=f'n{i // per_host}', cpu_model='E5-2660 v3',
-                                affinity=[i % per_host], physical_cores=[['0', str(i % per_host)]])
+                                affinity=[i % per_host], physical_cores=[['0', str(i % per_host)]],
+                                mpi_library_version='Open MPI v5.0.10, test runtime')
                            for i in range(8)]
                 out.write_text(json.dumps(records))
             else:
                 out.write_text('sample output')
-            return 0.01, (2 if len(calls) == 12 else 0)
+            return 0.01, (2 if len(calls) == 42 else 0)
         with tempfile.TemporaryDirectory() as name:
             root = Path(name) / 'results'
             env = dict(LSB_JOBID='test', LSB_MCPU_HOSTS=' '.join(f'n{i} 4' for i in range(8)))
             with patch.dict(os.environ, env), patch('run_experiments.timed_command', side_effect=fake_command), patch('run_experiments.importlib.metadata.version', return_value='test'):
                 with self.assertRaisesRegex(RuntimeError, 'Measurement failed'):
                     run(self.config, root)
-            self.assertEqual(len(calls), 12)  # 3 probes, 8 pilots, first measurement.
+            self.assertEqual(len(calls), 42)  # 3 probes, 30 stress checks, 8 pilots, first measurement.
             with (root / 'measurements.csv').open() as stream:
                 saved = list(csv.DictReader(stream))
             self.assertEqual(len(saved), 1)
@@ -164,6 +180,33 @@ class ExperimentsTest(unittest.TestCase):
             self.assertEqual(metadata['status'], 'failed')
             self.assertEqual(len(metadata['pilots']), 8)
             self.assertEqual(len(metadata['probes']), 3)
+            self.assertEqual(len(metadata['launcher_stress']), 30)
+            self.assertTrue(all(r['validated'] for r in metadata['launcher_stress']))
+
+    def test_launcher_stress_failure_stops_before_pilots(self):
+        calls = []
+        def fake_command(command, out, err, timeout):
+            calls.append(command)
+            nodes = int(Path(command[command.index('--hostfile') + 1]).stem.split('_')[1])
+            per_host = 8 // nodes
+            records = [dict(rank=i, host=f'n{i // per_host}', cpu_model='E5-2660 v3',
+                            affinity=[i % per_host], physical_cores=[['0', str(i % per_host)]],
+                            mpi_library_version='Open MPI v5.0.10, test runtime') for i in range(8)]
+            out.write_text(json.dumps(records))
+            err.write_text('simulated launcher crash' if len(calls) == 4 else '')
+            return 0.01, (-11 if len(calls) == 4 else 0)
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name) / 'results'
+            env = dict(LSB_JOBID='test', LSB_MCPU_HOSTS=' '.join(f'n{i} 4' for i in range(8)))
+            with patch.dict(os.environ, env), patch('run_experiments.timed_command', side_effect=fake_command), patch('run_experiments.importlib.metadata.version', return_value='test'):
+                with self.assertRaisesRegex(RuntimeError, 'launcher stress check 1 failed'):
+                    run(self.config, root)
+            self.assertEqual(len(calls), 4)
+            metadata = json.loads((root / 'metadata.json').read_text())
+            self.assertEqual(metadata['status'], 'failed')
+            self.assertEqual(metadata['pilots'], [])
+            self.assertEqual(metadata['launcher_stress'][0]['exit_status'], -11)
+            self.assertFalse((root / 'measurements.csv').exists())
 
     def test_three_figures_from_saved_sample(self):
         with tempfile.TemporaryDirectory() as name:
