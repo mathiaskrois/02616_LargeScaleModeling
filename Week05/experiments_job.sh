@@ -23,3 +23,4 @@ python3 -m unittest -v test_experiments
 python3 run_experiments.py --dry-run > /dev/null
 python3 run_experiments.py --results-dir "$RESULTS_DIR"
 python3 plot_experiments.py "$RESULTS_DIR"
+python3 publish_results.py "$RESULTS_DIR"

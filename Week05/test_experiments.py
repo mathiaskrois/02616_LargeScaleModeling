@@ -19,6 +19,36 @@ class ExperimentsTest(unittest.TestCase):
                           exit_status=0, stdout_log='sample.out', stderr_log='sample.err')
                      for row in measurements(self.config)]
 
+    def test_publication_validation_and_readme(self):
+        from publish_results import validate, update_readme
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary) / 'job_sample'
+            directory.mkdir()
+            metadata = {'status': 'complete', 'job_id': 'sample', 'cpu_model': 'sample CPU'}
+            (directory / 'metadata.json').write_text(json.dumps(metadata))
+            (directory / 'experiments.yaml').write_text(json.dumps(self.config))
+            with (directory / self.config['output']['csv']).open('w', newline='') as stream:
+                writer = csv.DictWriter(stream, fieldnames=FIELDS)
+                writer.writeheader()
+                writer.writerows(self.rows)
+            figures = directory / 'figures'
+            figures.mkdir()
+            for name in ('nodes', 'chunk_size', 'image_area'):
+                for suffix in ('png', 'pdf'):
+                    (figures / f'{name}.{suffix}').write_bytes(b'figure fixture')
+            self.assertEqual(validate(directory)[2], 80)
+            original = '# Group project\nExisting documentation.\n'
+            updated = update_readme(original, directory, metadata, self.config)
+            self.assertIn(original.strip(), updated)
+            self.assertEqual(update_readme(updated, directory, metadata, self.config), updated)
+            (figures / 'nodes.pdf').unlink()
+            with self.assertRaisesRegex(ValueError, 'Missing figure'):
+                validate(directory)
+            metadata['status'] = 'failed'
+            (directory / 'metadata.json').write_text(json.dumps(metadata))
+            with self.assertRaisesRegex(ValueError, 'Only completed'):
+                validate(directory)
+
     def test_grid_and_reproducible_rounds(self):
         self.assertEqual(len(self.rows), 240)
         self.assertEqual(measurements(self.config), measurements(self.config))

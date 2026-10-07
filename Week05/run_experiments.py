@@ -178,7 +178,7 @@ def run(config, result_dir):
     reserve = config['pilot']['analysis_reserve_seconds']
     remaining = lambda: initial_remaining - (time.monotonic() - started) - reserve
     paths = [HERE / name for name in config['implementations'].values()]
-    paths += [Path(__file__), HERE / 'mpi_probe.py', HERE / 'plot_experiments.py', HERE / 'experiments_job.sh', HERE / 'test_experiments.py', HERE / 'vendor' / 'six.py']
+    paths += [Path(__file__), HERE / 'mpi_probe.py', HERE / 'plot_experiments.py', HERE / 'publish_results.py', HERE / 'experiments_job.sh', HERE / 'test_experiments.py', HERE / 'vendor' / 'six.py']
     metadata = dict(job_id=os.environ['LSB_JOBID'], started_utc=datetime.now(timezone.utc).isoformat(),
                     hosts=hosts, allocated_slots=dict(slots), configuration=config,
                     seed=config['defaults']['seed'], python=sys.version,

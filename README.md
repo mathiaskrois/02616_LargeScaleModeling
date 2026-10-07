@@ -259,3 +259,23 @@ The serial reference, assignment and course framing originate from the
 [02616 student course repository](https://gitlab.gbar.dtu.dk/dcc-teaching/02616/02616-student).
 The MPI programs and experiment tooling form this group's project work.
 `Week05/vendor/six.py` retains its original license header.
+
+## Automatic result publication
+
+After a successful suite and analysis, the batch job runs `Week05/publish_results.py`.
+It verifies all 240 successful measurements and six figure files, then publishes only
+that job directory and updates the latest benchmark links in this README. An isolated
+checkout incorporates concurrent group changes; publication never force-pushes.
+The experiment checkout remains at its recorded source revision.
+
+GitHub authentication stays signed in in this workspace. Its owner-only configuration
+and CLI are excluded from Git. Teammates should use their own Git credentials.
+If publication fails, the saved results remain intact; rerun from `Week05` with:
+
+```sh
+python3 publish_results.py results/job_JOBID
+```
+
+`DONE` now means both the benchmark and automatic push succeeded. If the benchmark
+is complete but publication fails, the scheduler reports `EXIT`; the batch error
+log identifies the publication failure.

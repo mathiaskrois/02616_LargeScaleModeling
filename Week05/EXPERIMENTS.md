@@ -131,3 +131,10 @@ Successful completion is `metadata.json` with `"status": "complete"`, 240
 successful records and six figure exports. `bjobs JOBID` eventually reports `DONE`.
 The node sweep still omits one host; the assignment's one-node versus multiple-node
 comparison remains a separate agreed experiment.
+
+After analysis succeeds, `publish_results.py` independently validates the complete
+suite and automatically pushes its job directory and README links to GitHub. It uses
+an isolated checkout, rebases concurrent group commits, and never force-pushes.
+Authentication remains signed in; private credential files are excluded from Git.
+Publication failure preserves local data and causes a failed batch exit; retry with
+`python3 publish_results.py results/job_JOBID`.
