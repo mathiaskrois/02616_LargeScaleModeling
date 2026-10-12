@@ -5,6 +5,32 @@ calculation using static/dynamic scheduling and blocking/nonblocking communicati
 The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
+<!-- latest-benchmark:start -->
+## Latest completed benchmark
+
+Job **29618553**: 240 successful measurements, three repetitions per configuration, on the same allocated hosts. CPU: Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz.
+
+Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_29618553/metadata.json) include configuration, timings, source snapshots, placement checks and logs.
+
+### Nodes
+
+![Nodes runtime plot](Week05/results/job_29618553/figures/nodes.png)
+
+[Download PDF](Week05/results/job_29618553/figures/nodes.pdf)
+
+### Chunk Size
+
+![Chunk Size runtime plot](Week05/results/job_29618553/figures/chunk_size.png)
+
+[Download PDF](Week05/results/job_29618553/figures/chunk_size.pdf)
+
+### Image Area
+
+![Image Area runtime plot](Week05/results/job_29618553/figures/image_area.png)
+
+[Download PDF](Week05/results/job_29618553/figures/image_area.pdf)
+<!-- latest-benchmark:end -->
+
 ## Start here
 
 ```sh
@@ -31,9 +57,8 @@ All preserve the original argument order and use 100 iterations.
 
 The current configuration increases the node/chunk image to **3000×3000** and the
 area sweep maximum to **6000×6000**. Both contain nine times as many pixels as the
-corresponding initial sizes. The changes will be pushed before submitting the new
-HPC job; its measurements will be saved under a new job ID. Job 29611697 below
-continues to describe the initial, smaller experiment.
+corresponding initial sizes. The heavier suite completed successfully as job **29618553**, with its plots shown
+above. Job 29611697 below describes the initial, smaller experiment.
 
 | Sweep | Values | Fixed settings |
 |---|---|---|
@@ -280,14 +305,4 @@ python3 publish_results.py results/job_JOBID
 is complete but publication fails, the scheduler reports `EXIT`; the batch error
 log identifies the publication failure.
 
-<!-- latest-benchmark:start -->
-## Latest completed benchmark
 
-Job **29618553**: 240 successful measurements, three repetitions per configuration, on the same allocated hosts. CPU: Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz.
-
-Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_29618553/metadata.json) include configuration, timings, source snapshots, placement checks and logs.
-
-- [Nodes figure](Week05/results/job_29618553/figures/nodes.png)
-- [Chunk Size figure](Week05/results/job_29618553/figures/chunk_size.png)
-- [Image Area figure](Week05/results/job_29618553/figures/image_area.png)
-<!-- latest-benchmark:end -->
