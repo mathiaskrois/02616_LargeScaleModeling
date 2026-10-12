@@ -5,6 +5,26 @@ calculation using static/dynamic scheduling and blocking/nonblocking communicati
 The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
+<!-- followup:start -->
+## Completed diagnostic follow-up
+
+Job **29702836**: **175 successful measurements**, five repetitions; 3000×3000 pixels, eight ranks; chunks 8–12 and one versus two hosts.
+
+[Results and interpretation](Week05/results/followup_job_29702836/SUMMARY.md). CPU: Intel(R) Xeon(R) Gold 6226R CPU @ 2.90GHz.
+
+![threshold diagnostic plot](Week05/results/followup_job_29702836/figures/threshold.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/threshold.pdf)
+
+![one vs two diagnostic plot](Week05/results/followup_job_29702836/figures/one_vs_two.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/one_vs_two.pdf)
+
+![rank timings diagnostic plot](Week05/results/followup_job_29702836/figures/rank_timings.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/rank_timings.pdf)
+<!-- followup:end -->
+
 <!-- latest-benchmark:start -->
 ## Latest completed benchmark
 

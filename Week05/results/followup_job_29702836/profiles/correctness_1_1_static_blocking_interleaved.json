@@ -1,0 +1,98 @@
+[
+  {
+    "rank": 0,
+    "mode": "interleaved",
+    "compute_seconds": 0.011560412123799324,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 19,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 0.011583559913560748,
+    "final_barrier_seconds": 4.323315806686878e-05
+  },
+  {
+    "rank": 1,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.297114744782448e-06,
+    "final_barrier_seconds": 0.012142967898398638
+  },
+  {
+    "rank": 2,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 4.149042069911957e-06,
+    "final_barrier_seconds": 0.011207945877686143
+  },
+  {
+    "rank": 3,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.909924998879433e-06,
+    "final_barrier_seconds": 0.012140324804931879
+  },
+  {
+    "rank": 4,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.559049218893051e-06,
+    "final_barrier_seconds": 0.011147306999191642
+  },
+  {
+    "rank": 5,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 4.143919795751572e-06,
+    "final_barrier_seconds": 0.011148986872285604
+  },
+  {
+    "rank": 6,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 4.261033609509468e-06,
+    "final_barrier_seconds": 0.011133051011711359
+  },
+  {
+    "rank": 7,
+    "mode": "interleaved",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 4.254048690199852e-06,
+    "final_barrier_seconds": 0.011549302143976092
+  }
+]
