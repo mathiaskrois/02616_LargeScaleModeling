@@ -79,7 +79,6 @@ def publish(directory, dry_run=False):
         checkout = Path(temporary) / 'checkout'
         git('clone', '--branch', 'main', '--single-branch', remote, str(checkout))
         if auth.is_dir() and gh.is_file():
-            import shlex
             helper = f'!GH_CONFIG_DIR={shlex.quote(str(auth))} {shlex.quote(str(gh))} auth git-credential'
             git('config', 'credential.helper', '', cwd=checkout)
             git('config', '--add', 'credential.helper', helper, cwd=checkout)

@@ -49,6 +49,15 @@ class ExperimentsTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Only completed'):
                 validate(directory)
 
+    def test_publication_reaches_git_with_persistent_credentials(self):
+        from publish_results import publish
+        directory = Path(__file__).resolve().parent / 'results' / 'job_29611697'
+        with patch('publish_results.subprocess.run', side_effect=RuntimeError('git reached')) as command:
+            with self.assertRaisesRegex(RuntimeError, 'git reached'):
+                publish(directory)
+        self.assertEqual(command.call_args.args[0][0], 'git')
+        self.assertIn('origin', command.call_args.args[0])
+
     def test_grid_and_reproducible_rounds(self):
         self.assertEqual(len(self.rows), 240)
         self.assertEqual(measurements(self.config), measurements(self.config))
