@@ -82,7 +82,7 @@ def allocation(env, config):
         raise ValueError('No LSF allocation: submit the batch script')
     c = config['cluster']
     if len(slots) != c['hosts'] or any(n != c['slots_per_host'] for n in slots.values()):
-        raise ValueError(f'Need exactly eight distinct hosts with four slots each; got {dict(slots)}')
+        raise ValueError(f'Need {c["hosts"]} distinct hosts with {c["slots_per_host"]} slots each; got {dict(slots)}')
     return slots
 
 

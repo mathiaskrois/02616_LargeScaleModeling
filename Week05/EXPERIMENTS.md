@@ -138,3 +138,9 @@ an isolated checkout, rebases concurrent group commits, and never force-pushes.
 Authentication remains signed in; private credential files are excluded from Git.
 Publication failure preserves local data and causes a failed batch exit; retry with
 `python3 publish_results.py results/job_JOBID`.
+
+The diagnostic follow-up is a separate suite defined in [FOLLOWUP.md](FOLLOWUP.md).
+It adds the missing one-host placement, a focused chunk threshold sweep, profiled
+blocking-static variants and five repetitions. The historical heavy-suite grid
+and source snapshots remain unchanged. See [RESULTS_ANALYSIS.md](RESULTS_ANALYSIS.md)
+for its measured conclusions; revised historical figures include min–max ranges.

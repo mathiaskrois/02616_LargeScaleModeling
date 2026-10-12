@@ -31,6 +31,19 @@ Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_2961
 [Download PDF](Week05/results/job_29618553/figures/image_area.pdf)
 <!-- latest-benchmark:end -->
 
+## Analysis and diagnostic follow-up
+
+Read the [results analysis](Week05/RESULTS_ANALYSIS.md) for measured comparisons,
+code-based explanations and repetition ranges. The heavy-suite plots above now
+include min–max error bars; earlier figure exports are preserved in the results archive.
+
+The [focused follow-up](Week05/FOLLOWUP.md) tests chunks **8–12**, an interleaved
+blocking-static variant, and **one versus two hosts**. It measures five versions
+with five repetitions (**175 runs**), preceded by exact serial-reference checks.
+Its batch job automatically saves rank diagnostics, generates a report and plots,
+and pushes completed results to this repository. The completed heavy-suite plots
+remain available after the follow-up is published.
+
 ## Start here
 
 ```sh
@@ -304,5 +317,3 @@ python3 publish_results.py results/job_JOBID
 `DONE` now means both the benchmark and automatic push succeeded. If the benchmark
 is complete but publication fails, the scheduler reports `EXIT`; the batch error
 log identifies the publication failure.
-
-

@@ -56,7 +56,7 @@ class ExperimentsTest(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'git reached'):
                 publish(directory)
         self.assertEqual(command.call_args.args[0][0], 'git')
-        self.assertIn('origin', command.call_args.args[0])
+        self.assertIn('rev-parse', command.call_args.args[0])
 
     def test_grid_and_reproducible_rounds(self):
         self.assertEqual(len(self.rows), 240)

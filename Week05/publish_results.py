@@ -23,7 +23,15 @@ def validate(directory):
     config = json.loads((directory / 'experiments.yaml').read_text())
     with (directory / config['output']['csv']).open(newline='') as stream:
         points = validated_medians(list(csv.DictReader(stream)), config)
-    for experiment in ('nodes', 'chunk_size', 'image_area'):
+    if config.get('suite') == 'followup':
+        from analyse_followup import validate as validate_followup
+        validate_followup(directory)
+        figures = ('threshold', 'one_vs_two', 'rank_timings')
+        if not (directory / 'SUMMARY.md').is_file():
+            raise ValueError('Missing follow-up summary')
+    else:
+        figures = ('nodes', 'chunk_size', 'image_area')
+    for experiment in figures:
         for suffix in ('png', 'pdf'):
             figure = directory / 'figures' / f'{experiment}.{suffix}'
             if not figure.is_file() or not figure.stat().st_size:
@@ -32,6 +40,8 @@ def validate(directory):
 
 
 def update_readme(content, directory, metadata, config):
+    if config.get('suite') == 'followup':
+        return update_followup_readme(content, directory, metadata)
     relative = f'Week05/results/{directory.name}'
     model = metadata.get('cpu_model', 'See metadata.json for CPU model')
     defaults = config['defaults']
@@ -51,6 +61,28 @@ def update_readme(content, directory, metadata, config):
     return content.rstrip() + '\n\n' + block + '\n'
 
 
+def update_followup_readme(content, directory, metadata):
+    start, end = '<!-- followup:start -->', '<!-- followup:end -->'
+    relative = f'Week05/results/{directory.name}'
+    block = (f'{start}\n## Completed diagnostic follow-up\n\n'
+             f'Job **{metadata["job_id"]}**: **175 successful measurements**, five repetitions; '
+             '3000×3000 pixels, eight ranks; chunks 8–12 and one versus two hosts.\n\n'
+             f'[Results and interpretation]({relative}/SUMMARY.md). CPU: {metadata["cpu_model"]}.\n\n'
+             + '\n\n'.join(f'![{name.replace("_", " ")} diagnostic plot]({relative}/figures/{name}.png)\n\n[PDF]({relative}/figures/{name}.pdf)'
+                             for name in ('threshold', 'one_vs_two', 'rank_timings'))
+             + f'\n{end}')
+    if start in content and end in content:
+        before, rest = content.split(start, 1)
+        _, after = rest.split(end, 1)
+        return before + block + after
+    position = content.find(START)
+    if position == -1:
+        position = content.find('\n## ')
+    if position == -1:
+        position = len(content)
+    return content[:position] + block + '\n\n' + content[position:]
+
+
 def publish(directory, dry_run=False):
     directory = directory.resolve()
     repo = Path(__file__).resolve().parents[1]
@@ -58,10 +90,12 @@ def publish(directory, dry_run=False):
         raise ValueError('Results must be a job directory in this repository')
     metadata, config, count = validate(directory)
     if dry_run:
-        print(f'Validated job {metadata["job_id"]}: 240 measurements, {count} medians, six figures')
+        print(f'Validated job {metadata["job_id"]}: {count * config["defaults"]["repetitions"]} measurements, {count} medians, six figures')
         return
     env = dict(os.environ, GIT_TERMINAL_PROMPT='0')
-    auth, gh = repo / '.github-auth', repo / '.tools' / 'gh'
+    common = Path(subprocess.check_output(['git', 'rev-parse', '--git-common-dir'], cwd=repo, text=True).strip())
+    credential_root = (repo / common).resolve().parent
+    auth, gh = credential_root / '.github-auth', credential_root / '.tools' / 'gh'
     if auth.is_dir() and gh.is_file():
         env['GH_CONFIG_DIR'] = str(auth)
     def git(*args, cwd=repo, capture=False):
@@ -73,7 +107,7 @@ def publish(directory, dry_run=False):
                               text=True, capture_output=capture).stdout
     remote = git('remote', 'get-url', 'origin', capture=True).strip()
     # Keep credentials and transient publication files in the already excluded directory.
-    scratch = repo / '.tools'
+    scratch = credential_root / '.tools'
     scratch.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='publish-', dir=scratch) as temporary:
         checkout = Path(temporary) / 'checkout'
@@ -92,7 +126,7 @@ def publish(directory, dry_run=False):
         readme = checkout / 'README.md'
         readme.write_text(update_readme(readme.read_text(), directory, metadata, config))
         git('add', '--', str(relative), 'README.md', cwd=checkout)
-        git('commit', '-m', f'Publish completed Mandelbrot benchmark job {metadata["job_id"]}', cwd=checkout)
+        git('commit', '--quiet', '-m', f'Publish completed Mandelbrot benchmark job {metadata["job_id"]}', cwd=checkout)
         # Concurrent teammate pushes are incorporated without force-pushing.
         for attempt in range(3):
             git('pull', '--rebase', 'origin', 'main', cwd=checkout)
