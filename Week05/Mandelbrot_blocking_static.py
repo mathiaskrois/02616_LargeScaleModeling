@@ -101,25 +101,29 @@ def compute_chunk(start, stop, size, xlim, ylim, xconst, yconst):
 
 
 def compute():
-    # Keep cyclic row assignment, but receive every round before starting the next.
-    schedules = [static_scheduler_cyclic(r, chunk_size, size[0], nranks)
-                 for r in range(nranks)]
-    for round_index in range(max(map(len, schedules), default=0)):
-        if round_index < len(schedules[rank]):
-            rows = schedules[rank][round_index]
-            start, stop = rows[0], rows[-1] + 1
-            buf = compute_chunk(start, stop, size, xlim, ylim, xconst, yconst)
-            if rank == 0:
-                image[start:stop] = buf
-            else:
-                comm.Send(buf, dest=0, tag=rank)
+    chunks = static_scheduler_cyclic(rank=rank, chunk_size=chunk_size, nrows =size[0], nranks=nranks)
+
+    for k in chunks:
+        start = k[0]
+        stop = k[-1]+1
+        buf = compute_chunk(start, stop, size, xlim, ylim, xconst, yconst)
+
         if rank == 0:
-            for worker in range(1, nranks):
-                if round_index < len(schedules[worker]):
-                    rows = schedules[worker][round_index]
-                    start, stop = rows[0], rows[-1] + 1
-                    comm.Recv(image[start:stop], source=worker, tag=worker)
-    return
+            image[start:stop] = buf
+
+        else:
+            comm.Send(buf, dest=0, tag=rank)
+            
+
+    if rank == 0:
+        for r in range(1, nranks):
+            rank_rows = static_scheduler_cyclic(rank = r, chunk_size=chunk_size, nrows =size[0], nranks=nranks)
+            for rows in rank_rows:
+                start = rows[0]
+                stop = rows[-1]+1
+                comm.Recv(image[start:stop], source=r, tag = r)
+
+    return 
 
 compute()
 

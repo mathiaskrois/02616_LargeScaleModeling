@@ -144,8 +144,3 @@ It adds the missing one-host placement, a focused chunk threshold sweep, profile
 blocking-static variants and five repetitions. The historical heavy-suite grid
 and source snapshots remain unchanged. See [RESULTS_ANALYSIS.md](RESULTS_ANALYSIS.md)
 for its measured conclusions; revised historical figures include min–max ranges.
-
-
-The student's chunk-1 expectation is tested in a separate 3000×3000 comparison
-of original versus fixed blocking static. See [CHUNK_SIZE_OBSERVATIONS.md](CHUNK_SIZE_OBSERVATIONS.md).
-Only chunk 1 is rerun for both versions; other measurements are unchanged.

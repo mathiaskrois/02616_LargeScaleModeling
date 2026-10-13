@@ -5,22 +5,6 @@ calculation using static/dynamic scheduling and blocking/nonblocking communicati
 The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
-<!-- heavy-chunks:start -->
-## Heavier chunk-size observation and implementation comparison
-
-### Why I expected chunk size 1 to be slow
-
-One-row chunks create many small messages, so expecting communication overhead is reasonable. Each row also contains substantial computation, and small chunks balance unequal row costs. The original heavy plot started at chunk 3, not 1. This new sweep adds chunk 1 and compares both versions freshly at chunk 1 under identical conditions. Other chunks retain their historical measurements.
-
-Job **29706019**: **10 successful measurements**; 3000×3000; eight ranks on the same two hosts; chunk 1 only; five repetitions. Both versions use blocking communication and identical pixel calculations.
-
-Chunk 1 medians: original **64.870 s**, fixed **36.871 s**. [Full comparison and interpretation](Week05/results/heavy_chunks_job_29706019/SUMMARY.md).
-
-![Original versus fixed heavier chunk-size plot](Week05/results/heavy_chunks_job_29706019/figures/chunk_size_comparison.png)
-
-[PDF](Week05/results/heavy_chunks_job_29706019/figures/chunk_size_comparison.pdf) · [Raw timings](Week05/results/heavy_chunks_job_29706019/measurements.csv)
-<!-- heavy-chunks:end -->
-
 <!-- followup:start -->
 ## Completed diagnostic follow-up
 
@@ -79,14 +63,6 @@ with five repetitions (**175 runs**), preceded by exact serial-reference checks.
 Its batch job automatically saves rank diagnostics, generates a report and plots,
 and pushes completed results to this repository. The completed heavy-suite plots
 remain available after the follow-up is published.
-
-## Blocking-static source update
-
-`Mandelbrot_blocking_static.py` now receives results after each cyclic round.
-The prior implementation is preserved as `Mandelbrot_blocking_static_legacy.py`
-and in each historical job's source snapshots. Historical plots describe those
-saved versions, not the current source file. The heavier chunk-size comparison reruns both versions under identical conditions;
-it does not replace historical measurements with a different implementation.
 
 ## Start here
 
