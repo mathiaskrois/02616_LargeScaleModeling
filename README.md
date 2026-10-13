@@ -64,6 +64,15 @@ Its batch job automatically saves rank diagnostics, generates a report and plots
 and pushes completed results to this repository. The completed heavy-suite plots
 remain available after the follow-up is published.
 
+## Blocking-static source update
+
+`Mandelbrot_blocking_static.py` now receives results after each cyclic round.
+The prior implementation is preserved as `Mandelbrot_blocking_static_legacy.py`
+and in each historical job's source snapshots. Historical plots describe those
+saved versions, not the current source file. The chunk-size-1 retest substitutes
+only three measurements in a labelled copy of the initial dataset; its new point
+is displayed separately because the code and software stack differ.
+
 ## Start here
 
 ```sh

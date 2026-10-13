@@ -21,6 +21,13 @@ def validate(directory):
     if metadata.get('status') != 'complete':
         raise ValueError('Only completed suites can be published')
     config = json.loads((directory / 'experiments.yaml').read_text())
+    if config.get('suite') == 'chunk1_retest':
+        from retest_chunk1 import validate_saved
+        validate_saved(directory)
+        for name in ('figures/chunk_size.png', 'figures/chunk_size.pdf', 'SUMMARY.md'):
+            if not (directory / name).is_file() or not (directory / name).stat().st_size:
+                raise ValueError(f'Missing retest output: {name}')
+        return metadata, config, 1
     with (directory / config['output']['csv']).open(newline='') as stream:
         points = validated_medians(list(csv.DictReader(stream)), config)
     if config.get('suite') == 'followup':
@@ -40,6 +47,8 @@ def validate(directory):
 
 
 def update_readme(content, directory, metadata, config):
+    if config.get('suite') == 'chunk1_retest':
+        return update_chunk1_readme(content, directory, metadata)
     if config.get('suite') == 'followup':
         return update_followup_readme(content, directory, metadata)
     relative = f'Week05/results/{directory.name}'
@@ -81,6 +90,35 @@ def update_followup_readme(content, directory, metadata):
     if position == -1:
         position = len(content)
     return content[:position] + block + '\n\n' + content[position:]
+
+
+def update_chunk1_readme(content, directory, metadata):
+    start, end = '<!-- chunk1-retest:start -->', '<!-- chunk1-retest:end -->'
+    relative = f'Week05/results/{directory.name}'
+    block = (f'{start}\n## Chunk-size-1 replacement test\n\n'
+             'The blocking-static receive order is fixed. Only chunk 1 was rerun, '
+             'at the original 1000×1000 settings with three repetitions. '
+             'The updated plot substitutes this point and labels it purple; '
+             'all other points retain the historical implementation.\n\n'
+             f'[Report and provenance]({relative}/SUMMARY.md) · '
+             f'[Updated dataset]({relative}/updated_initial/measurements.csv)\n\n'
+             f'![Updated original chunk-size plot]({relative}/figures/chunk_size.png)\n\n'
+             f'[PDF]({relative}/figures/chunk_size.pdf)\n{end}')
+    if start in content and end in content:
+        before, rest = content.split(start, 1)
+        _, after = rest.split(end, 1)
+        content = before + block + after
+    else:
+        position = content.find('<!-- followup:start -->')
+        if position == -1:
+            position = content.find(START)
+        if position == -1:
+            position = len(content)
+        content = content[:position] + block + '\n\n' + content[position:]
+    return content.replace('Week05/results/job_29611697/figures/chunk_size.png',
+                           relative + '/figures/chunk_size.png').replace(
+                           'Week05/results/job_29611697/figures/chunk_size.pdf',
+                           relative + '/figures/chunk_size.pdf')
 
 
 def publish(directory, dry_run=False):
