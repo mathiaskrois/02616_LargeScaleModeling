@@ -1,0 +1,14 @@
+[n-62-29-15:3593136:0:3593136] Caught signal 11 (Segmentation fault: address not mapped to object at address 0x1b8)
+==== backtrace (tid:3593136) ====
+ 0 0x000000000003fb30 __GI___sigaction()  :0
+ 1 0x0000000000010e50 hwloc_find_insert_io_parent_by_complete_cpuset()  :0
+ 2 0x000000000005dcf9 prte_hwloc_base_setup_summary()  ???:0
+ 3 0x00000000000b8f9e prte_plm_base_daemon_callback()  ???:0
+ 4 0x00000000000624d9 prte_rml_base_process_msg()  ???:0
+ 5 0x00000000000260f8 event_process_active_single_queue()  event.c:0
+ 6 0x00000000000267e7 event_base_loop()  ???:0
+ 7 0x0000000000405b85 main()  ???:0
+ 8 0x000000000002a610 __libc_start_call_main()  ???:0
+ 9 0x000000000002a6c0 __libc_start_main_alias_2()  :0
+10 0x00000000004076f5 _start()  ???:0
+=================================

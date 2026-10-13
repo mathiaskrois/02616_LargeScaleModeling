@@ -41,7 +41,7 @@ def update_readme(content, directory, metadata, config):
              f'Node and chunk tests: {defaults["width"]}×{defaults["height"]} pixels. '
              f'[Saved results]({relative}/metadata.json) include configuration, timings, '
              f'source snapshots, placement checks and logs.\n\n'
-             + '\n'.join(f'- [{name.replace("_", " ").title()} figure]({relative}/figures/{name}.png)'
+             + '\n\n'.join(f'### {name.replace("_", " ").title()}\n\n![{name.replace("_", " ").title()} runtime plot]({relative}/figures/{name}.png)\n\n[Download PDF]({relative}/figures/{name}.pdf)'
                          for name in ('nodes', 'chunk_size', 'image_area'))
              + f'\n{END}')
     if START in content and END in content:
