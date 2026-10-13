@@ -5,6 +5,18 @@ calculation using static/dynamic scheduling and blocking/nonblocking communicati
 The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
+<!-- chunk1-retest:start -->
+## Chunk-size-1 replacement test
+
+The blocking-static receive order is fixed. Only chunk 1 was rerun, at the original 1000×1000 settings with three repetitions. The updated plot substitutes this point and labels it purple; all other points retain the historical implementation.
+
+[Report and provenance](Week05/results/chunk1_job_29705865/SUMMARY.md) · [Updated dataset](Week05/results/chunk1_job_29705865/updated_initial/measurements.csv)
+
+![Updated original chunk-size plot](Week05/results/chunk1_job_29705865/figures/chunk_size.png)
+
+[PDF](Week05/results/chunk1_job_29705865/figures/chunk_size.pdf)
+<!-- chunk1-retest:end -->
+
 <!-- followup:start -->
 ## Completed diagnostic follow-up
 
@@ -221,9 +233,9 @@ blocking dynamic, nonblocking dynamic.
 
 [Nodes PDF](Week05/results/job_29611697/figures/nodes.pdf)
 
-![Runtime versus chunk size](Week05/results/job_29611697/figures/chunk_size.png)
+![Runtime versus chunk size](Week05/results/chunk1_job_29705865/figures/chunk_size.png)
 
-[Chunk size PDF](Week05/results/job_29611697/figures/chunk_size.pdf)
+[Chunk size PDF](Week05/results/chunk1_job_29705865/figures/chunk_size.pdf)
 
 ![Runtime versus actual image area](Week05/results/job_29611697/figures/image_area.png)
 
