@@ -145,9 +145,7 @@ blocking-static variants and five repetitions. The historical heavy-suite grid
 and source snapshots remain unchanged. See [RESULTS_ANALYSIS.md](RESULTS_ANALYSIS.md)
 for its measured conclusions; revised historical figures include min–max ranges.
 
-The current blocking-static source receives after each round; its predecessor is
-preserved in Mandelbrot_blocking_static_legacy.py. A separate chunk1_job.sh retests
-only chunk 1 at the initial 1000×1000 settings, with three repetitions and an exact
-serial-reference comparison. It creates a derived 240-row dataset, replacing only
-three targeted rows, preserving all historical raw files and explicitly labelling
-the new code/software point in the substituted chunk-size figure.
+
+The student's chunk-1 expectation is tested in a separate 3000×3000 comparison
+of original versus fixed blocking static. See [CHUNK_SIZE_OBSERVATIONS.md](CHUNK_SIZE_OBSERVATIONS.md).
+Both full curves are rerun; historical data is not substituted.

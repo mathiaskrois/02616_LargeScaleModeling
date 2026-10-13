@@ -21,16 +21,15 @@ def validate(directory):
     if metadata.get('status') != 'complete':
         raise ValueError('Only completed suites can be published')
     config = json.loads((directory / 'experiments.yaml').read_text())
-    if config.get('suite') == 'chunk1_retest':
-        from retest_chunk1 import validate_saved
-        validate_saved(directory)
-        for name in ('figures/chunk_size.png', 'figures/chunk_size.pdf', 'SUMMARY.md'):
-            if not (directory / name).is_file() or not (directory / name).stat().st_size:
-                raise ValueError(f'Missing retest output: {name}')
-        return metadata, config, 1
     with (directory / config['output']['csv']).open(newline='') as stream:
         points = validated_medians(list(csv.DictReader(stream)), config)
-    if config.get('suite') == 'followup':
+    if config.get('suite') == 'heavy_chunks':
+        from analyse_heavy_chunks import validate as validate_heavy
+        validate_heavy(directory)
+        figures = ('chunk_size_comparison',)
+        if not (directory / 'SUMMARY.md').is_file():
+            raise ValueError('Missing heavy comparison report')
+    elif config.get('suite') == 'followup':
         from analyse_followup import validate as validate_followup
         validate_followup(directory)
         figures = ('threshold', 'one_vs_two', 'rank_timings')
@@ -47,8 +46,8 @@ def validate(directory):
 
 
 def update_readme(content, directory, metadata, config):
-    if config.get('suite') == 'chunk1_retest':
-        return update_chunk1_readme(content, directory, metadata)
+    if config.get('suite') == 'heavy_chunks':
+        return update_heavy_readme(content, directory, metadata)
     if config.get('suite') == 'followup':
         return update_followup_readme(content, directory, metadata)
     relative = f'Week05/results/{directory.name}'
@@ -92,33 +91,29 @@ def update_followup_readme(content, directory, metadata):
     return content[:position] + block + '\n\n' + content[position:]
 
 
-def update_chunk1_readme(content, directory, metadata):
-    start, end = '<!-- chunk1-retest:start -->', '<!-- chunk1-retest:end -->'
-    relative = f'Week05/results/{directory.name}'
-    block = (f'{start}\n## Chunk-size-1 replacement test\n\n'
-             'The blocking-static receive order is fixed. Only chunk 1 was rerun, '
-             'at the original 1000×1000 settings with three repetitions. '
-             'The updated plot substitutes this point and labels it purple; '
-             'all other points retain the historical implementation.\n\n'
-             f'[Report and provenance]({relative}/SUMMARY.md) · '
-             f'[Updated dataset]({relative}/updated_initial/measurements.csv)\n\n'
-             f'![Updated original chunk-size plot]({relative}/figures/chunk_size.png)\n\n'
-             f'[PDF]({relative}/figures/chunk_size.pdf)\n{end}')
+def update_heavy_readme(content, directory, metadata):
+    start,end='<!-- heavy-chunks:start -->','<!-- heavy-chunks:end -->'
+    relative=f'Week05/results/{directory.name}'
+    stats=metadata['analysis']['chunk1_comparison']
+    block=(f'{start}\n## Heavier chunk-size observation and implementation comparison\n\n'
+           '### Why I expected chunk size 1 to be slow\n\n'
+           'One-row chunks create many small messages, so expecting communication overhead '
+           'is reasonable. Each row also contains substantial computation, and small chunks '
+           'balance unequal row costs. The original heavy plot started at chunk 3, not 1. '
+           'This new sweep adds chunk 1 and compares both versions freshly under identical conditions.\n\n'
+           f'Job **{metadata["job_id"]}**: **80 successful measurements**; 3000×3000; '
+           'eight ranks on the same two hosts; chunks 1, 3, 11, 23, 46, 93, 187, 375; '
+           'five repetitions. Both versions use blocking communication and identical pixel calculations.\n\n'
+           f'Chunk 1 medians: original **{stats["original"]:.3f} s**, fixed **{stats["fixed"]:.3f} s**. '
+           f'[Full comparison and interpretation]({relative}/SUMMARY.md).\n\n'
+           f'![Original versus fixed heavier chunk-size plot]({relative}/figures/chunk_size_comparison.png)\n\n'
+           f'[PDF]({relative}/figures/chunk_size_comparison.pdf) · [Raw timings]({relative}/measurements.csv)\n{end}')
     if start in content and end in content:
-        before, rest = content.split(start, 1)
-        _, after = rest.split(end, 1)
-        content = before + block + after
-    else:
-        position = content.find('<!-- followup:start -->')
-        if position == -1:
-            position = content.find(START)
-        if position == -1:
-            position = len(content)
-        content = content[:position] + block + '\n\n' + content[position:]
-    return content.replace('Week05/results/job_29611697/figures/chunk_size.png',
-                           relative + '/figures/chunk_size.png').replace(
-                           'Week05/results/job_29611697/figures/chunk_size.pdf',
-                           relative + '/figures/chunk_size.pdf')
+        before,rest=content.split(start,1);_,after=rest.split(end,1)
+        return before+block+after
+    position=content.find('<!-- followup:start -->')
+    if position==-1:position=len(content)
+    return content[:position]+block+'\n\n'+content[position:]
 
 
 def publish(directory, dry_run=False):
@@ -128,7 +123,7 @@ def publish(directory, dry_run=False):
         raise ValueError('Results must be a job directory in this repository')
     metadata, config, count = validate(directory)
     if dry_run:
-        print(f'Validated job {metadata["job_id"]}: {count * config["defaults"]["repetitions"]} measurements, {count} medians, six figures')
+        print(f'Validated job {metadata["job_id"]}: {count * config["defaults"]["repetitions"]} measurements, {count} medians, validated figure exports')
         return
     env = dict(os.environ, GIT_TERMINAL_PROMPT='0')
     common = Path(subprocess.check_output(['git', 'rev-parse', '--git-common-dir'], cwd=repo, text=True).strip())

@@ -32,7 +32,7 @@ def identity(row):
 
 def validated_medians(rows, config):
     """Reject missing, duplicate, failed or off-grid attempts before plotting."""
-    if config.get('suite') == 'followup':
+    if config.get('suite') in ('followup', 'heavy_chunks'):
         from run_followup import measurements as expected_measurements
     else:
         expected_measurements = measurements

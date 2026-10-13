@@ -5,17 +5,25 @@ calculation using static/dynamic scheduling and blocking/nonblocking communicati
 The initial experiment suite has run successfully: **240 measurements**, with
 three repetitions per configuration, and three figures exported as PNG and PDF.
 
-<!-- chunk1-retest:start -->
-## Chunk-size-1 replacement test
+<!-- heavy-chunks:start -->
+## Heavier chunk-size observation and implementation comparison
 
-The blocking-static receive order is fixed. Only chunk 1 was rerun, at the original 1000×1000 settings with three repetitions. The updated plot substitutes this point and labels it purple; all other points retain the historical implementation.
+### Why I expected chunk size 1 to be slow
 
-[Report and provenance](Week05/results/chunk1_job_29705865/SUMMARY.md) · [Updated dataset](Week05/results/chunk1_job_29705865/updated_initial/measurements.csv)
+One-row chunks create many small messages, so expecting communication overhead
+is reasonable. However, each row contains 3000 pixels of computation and small
+chunks balance unequal row costs. Chunk 1 is not guaranteed to be the slowest.
+The original heavier plot actually started at **chunk 3**, not chunk 1.
 
-![Updated original chunk-size plot](Week05/results/chunk1_job_29705865/figures/chunk_size.png)
+We will compare the **original** and **fixed receive-order** versions under the
+same heavier settings: **3000×3000**, eight ranks on two hosts, 100 iterations,
+chunks **1, 3, 11, 23, 46, 93, 187, 375**, and five repetitions (**80 timings**).
+Both curves will contain new, comparable measurements. The original historical
+plot remains unchanged. The discarded small-dataset retest is not used.
 
-[PDF](Week05/results/chunk1_job_29705865/figures/chunk_size.pdf)
-<!-- chunk1-retest:end -->
+Read [the observation and experiment design](Week05/CHUNK_SIZE_OBSERVATIONS.md).
+The completed comparison plot and findings will be embedded here automatically.
+<!-- heavy-chunks:end -->
 
 <!-- followup:start -->
 ## Completed diagnostic follow-up
@@ -81,9 +89,8 @@ remain available after the follow-up is published.
 `Mandelbrot_blocking_static.py` now receives results after each cyclic round.
 The prior implementation is preserved as `Mandelbrot_blocking_static_legacy.py`
 and in each historical job's source snapshots. Historical plots describe those
-saved versions, not the current source file. The chunk-size-1 retest substitutes
-only three measurements in a labelled copy of the initial dataset; its new point
-is displayed separately because the code and software stack differ.
+saved versions, not the current source file. The heavier chunk-size comparison reruns both versions under identical conditions;
+it does not replace historical measurements with a different implementation.
 
 ## Start here
 
@@ -233,9 +240,9 @@ blocking dynamic, nonblocking dynamic.
 
 [Nodes PDF](Week05/results/job_29611697/figures/nodes.pdf)
 
-![Runtime versus chunk size](Week05/results/chunk1_job_29705865/figures/chunk_size.png)
+![Runtime versus chunk size](Week05/results/job_29611697/figures/chunk_size.png)
 
-[Chunk size PDF](Week05/results/chunk1_job_29705865/figures/chunk_size.pdf)
+[Chunk size PDF](Week05/results/job_29611697/figures/chunk_size.pdf)
 
 ![Runtime versus actual image area](Week05/results/job_29611697/figures/image_area.png)
 

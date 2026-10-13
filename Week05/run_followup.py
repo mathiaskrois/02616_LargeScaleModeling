@@ -19,8 +19,8 @@ HERE = Path(__file__).resolve().parent
 PROFILED = {'static_blocking', 'static_blocking_interleaved'}
 
 
-def read_config():
-    return json.loads((HERE / 'followup.yaml').read_text())
+def read_config(path=HERE / 'followup.yaml'):
+    return json.loads(Path(path).read_text())
 
 
 def measurements(config):
@@ -72,12 +72,12 @@ def run(directory, config):
         'Mandelbrot_blocking_static.py', 'Mandelbrot.py', 'run_followup.py', 'followup_job.sh',
         'followup.yaml', 'analyse_followup.py', 'mpi_correctness.py', 'mpi_probe.py',
         'run_experiments.py', 'plot_experiments.py', 'publish_results.py', 'test_followup.py',
-        'vendor/six.py'}
+        'vendor/six.py'} | set(config.get('additional_sources', []))
     for name in files:
         target = directory/'sources'/name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(HERE/name, target)
-    metadata = dict(job_id=os.environ['LSB_JOBID'], suite='followup', status='preflight',
+    metadata = dict(job_id=os.environ['LSB_JOBID'], suite=config.get('suite', 'followup'), status='preflight',
         started_utc=datetime.now(timezone.utc).isoformat(), hosts=hosts, allocated_slots=dict(slots),
         configuration=config, seed=config['defaults']['seed'], probes=[], correctness=[], pilots=[],
         commands=[], modules=os.environ.get('LOADEDMODULES','').split(':'),
@@ -95,7 +95,7 @@ def run(directory, config):
     hostfiles={}
     for nodes in (1,2):
         path=directory/f'hosts_{nodes}.txt'
-        path.write_text(''.join(f'{host} slots=8 max_slots=8\n' for host in hosts[:nodes]))
+        path.write_text(''.join(f'{host} slots={config["cluster"]["slots_per_host"]} max_slots={config["cluster"]["slots_per_host"]}\n' for host in hosts[:nodes]))
         hostfiles[nodes]=path
     def attempt(label,row,program,args,output=None):
         if remaining() <= 0:
@@ -118,7 +118,7 @@ def run(directory, config):
             raise RuntimeError(f'{label} failed: {info}')
     try:
         save()
-        for number,nodes in enumerate([1,2]+[2]*config['preflight']['launcher_repetitions']):
+        for number,nodes in enumerate(config['preflight'].get('placement_nodes', [1,2])+[2]*config['preflight']['launcher_repetitions']):
             row=dict(nodes=nodes,ranks=8,ranks_per_host=8//nodes)
             info=attempt(f'probe_{number:02d}',row,HERE/'mpi_probe.py',[])
             metadata['probes'].append(dict(nodes=nodes,**info));save();require(info,'Placement probe')
@@ -128,7 +128,8 @@ def run(directory, config):
             metadata['probes'][-1].update(validated=True,ranks=records);save()
         print('All placement and launcher probes passed',flush=True)
         # Use the unmodified course serial implementation as the independent reference.
-        programs=dict(config['implementations'],static_blocking_uninstrumented='Mandelbrot_blocking_static.py')
+        programs=dict(config['implementations'])
+        programs.update(config.get('correctness_extra_programs', {'static_blocking_uninstrumented':'Mandelbrot_blocking_static.py'}))
         for case,(width,height,chunk) in enumerate(config['preflight']['correctness_cases']):
             reference=directory/'correctness'/f'reference_{case}.npy'
             args=[chunk,f'{width}x{height}',config['defaults']['xlim'],config['defaults']['ylim']]
@@ -136,7 +137,7 @@ def run(directory, config):
             info=attempt(f'reference_{case}',row,HERE/'mpi_correctness.py',[HERE/'Mandelbrot.py',*args],reference)
             require(info,'Serial reference')
             expected=np.load(reference)
-            for nodes in (1,2):
+            for nodes in config['preflight'].get('correctness_nodes', [1,2]):
                 row=dict(nodes=nodes,ranks=8,ranks_per_host=8//nodes)
                 for impl,filename in programs.items():
                     label=f'correctness_{case}_{nodes}_{impl}'
@@ -146,10 +147,10 @@ def run(directory, config):
                     if not np.array_equal(np.load(output),expected):
                         raise RuntimeError(f'Output differs from serial reference: {label}')
                     metadata['correctness'][-1]['validated']=True;save()
-        print('All 36 correctness checks passed against the serial reference',flush=True)
+        print(f'All {len(metadata["correctness"])} correctness checks passed against the serial reference',flush=True)
         metadata['status']='pilots';save()
         # Pilot both placements and both sides of the suspected threshold.
-        for nodes in (1,2):
+        for nodes in config['pilot'].get('nodes', [1,2]):
             for impl,filename in config['implementations'].items():
                 for side in config['pilot']['sides']:
                     for chunk in config['pilot']['chunks']:
@@ -162,7 +163,7 @@ def run(directory, config):
         # for each implementation/placement, then double the full estimate.
         worst={(impl,nodes):max(p['runtime_seconds'] for p in metadata['pilots']
             if p['implementation']==impl and p['nodes']==nodes and p['width']==config['defaults']['width'])
-            for impl in config['implementations'] for nodes in (1,2)}
+            for impl in config['implementations'] for nodes in config['pilot'].get('nodes', [1,2])}
         estimate=sum(worst[r['implementation'],r['nodes']] for r in grid)*config['pilot']['allowance_factor']
         metadata.update(estimated_suite_seconds=estimate,remaining_measurement_seconds=remaining());save()
         print(f'Pilot estimate with 2× allowance: {estimate/3600:.2f} hours; available: {remaining()/3600:.2f} hours',flush=True)
@@ -177,7 +178,7 @@ def run(directory, config):
                 info=attempt(label,row,HERE/config['implementations'][row['implementation']],
                     [row['chunk_size'],f'{row["width"]}x{row["height"]}',config['defaults']['xlim'],config['defaults']['ylim']])
                 writer.writerow(dict(row,**info));stream.flush();os.fsync(stream.fileno());save();require(info,label)
-                if row['implementation'] in PROFILED:
+                if row['implementation'] in config.get('profiled_implementations', PROFILED):
                     profile_records(directory/info['profile_log'],row['width'],
                         'original' if row['implementation']=='static_blocking' else 'interleaved')
         metadata['status']='measurements_complete'
@@ -190,11 +191,12 @@ def run(directory, config):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dry-run',action='store_true')
+    parser.add_argument('--config',type=Path,default=HERE/'followup.yaml')
     parser.add_argument('--results-dir',type=Path)
-    args=parser.parse_args();config=read_config()
+    args=parser.parse_args();config=read_config(args.config)
     if args.dry_run:
         grid=measurements(config)
-        print(f'{len(grid)} measurements; 125 threshold tests + 50 placement tests; seed {config["defaults"]["seed"]}')
+        print(f'{len(grid)} measurements; seed {config["defaults"]["seed"]}; experiments: {config["experiments"]}')
     else:
         run(args.results_dir or HERE/'results'/f'followup_job_{os.environ["LSB_JOBID"]}',config)
 

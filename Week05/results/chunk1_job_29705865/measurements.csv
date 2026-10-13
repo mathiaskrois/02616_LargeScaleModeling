@@ -1,4 +1,0 @@
-experiment,implementation,repetition,nodes,ranks,ranks_per_host,chunk_size,width,height,target_area,actual_area,runtime_seconds,exit_status,stdout_log,stderr_log
-chunk_size,static_blocking,1,2,8,4,1,1000,1000,1000000,1000000,5.0228631619829684,0,logs/chunk1_r1.out,logs/chunk1_r1.err
-chunk_size,static_blocking,2,2,8,4,1,1000,1000,1000000,1000000,5.0226205280050635,0,logs/chunk1_r2.out,logs/chunk1_r2.err
-chunk_size,static_blocking,3,2,8,4,1,1000,1000,1000000,1000000,4.722741564968601,0,logs/chunk1_r3.out,logs/chunk1_r3.err
