@@ -208,7 +208,9 @@ class ExperimentsTest(unittest.TestCase):
             env = dict(LSB_JOBID='test', LSB_MCPU_HOSTS=' '.join(f'n{i} 4' for i in range(8)))
             with patch.dict(os.environ, env), patch('run_experiments.timed_command', side_effect=fake_command), patch('run_experiments.importlib.metadata.version', return_value='test'):
                 with self.assertRaisesRegex(RuntimeError, 'Measurement failed'):
-                    run(self.config, root)
+                    mock_config = json.loads(json.dumps(self.config))
+                    mock_config['preflight']['correctness_cases'] = []
+                    run(mock_config, root)
             self.assertEqual(len(calls), 42)  # 3 probes, 30 stress checks, 8 pilots, first measurement.
             with (root / 'measurements.csv').open() as stream:
                 saved = list(csv.DictReader(stream))
@@ -245,6 +247,30 @@ class ExperimentsTest(unittest.TestCase):
             self.assertEqual(metadata['status'], 'failed')
             self.assertEqual(metadata['pilots'], [])
             self.assertEqual(metadata['launcher_stress'][0]['exit_status'], -11)
+            self.assertFalse((root / 'measurements.csv').exists())
+
+    def test_serial_reference_failure_stops_before_pilots(self):
+        def fake_command(command, out, err, timeout):
+            err.write_text('')
+            if command[-1].endswith('mpi_probe.py'):
+                nodes = int(Path(command[command.index('--hostfile') + 1]).stem.split('_')[1])
+                per_host = 8 // nodes
+                records = [dict(rank=i, host=f'n{i // per_host}', cpu_model='E5-2660 v3',
+                                affinity=[i % per_host], physical_cores=[['0', str(i % per_host)]],
+                                mpi_library_version='Open MPI v5.0.10, test runtime') for i in range(8)]
+                out.write_text(json.dumps(records))
+                return .01, 0
+            out.write_text('reference failed')
+            return .01, 2
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as name:
+            root = Path(name) / 'results'
+            env = dict(LSB_JOBID='test', LSB_MCPU_HOSTS=' '.join(f'n{i} 4' for i in range(8)))
+            with patch.dict(os.environ, env), patch('run_experiments.timed_command', side_effect=fake_command), patch('run_experiments.importlib.metadata.version', return_value='test'):
+                with self.assertRaisesRegex(RuntimeError, 'Serial reference failed'):
+                    run(self.config, root)
+            metadata = json.loads((root / 'metadata.json').read_text())
+            self.assertEqual(metadata['status'], 'failed')
+            self.assertEqual(metadata['pilots'], [])
             self.assertFalse((root / 'measurements.csv').exists())
 
     def test_three_figures_from_saved_sample(self):

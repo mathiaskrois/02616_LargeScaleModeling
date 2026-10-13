@@ -144,3 +144,10 @@ It adds the missing one-host placement, a focused chunk threshold sweep, profile
 blocking-static variants and five repetitions. The historical heavy-suite grid
 and source snapshots remain unchanged. See [RESULTS_ANALYSIS.md](RESULTS_ANALYSIS.md)
 for its measured conclusions; revised historical figures include min–max ranges.
+
+The full heavier suite now uses the student's updated blocking-static receive
+order. All 240 configurations/repetitions are rerun in a fresh job directory.
+Three exact serial-reference cases check all four implementations before pilots: 
+partial chunk-1 rounds, oversized chunks with idle ranks, and a rectangular case
+where a worker sends more than 256 KiB. Historical measurements and snapshots
+are retained; new plots are automatically generated and pushed on success.

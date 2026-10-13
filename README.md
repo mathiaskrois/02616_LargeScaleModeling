@@ -64,6 +64,21 @@ Its batch job automatically saves rank diagnostics, generates a report and plots
 and pushes completed results to this repository. The completed heavy-suite plots
 remain available after the follow-up is published.
 
+## Full heavier rerun with the updated blocking-static code
+
+The current `Mandelbrot_blocking_static.py` includes the student's change: rank
+zero receives every worker's result for a round before calculating its next chunk.
+The full heavier grid is rerun with all four implementations: **240 measurements**,
+three repetitions, node/chunk images **3000×3000**, and area images up to **6000×6000**.
+The historical runs and their source snapshots remain intact.
+
+The batch checks all placements, 30 eight-host starts, and exact serial-reference
+image equality for all four implementations on three cases before timing. Pilots
+estimate the remaining runtime with a factor-of-two allowance inside a 12-hour
+allocation. It generates all six plot exports and automatically publishes the new
+job directory and README plot links. Completion need not take eight hours: the
+changed communication order may remove much of the previous waiting.
+
 ## Start here
 
 ```sh

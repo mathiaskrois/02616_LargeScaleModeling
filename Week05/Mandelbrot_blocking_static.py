@@ -103,7 +103,12 @@ def compute_chunk(start, stop, size, xlim, ylim, xconst, yconst):
 def compute():
     chunks = static_scheduler_cyclic(rank=rank, chunk_size=chunk_size, nrows =size[0], nranks=nranks)
 
-    for k in chunks:
+    if rank == 0:
+        # Rank 0 needs every rank's chunk list so it knows where each message goes
+        all_chunks = [static_scheduler_cyclic(rank=r, chunk_size=chunk_size, nrows=size[0], nranks=nranks)
+                      for r in range(nranks)]
+
+    for j, k in enumerate(chunks):
         start = k[0]
         stop = k[-1]+1
         buf = compute_chunk(start, stop, size, xlim, ylim, xconst, yconst)
@@ -111,19 +116,16 @@ def compute():
         if rank == 0:
             image[start:stop] = buf
 
+            # Round j: receive chunk number j from every other rank,
+            # in the same cyclic order the chunks were handed out
+            for r in range(1, nranks):
+                if j < len(all_chunks[r]):      # some ranks may have one chunk fewer
+                    rows = all_chunks[r][j]
+                    comm.Recv(image[rows[0]:rows[-1]+1], source=r, tag=r)
+
         else:
             comm.Send(buf, dest=0, tag=rank)
-            
-
-    if rank == 0:
-        for r in range(1, nranks):
-            rank_rows = static_scheduler_cyclic(rank = r, chunk_size=chunk_size, nrows =size[0], nranks=nranks)
-            for rows in rank_rows:
-                start = rows[0]
-                stop = rows[-1]+1
-                comm.Recv(image[start:stop], source=r, tag = r)
 
     return 
 
 compute()
-
