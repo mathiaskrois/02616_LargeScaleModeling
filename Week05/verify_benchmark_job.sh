@@ -18,6 +18,7 @@ module load mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10
 module load matplotlib/3.10.8-numpy-2.4.1-python-3.13.11
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MPLBACKEND=Agg
 cd "${EXPERIMENT_WORK_DIR:-${LS_SUBCWD:-${LSB_SUBCWD:-$PWD}}}"
+PARENT_RESULTS_DIR="${PARENT_RESULTS_DIR:-$PWD/results/job_29706381}"
 python3 -m unittest -v test_five_versions
 RESULTS_DIR="$PWD/results/verification_job_${LSB_JOBID}"
 python3 verify_and_benchmark.py --results-dir "$RESULTS_DIR" --parent-results "$PARENT_RESULTS_DIR"

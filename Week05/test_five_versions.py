@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import runpy
+import subprocess
 import sys
 from unittest.mock import patch
 import numpy as np
@@ -28,6 +29,12 @@ class FiveVersionsTest(unittest.TestCase):
         with self.assertRaises(ValueError):compare_images(bad,reference,10)
         with self.assertRaises(ValueError):compare_images(reference.T,reference,10)
         with self.assertRaises(ValueError):compare_images(reference.astype(np.float32),reference,10)
+
+    def test_batch_parent_path_works_without_exported_environment(self):
+        script=(HERE/'verify_benchmark_job.sh').read_text()
+        assignment=next(line for line in script.splitlines() if line.startswith('PARENT_RESULTS_DIR='))
+        result=subprocess.run(['bash','-uc','unset PARENT_RESULTS_DIR\n'+assignment+'\nprintf "%s" "$PARENT_RESULTS_DIR"'],cwd=HERE,text=True,capture_output=True,check=True)
+        self.assertEqual(Path(result.stdout),HERE/'results/job_29706381')
 
     def test_serial_calculation_prefix_matches_complete_original(self):
         import matplotlib

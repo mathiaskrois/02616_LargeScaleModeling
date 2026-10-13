@@ -74,8 +74,9 @@ Hosts are shared with other jobs, and ranges are not statistical confidence inte
 
 ## Automatic execution and publication
 
-Submit only `verify_benchmark_job.sh`, with `PARENT_RESULTS_DIR` pointing at the
-completed full-suite directory. Its LSF dependency waits for job 29706381, preventing
+Submit only `verify_benchmark_job.sh`, with optional `PARENT_RESULTS_DIR` pointing at the
+completed full-suite directory. If the scheduler drops that environment variable,
+the script defaults to the saved `results/job_29706381` directory in this checkout. Its LSF dependency waits for job 29706381, preventing
 these benchmarks from overlapping the current suite. The job reserves eight slots
 on two Xeon E5-2650 v4 hosts for six hours, with 2 GB per reserved slot
 for large reference arrays and serial plotting. It runs sequentially, without nested jobs.
