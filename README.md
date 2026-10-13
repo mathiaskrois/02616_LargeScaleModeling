@@ -28,27 +28,27 @@ Job **29702836**: **175 successful measurements**, five repetitions; 3000×3000 
 <!-- latest-benchmark:start -->
 ## Latest completed benchmark
 
-Job **29618553**: 240 successful measurements, three repetitions per configuration, on the same allocated hosts. CPU: Intel(R) Xeon(R) CPU E5-2660 v3 @ 2.60GHz.
+Job **29706381**: 240 successful measurements, three repetitions per configuration, on the same allocated hosts. CPU: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz.
 
-Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_29618553/metadata.json) include configuration, timings, source snapshots, placement checks and logs.
+Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_29706381/metadata.json) include configuration, timings, source snapshots, placement checks and logs.
 
 ### Nodes
 
-![Nodes runtime plot](Week05/results/job_29618553/figures/nodes.png)
+![Nodes runtime plot](Week05/results/job_29706381/figures/nodes.png)
 
-[Download PDF](Week05/results/job_29618553/figures/nodes.pdf)
+[Download PDF](Week05/results/job_29706381/figures/nodes.pdf)
 
 ### Chunk Size
 
-![Chunk Size runtime plot](Week05/results/job_29618553/figures/chunk_size.png)
+![Chunk Size runtime plot](Week05/results/job_29706381/figures/chunk_size.png)
 
-[Download PDF](Week05/results/job_29618553/figures/chunk_size.pdf)
+[Download PDF](Week05/results/job_29706381/figures/chunk_size.pdf)
 
 ### Image Area
 
-![Image Area runtime plot](Week05/results/job_29618553/figures/image_area.png)
+![Image Area runtime plot](Week05/results/job_29706381/figures/image_area.png)
 
-[Download PDF](Week05/results/job_29618553/figures/image_area.pdf)
+[Download PDF](Week05/results/job_29706381/figures/image_area.pdf)
 <!-- latest-benchmark:end -->
 
 ## Analysis and diagnostic follow-up

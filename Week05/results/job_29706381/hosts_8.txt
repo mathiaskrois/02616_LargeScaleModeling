@@ -1,0 +1,8 @@
+n-62-21-8 slots=4 max_slots=4
+n-62-21-9 slots=4 max_slots=4
+n-62-21-18 slots=4 max_slots=4
+n-62-21-3 slots=4 max_slots=4
+n-62-21-4 slots=4 max_slots=4
+n-62-21-19 slots=4 max_slots=4
+n-62-21-21 slots=4 max_slots=4
+n-62-21-23 slots=4 max_slots=4
