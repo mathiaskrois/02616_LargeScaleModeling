@@ -1,281 +1,375 @@
 # 02616 Large Scale Modeling — Mandelbrot project
 
-Group workspace for Project 1: compare four MPI implementations of the Mandelbrot
-calculation using static/dynamic scheduling and blocking/nonblocking communication.
-The initial experiment suite has run successfully: **240 measurements**, with
-three repetitions per configuration, and three figures exported as PNG and PDF.
+This project compares blocking/nonblocking MPI communication and static/dynamic
+row scheduling for the Mandelbrot set. This README records the complete retained
+experiment history, the code changes, and the mistakes that shaped the investigation.
 
-## Start here
+[Benchmark overview](#correctness-and-compact-five-version-benchmark) ·
+[All retained plots](#experiment-history-and-all-retained-plots) ·
+[Code development and mistakes](#code-development-and-mistakes) ·
+[Run the project](#running-and-reproducing-the-project)
 
-```sh
-git clone https://github.com/mathiaskrois/02616_LargeScaleModeling.git
-cd 02616_LargeScaleModeling
-```
+<!-- five-versions:start -->
+## Correctness and compact five-version benchmark
 
-The project files are in `Week05/`. Read [the assignment](Week05/Project.tex) and
-[the experiment design](Week05/EXPERIMENTS.md), then use the saved results for analysis.
+The full heavier rerun **29706381 finished successfully**: **240/240 measurements**,
+plus **12 exact serial-reference checks** before timing. Its new plots appear in
+stage 4 below.
 
-| Implementation | Source |
-|---|---|
-| Blocking static | [Mandelbrot_blocking_static.py](Week05/Mandelbrot_blocking_static.py) |
-| Nonblocking static | [Mandelbrot_nonblocking_static.py](Week05/Mandelbrot_nonblocking_static.py) |
-| Blocking dynamic | [Mandelbrot_blocking_dynamic.py](Week05/Mandelbrot_blocking_dynamic.py) |
-| Nonblocking dynamic | [Mandelbrot_nonblocking_dynamic.py](Week05/Mandelbrot_nonblocking_dynamic.py) |
+The extended verification and five-version benchmark is running as job **29710858**.
+It compares every heavier image/chunk setting with the original `Mandelbrot.py`
+using `np.array_equal`, then benchmarks the serial reference and all four MPI
+versions at **3000×3000, chunk 10**, three times each on the same hosts.
 
-[Mandelbrot.py](Week05/Mandelbrot.py) is the serial course reference. The static
-implementations assign chunks cyclically in advance; the dynamic implementations
-use rank zero to manage work for seven workers when running with eight ranks.
-All preserve the original argument order and use 100 iterations.
+The five-row table will appear here automatically after all required checks pass:
+median runtime, observed min–max, serial-relative speedup, rank count and correctness.
+[Correctness and timing method](Week05/CORRECTNESS_AND_BENCHMARK.md).
+<!-- five-versions:end -->
 
-## Heavier follow-up suite
+## Experiment history and all retained plots
 
-The current configuration increases the node/chunk image to **3000×3000** and the
-area sweep maximum to **6000×6000**. Both contain nine times as many pixels as the
-corresponding initial sizes. The changes will be pushed before submitting the new
-HPC job; its measurements will be saved under a new job ID. Job 29611697 below
-continues to describe the initial, smaller experiment.
+Each stage has its own data, configuration and exact source snapshots. Expand the
+older stages to view their plots. All retained runtime plots have PNG and PDF links;
+original exports without error bars are included in a separate archive below.
 
-| Sweep | Values | Fixed settings |
-|---|---|---|
-| Physical nodes | 2, 4, 8 | 8 ranks; 3000×3000 image; chunk size 10 |
-| Chunk size (rows) | 3, 11, 23, 46, 93, 187, 375 | 8 ranks on 2 hosts; 3000×3000 image |
-| Image side (pixels) | 1000, 2211, 2963, 3559, 4069, 4522, 4933, 5312, 5667, 6000 | 8 ranks on 2 hosts; chunk size 10 |
+| Stage | Job | What changed | Recorded result |
+|---|---|---|---|
+| 1. Initial suite | 29611697 | 1000×1000 node/chunk tests; area up to 2000×2000 | 240 measurements; about 34 min |
+| 2. First heavier suite | 29618553 | 3000×3000 node/chunk tests; area up to 6000×6000 | 240 measurements; about 8 h 42 min |
+| 3. Diagnostic follow-up | 29702836 | Original/interleaved versions, chunks 8–12, one/two hosts, per-rank timing | 175 measurements; about 2 h 52 min |
+| 4. Student's revised blocking-static code | 29706381 | Same full heavier grid, receiving after each round, exact preflight checks | 240 measurements; about 4 h 32 min |
+| 5. Extended correctness and serial baseline | 29710858 | All heavier image/chunk combinations; matched five-version benchmark | See the live overview above |
 
-The chunk sweep retains the previous formula, now using 3000 rows:
-`max(1, floor(3000 / (8*x)))`, for `x = [125, 32, 16, 8, 4, 2, 1]`.
-The area sweep uses ten equally spaced target areas from 1,000,000 to 36,000,000
-pixels, rounding each square root to obtain a square side. Both target and actual
-areas are saved; figures use actual area.
+### 1. Initial suite — establish a baseline
 
-There are still **240 measured runs**: four implementations, 80 configurations,
-three shuffled repetition rounds. The algorithms, limits, 100 iterations, eight
-ranks, placement, seed and 12-hour allocation are unchanged. LSF can now choose
-any CPU model, with the `hpc` queue’s `same[type:model]` policy and runtime probes
-ensuring that all eight allocated hosts have exactly the same CPU model. Every
-probe, pilot and measured command executes sequentially within this single
-allocation. The host list and detected model are saved in metadata. Node tests
-select the first 2, 4 or 8 hosts; all chunk and area tests use the same first two. Larger images reduce
-MPI startup's fraction of complete runtime; they do not guarantee wider differences
-between algorithms. The comparison should be based on the resulting measurements.
+**October 6, 2026; job 29611697.** Eight total ranks; three repetitions. Node/chunk
+tests use **1000×1000**; image sides range from **100 to 2000**. CPU: Xeon E5-2660 v3;
+NumPy 2.3.1, mpi4py 4.0.3, Open MPI 5.0.8.
 
-The selected CPU may differ from the initial E5-2660 v3 run. Compare algorithms
-within each suite; differences between the initial and follow-up suites may
-reflect both image size and hardware. A model change does not guarantee a fix
-for the earlier MPI launcher crash; the MPI runtime update below addresses that
-separate failure, and placement probes remain mandatory.
+Small images can make process startup and imports a substantial fraction of total
+runtime. That motivated heavier tests. It did not establish that the four designs
+were equivalent at larger sizes. Chunk 1 and chunk 3 in this initial suite took
+about **5.77 and 5.82 seconds** for blocking static: there was no sharp jump between them.
 
-Pilots now use **100×100 and 3000×3000** for each implementation. The duration
-estimate separates a nonnegative startup cost from an area-dependent compute cost,
-then applies the factor-of-two allowance. The runner stops before measurements
-if that estimate exceeds the remaining budget. It reserves five minutes for
-analysis. Current captions come from each run's saved configuration, so plotting
-the initial results still uses the original dimensions.
+[Measurements](Week05/results/job_29611697/measurements.csv) ·
+[Metadata/configuration](Week05/results/job_29611697/metadata.json) ·
+[Measured source](Week05/results/job_29611697/sources/)
 
-## MPI launcher repair
+<details>
+<summary>View all three initial-suite plots</summary>
 
-The heavier runs 29612971 and 29617652 stopped in Open MPI 5.0.8's PRRTE runtime
-with `prte_hwloc_base_setup_summary` in the crash stack. The latter completed
-25 measurements before its first measured eight-host launch crashed. Those partial
-results are retained locally and are not combined with a replacement allocation.
-
-The failure closely matches [Open MPI issue 13357](https://github.com/open-mpi/ompi/issues/13357),
-which describes intermittent topology-cache failures during startup. The current
-suite uses **Open MPI 5.0.10 / PRRTE 3.0.13** and matching Python 3.13.11,
-mpi4py 4.1.1, NumPy 2.4.1, OpenBLAS 0.3.31 and Matplotlib 3.10.8 modules. PRRTE's
-[upstream changes](https://github.com/openpmix/prrte/compare/v3.0.11...v3.0.13)
-include topology and daemon-launch corrections. The batch script purges inherited
-modules before loading this consistent stack. MPI probes verify the library
-version on every rank, alongside CPU model, placement and binding.
-
-There are **30 additional eight-host launch checks** before the pilots. They
-are unmeasured, logged under `launcher_stress_*.out/.err`, and recorded separately
-in `metadata.json` as `launcher_stress`. Any failure stops the job before measured
-runs; successful checks do not guarantee that a later launch cannot fail. The
-existing stop-on-failure policy remains in force, without silently retrying or
-mixing allocations. The complete 240-run suite starts fresh after these checks.
-
-Algorithms, image sizes, limits, iteration count, placement and three-repetition
-medians remain as documented. Changing the software stack is recorded in the
-configuration and metadata; comparisons to the initial run can reflect software,
-CPU and image-size changes. All four implementations within a new suite use the
-same software and the same reserved hosts, sequentially.
-
-## Completed results
-
-The completed run is **LSF job 29611697**, performed on October 6, 2026 with eight
-allocated Xeon E5-2660 v3 hosts. Its metadata records `"status": "complete"`.
-
-- [Raw measurements](Week05/results/job_29611697/measurements.csv): 240 successful records.
-- [Run metadata](Week05/results/job_29611697/metadata.json): host placement, modules,
-  versions, source hashes, pilot timings, configuration and commands.
-- [Configuration used](Week05/results/job_29611697/experiments.yaml).
-- [Source snapshots](Week05/results/job_29611697/sources/) and
-  [individual run logs](Week05/results/job_29611697/logs/).
-- [Batch stdout](Week05/results/job_29611697/batch.out) and
-  [batch stderr](Week05/results/job_29611697/batch.err).
-
-The snapshots retain the exact measured sources, including the original job
-paths. The current batch scripts also support each group member's checkout path.
-Absolute paths in historical metadata describe the original HPC run; commands
-below use the local checkout.
-
-| Sweep | Values | Fixed settings |
-|---|---|---|
-| Physical nodes | 2, 4, 8 | 8 ranks; 1000×1000 image; chunk size 10 |
-| Chunk size (rows) | 1, 3, 7, 15, 31, 62, 125 | 8 ranks on 2 hosts; 1000×1000 image |
-| Image side (pixels) | 100, 673, 947, 1158, 1335, 1492, 1634, 1764, 1886, 2000 | 8 ranks on 2 hosts; chunk size 10 |
-
-All sweeps run all four implementations, with default limits `-2.2:0.75` and
-`-1.3:1.3`. Image sizes come from equally spaced target areas; plots use actual
-pixel areas. Complete runtime includes MPI launch, Python imports, calculation,
-communication and finalization. Queue waiting, pilots and analysis are excluded.
-The median is calculated from three repetitions; configurations are shuffled
-within each repetition round using seed 261605.
-
-For the baseline of 8 ranks on 2 hosts, 1000×1000 pixels and chunk size 10,
-the node sweep measured these median complete runtimes:
-
-| Implementation | Median runtime (s) |
-|---|---:|
-| Blocking static | 5.624 |
-| Nonblocking static | 5.072 |
-| Blocking dynamic | 5.022 |
-| Nonblocking dynamic | 4.972 |
-
-These measurements describe this allocation; shared-host load can affect runtime.
-Use the complete sweeps and their logs to support the report's explanations.
-
-### Figures
-
-Each figure uses the same 2×2 order: blocking static, nonblocking static,
-blocking dynamic, nonblocking dynamic.
-
-![Runtime versus physical nodes](Week05/results/job_29611697/figures/nodes.png)
+![Initial: runtime versus physical hosts](Week05/results/job_29611697/figures/nodes.png)
 
 [Nodes PDF](Week05/results/job_29611697/figures/nodes.pdf)
 
-![Runtime versus chunk size](Week05/results/job_29611697/figures/chunk_size.png)
+![Initial: runtime versus chunk size](Week05/results/job_29611697/figures/chunk_size.png)
 
-[Chunk size PDF](Week05/results/job_29611697/figures/chunk_size.pdf)
+[Chunk-size PDF](Week05/results/job_29611697/figures/chunk_size.pdf)
 
-![Runtime versus actual image area](Week05/results/job_29611697/figures/image_area.png)
+![Initial: runtime versus actual image area](Week05/results/job_29611697/figures/image_area.png)
 
-[Image area PDF](Week05/results/job_29611697/figures/image_area.pdf)
+[Image-area PDF](Week05/results/job_29611697/figures/image_area.pdf)
 
-## Replot saved data or run tests locally
+</details>
 
-Use Python 3.13.11 with an MPI installation available for `mpi4py`. For plotting and
-experiment-tool tests alone, only NumPy, Matplotlib and six are needed; the
-analysis does not launch MPI or import mpi4py.
+### 2. First heavier suite — expose the waiting problem
 
-```sh
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-cd Week05
-python3 -m unittest -v test_experiments
-python3 run_experiments.py --dry-run
-python3 plot_experiments.py results/job_29611697 --output-dir figures_local
+**October 7, 2026; job 29618553.** Eight ranks; three repetitions. Node/chunk tests
+use **3000×3000**, area up to **6000×6000**. CPU: Xeon E5-2660 v3; Open MPI 5.0.10,
+mpi4py 4.1.1 and NumPy 2.4.1.
+
+The original blocking-static code computed all of rank zero's chunks before
+receiving, then collected every chunk from one worker before moving to the next.
+At 6000×6000 it took **1052.08 s**, while the other implementations took **147–153 s**.
+The chunk plot's first two tested sizes are **3 and 11**, not 1 and 3. Blocking static
+jumped from **70.26 s** at chunk 3 to **265.84 s** at chunk 11, then fell to **80.79 s**
+at chunk 375. Larger chunks can stop workers inside Send before their next computation;
+at chunk 375 each static rank has only one chunk, so no subsequent chunk is held up.
+
+These plots now include observed **min–max error bars**. They are not confidence
+intervals. [Written analysis](Week05/RESULTS_ANALYSIS.md) ·
+[Measurements](Week05/results/job_29618553/measurements.csv) ·
+[Metadata](Week05/results/job_29618553/metadata.json) ·
+[Measured source](Week05/results/job_29618553/sources/)
+
+<details>
+<summary>View the heavier-suite plots with repetition ranges</summary>
+
+![First heavier suite: physical hosts](Week05/results/job_29618553/figures/nodes.png)
+
+[Nodes PDF](Week05/results/job_29618553/figures/nodes.pdf)
+
+![First heavier suite: chunk sizes and the blocking-static slowdown](Week05/results/job_29618553/figures/chunk_size.png)
+
+[Chunk-size PDF](Week05/results/job_29618553/figures/chunk_size.pdf)
+
+![First heavier suite: actual image area](Week05/results/job_29618553/figures/image_area.png)
+
+[Image-area PDF](Week05/results/job_29618553/figures/image_area.pdf)
+
+</details>
+
+<details>
+<summary>View the original exports from this same run, before error bars were added</summary>
+
+These are earlier presentations of the **same measurements**, not additional experiments.
+
+![Original heavier export: physical hosts](Week05/results/job_29618553/figures/original_without_ranges/nodes.png)
+
+[Nodes PDF](Week05/results/job_29618553/figures/original_without_ranges/nodes.pdf)
+
+![Original heavier export: chunk size](Week05/results/job_29618553/figures/original_without_ranges/chunk_size.png)
+
+[Chunk-size PDF](Week05/results/job_29618553/figures/original_without_ranges/chunk_size.pdf)
+
+![Original heavier export: image area](Week05/results/job_29618553/figures/original_without_ranges/image_area.png)
+
+[Image-area PDF](Week05/results/job_29618553/figures/original_without_ranges/image_area.pdf)
+
+</details>
+
+### 3. Diagnostic follow-up — test the explanation
+
+**October 12, 2026.** The follow-up kept **3000×3000**, tested chunks **8–12**, and
+compared **one versus two hosts at eight ranks**. It also timed computation and
+Send/Recv calls for the original and interleaved blocking-static versions.
+
+The controlled comparison was much clearer than comparing separate jobs: at
+chunk 11, the original median was **246.60 s** and the interleaved median **35.48 s**.
+The median of each run's maximum worker Send duration fell from **215.20 to 4.48 s**.
+Both versions used blocking communication on the same allocation. This supports
+the receive-order explanation; it does not identify a precise MPI buffering threshold.
+One/two-host medians were close at fixed rank count. Adding hosts did not add ranks.
+
+<details>
+<summary>View the threshold, one/two-host and per-rank timing plots</summary>
+
+<!-- followup:start -->
+#### Diagnostic plots
+
+Job **29702836**: **175 successful measurements**, five repetitions; 3000×3000 pixels, eight ranks; chunks 8–12 and one versus two hosts.
+
+[Results and interpretation](Week05/results/followup_job_29702836/SUMMARY.md). CPU: Intel(R) Xeon(R) Gold 6226R CPU @ 2.90GHz.
+
+![threshold diagnostic plot](Week05/results/followup_job_29702836/figures/threshold.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/threshold.pdf)
+
+![one vs two diagnostic plot](Week05/results/followup_job_29702836/figures/one_vs_two.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/one_vs_two.pdf)
+
+![rank timings diagnostic plot](Week05/results/followup_job_29702836/figures/rank_timings.png)
+
+[PDF](Week05/results/followup_job_29702836/figures/rank_timings.pdf)
+<!-- followup:end -->
+
+</details>
+
+### 4. Student's revised code — rerun the entire heavier grid
+
+**October 13, 2026; job 29706381.** The student moved rank zero's receiving into
+the chunk loop, collecting round `j` before computing round `j+1`. The full heavier
+suite was rerun: **240 successful measurements** and **12 exact image checks**.
+CPU: Xeon E5-2650 v4; the software versions match stage 2.
+
+At **6000×6000**, the new medians are:
+
+| Blocking static | Nonblocking static | Blocking dynamic | Nonblocking dynamic |
+|---:|---:|---:|---:|
+| 157.88 s | 161.77 s | 165.10 s | 164.49 s |
+
+Blocking static now sits close to the other three implementations. The complete
+suite finished in about **4 h 32 min**, compared with **8 h 42 min** in stage 2.
+The CPU model and shared-host conditions also changed, so that cross-job difference
+cannot be attributed entirely to code. Stage 3 supplies the matched comparison.
+
+[Measurements](Week05/results/job_29706381/measurements.csv) ·
+[Measured source](Week05/results/job_29706381/sources/) ·
+[Correctness evidence](Week05/results/job_29706381/metadata.json)
+
+<!-- latest-benchmark:start -->
+#### Full-grid plots
+
+Job **29706381**: 240 successful measurements, three repetitions per configuration, on the same allocated hosts. CPU: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz.
+
+Node and chunk tests: 3000×3000 pixels. [Saved results](Week05/results/job_29706381/metadata.json) include configuration, timings, source snapshots, placement checks and logs.
+
+##### Nodes
+
+![Nodes runtime plot](Week05/results/job_29706381/figures/nodes.png)
+
+[Download PDF](Week05/results/job_29706381/figures/nodes.pdf)
+
+##### Chunk Size
+
+![Chunk Size runtime plot](Week05/results/job_29706381/figures/chunk_size.png)
+
+[Download PDF](Week05/results/job_29706381/figures/chunk_size.pdf)
+
+##### Image Area
+
+![Image Area runtime plot](Week05/results/job_29706381/figures/image_area.png)
+
+[Download PDF](Week05/results/job_29706381/figures/image_area.pdf)
+<!-- latest-benchmark:end -->
+
+### 5. Full-image correctness and a matched serial baseline
+
+The serial reference is needed for two separate questions: **are the pixels right?**
+and **how much faster is parallel computation?** The current extension checks all
+18 heavier image/chunk combinations with four implementations, then runs three
+matched benchmark repetitions of the serial reference plus the four MPI versions.
+
+Every final image and row chunk must match the original reference through
+`np.array_equal`; shape and dtype must also match. Array comparisons and compression
+are excluded from timing. The serial benchmark omits its plotting-only section to
+match the MPI calculation workflow; its original numerical statements are unchanged.
+The final table and evidence appear in the overview at the top after completion.
+
+## Code development and mistakes
+
+### The receive-order change
+
+The original structure delayed communication until after rank zero's work:
+
+```python
+for chunk in chunks:
+    # Compute this chunk; workers send their result.
+    ...
+
+if rank == 0:
+    # Only now receive all chunks, worker by worker.
+    ...
 ```
 
-The dry run expands the exact 240-command measurement grid without running it.
-Twelve acceptance tests check the grid, placement guards, pilot estimates, known
-medians, rejection of invalid data, failure recording, historical-data compatibility, rejection of mixed CPU models, MPI-version checks and plot exports.
-Plotting rejects failed, duplicate, off-grid or incomplete data.
-`experiments.yaml` uses JSON syntax, which is also valid YAML, so PyYAML is unnecessary.
-The bundled `vendor/six.py` supplies a fallback for the cluster Matplotlib module.
+The student's revised structure receives regularly:
 
-## Run a new suite on DTU HPC
+```python
+for j, k in enumerate(chunks):
+    buf = compute_chunk(...)
+    if rank == 0:
+        image[start:stop] = buf
+        for r in range(1, nranks):
+            if j < len(all_chunks[r]):
+                rows = all_chunks[r][j]
+                comm.Recv(image[rows[0]:rows[-1] + 1], source=r, tag=r)
+    else:
+        comm.Send(buf, dest=0, tag=rank)
+```
 
-Submit from the checkout's `Week05` directory. Load the same cluster modules for
-local dry runs or plotting:
+The assignment remains static and cyclic, and communication remains blocking.
+The check for `j < len(all_chunks[r])` handles ranks with fewer chunks. Rank zero
+owns at least as many cyclic chunks as the other ranks, so its loop covers all
+receive rounds. It can still wait for a slow worker in a round; that is a performance
+trade-off. The old receive order was a performance weakness, not proof of wrong pixels.
+
+### What went wrong, what changed, and what we learned
+
+| Observation or mistake | Correction | Lesson for the report |
+|---|---|---|
+| Small images gave limited separation between several designs. | Increase node/chunk images to 3000×3000 and area maximum to 6000×6000. | Startup costs can hide computation/communication differences. |
+| Rank zero computed all its work before receiving, then received worker by worker. | Receive results after each cyclic round; investigate Send/Recv time. | Communication order can remove parallel progress even with correct work assignment. |
+| We discussed plotted point positions as though they were chunk values. | Read the saved grid: the heavy plot starts at 3 and 11 rows. | Always distinguish point index, axis value and experiment configuration. |
+| We expected the smallest chunk to be slow solely because it sends more messages. | Consider computation per row, fine load balancing and receive ordering together. | More messages does not automatically mean a longer complete runtime. |
+| A requested point replacement was first run on the small dataset; later scope was misunderstood. | Cancel/revert the retest changes and preserve the original datasets; the student then requested the full heavier rerun. | Agree the exact dataset and grid before submission. Changing one point to a different implementation cannot establish a comparable new curve. |
+| Open MPI 5.0.8 crashed during eight-host startup in failed jobs 29612971/29617652. | Upgrade to Open MPI 5.0.10 / PRRTE 3.0.13, use consistent modules and stress-test starts. | A launcher failure is distinct from a numerical algorithm failure. Failed/incomplete runs cannot become completed median results. |
+| The first automatic publisher failed because an inner `shlex` import changed Python name scope. | Correct the import and test the complete clone/commit/push path against a local Git remote. | A dry run alone does not validate the actual publication path. |
+| Successful process exits did not establish numerical correctness for every tested image. | Add exact serial-reference comparisons; extend them across the heavier image/chunk combinations. | Runtime and correctness require separate evidence. |
+| The first follow-on job lost `PARENT_RESULTS_DIR` in the batch environment and stopped before checking images. | Resolve the saved parent directory locally by default, add a regression check, and restart as 29710858. | Test batch defaults without assuming exported variables survive submission. |
+
+The discarded point-replacement charts remain removed as requested. They are
+recorded here as a scope/provenance lesson; their results are not inserted into
+any retained comparison. The failed launch jobs remain separate from completed data.
+
+Nonblocking static also retains send buffers until `Waitall` completes. An `Isend`
+call alone does not make it safe to overwrite its buffer. In the dynamic version,
+immediately waiting on many requests limits overlap, which helps explain why
+blocking and nonblocking dynamic timings are often similar.
+
+## Reading the figures correctly
+
+- Node tests keep **eight total ranks**: spreading them over more hosts tests
+  placement, not scaling with additional processors.
+- Dynamic runs use **seven computing workers and one manager**; static runs use
+  all eight ranks for computation.
+- A 375-row chunk in a 3000-row image creates only **eight chunks**, limiting
+  opportunities to balance unequal row costs.
+- Error bars show observed **min–max**, not confidence intervals. A slightly lower
+  median is not proof of a statistically significant winner.
+- Compare algorithms within a matched allocation first. Cross-job comparisons
+  can also reflect CPU model, software, shared-host load and source changes.
+- Plot image area using the **actual rounded dimensions**, not the target area.
+
+## Running and reproducing the project
 
 ```sh
-cd Week05
-module load numpy/2.4.1-python-3.13.11-openblas-0.3.31
-module load mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10
-module load matplotlib/3.10.8-numpy-2.4.1-python-3.13.11
-export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MPLBACKEND=Agg
+git clone https://github.com/mathiaskrois/02616_LargeScaleModeling.git
+cd 02616_LargeScaleModeling/Week05
 python3 run_experiments.py --dry-run
 export EXPERIMENT_WORK_DIR="$PWD"
 bsub < experiments_job.sh
 ```
 
-The batch script loads its modules too. It reserves 32 slots, four per host,
-1 GB per slot, for up to 12 hours on the `hpc` queue. All eight hosts must use
-one CPU model, selected by LSF; there is no fixed-model restriction. The queue
-enforces `same[type:model]`; DTU’s submission filter rejects adding `same[...]`
-as a user resource directive, so the script relies on that queue policy and
-verifies exact model equality in the probes. Only that script is submitted;
-the experiment runner executes commands sequentially in the one allocation.
-Do not run MPI benchmarks on the login host.
+The full heavier grid uses eight ranks, default limits `-2.2:0.75` / `-1.3:1.3`
+and 100 iterations, with three shuffled repetition rounds (seed 261605):
 
-Before timing, the runner checks all three placements and core binding, then
-passes 30 additional eight-host startup checks with the same CPU model and
-MPI library. Only then it runs
-each implementation at 100×100 and the configured 3000×3000 baseline. It stops before measurements if the
-pilot estimate with a factor-of-two allowance exceeds the remaining time budget.
-Each measured attempt is logged immediately; a failure stops the suite.
+| Sweep | Values | Fixed settings |
+|---|---|---|
+| Physical hosts | 2, 4, 8 | 3000×3000; chunk 10 |
+| Chunk rows | 3, 11, 23, 46, 93, 187, 375 | 3000×3000; first two hosts |
+| Image side | 1000, 2211, 2963, 3559, 4069, 4522, 4933, 5312, 5667, 6000 | First two hosts; chunk 10 |
 
-The batch command prints the new job ID. Monitor it using:
+Submit only the batch entry point; its commands run sequentially in one allocation,
+without nested jobs. It reserves 32 slots, four on each of eight hosts, for up to
+12 hours. The queue and probes enforce a common CPU model. Core binding and MPI
+versions are checked before timing. NumPy/mpi4py/Matplotlib modules are loaded
+consistently, with OMP/OpenBLAS threads set to one and a noninteractive plot backend.
 
 ```sh
 bjobs JOBID
-tail -f mandelbrot_experiments_JOBID.out
-```
-
-`PEND` means queued, `RUN` means running, `DONE` means successful completion, and
-`EXIT` means a failure. The results go to `results/job_JOBID/`. Completion is
-confirmed by `metadata.json` recording `"status": "complete"`, with 240 successful
-records and all six figure exports. On failure, inspect its `error` and the
-associated stdout/stderr logs before rerunning.
-
-## Working as a group
-
-Create a branch for each change and open a pull request for teammates to review:
-
-```sh
-git pull --ff-only
-git switch -c yourname/change-description
-# Edit the project or add report analysis.
-git add <changed-files>
-git commit -m "Describe the change"
-git push -u origin yourname/change-description
-```
-
-Keep the completed run as the baseline. Store additional runs in new job directories
-so code changes and measurements remain traceable. Virtual environments, Python
-caches and top-level scheduler logs are ignored; the completed run's archived logs
-and figures are intentionally tracked.
-
-The agreed node sweep covers **2, 4 and 8 hosts**. The assignment also asks for a
-one-node versus multiple-node comparison; that remains a separate experiment to
-plan. The report should explain the observed performance, document the scheduling
-and code changes, and use labelled figures with captions.
-
-## Source credit
-
-The serial reference, assignment and course framing originate from the
-[02616 student course repository](https://gitlab.gbar.dtu.dk/dcc-teaching/02616/02616-student).
-The MPI programs and experiment tooling form this group's project work.
-`Week05/vendor/six.py` retains its original license header.
-
-## Automatic result publication
-
-After a successful suite and analysis, the batch job runs `Week05/publish_results.py`.
-It verifies all 240 successful measurements and six figure files, then publishes only
-that job directory and updates the latest benchmark links in this README. An isolated
-checkout incorporates concurrent group changes; publication never force-pushes.
-The experiment checkout remains at its recorded source revision.
-
-GitHub authentication stays signed in in this workspace. Its owner-only configuration
-and CLI are excluded from Git. Teammates should use their own Git credentials.
-If publication fails, the saved results remain intact; rerun from `Week05` with:
-
-```sh
+python3 plot_experiments.py results/job_JOBID
 python3 publish_results.py results/job_JOBID
 ```
 
-`DONE` now means both the benchmark and automatic push succeeded. If the benchmark
-is complete but publication fails, the scheduler reports `EXIT`; the batch error
-log identifies the publication failure.
+The runner records every measured attempt and keeps logs, pilots, configuration,
+versions, CPU/host placement and source hashes. Analysis rejects failed, duplicate
+or incomplete groups. Publication verifies completed outputs, uses an isolated
+checkout and never force-pushes. GitHub credentials remain signed in and excluded
+from Git. A completed numerical suite can still have a separate publication error;
+inspect the batch log and retry the publisher without rerunning the calculations.
+
+| Version | Current source |
+|---|---|
+| Serial reference | [Mandelbrot.py](Week05/Mandelbrot.py) |
+| Blocking static | [Mandelbrot_blocking_static.py](Week05/Mandelbrot_blocking_static.py) |
+| Nonblocking static | [Mandelbrot_nonblocking_static.py](Week05/Mandelbrot_nonblocking_static.py) |
+| Blocking dynamic | [Mandelbrot_blocking_dynamic.py](Week05/Mandelbrot_blocking_dynamic.py) |
+| Nonblocking dynamic | [Mandelbrot_nonblocking_dynamic.py](Week05/Mandelbrot_nonblocking_dynamic.py) |
+
+For historical comparisons use each job's **source snapshots**, not today's files.
+The initial suite's images and chunk grid differ from the heavier suite. The
+assignment's one-node comparison is supplied by the diagnostic follow-up, not
+by the original 2/4/8-host node grid.
+
+[Assignment](Week05/Project.tex) · [Experiment design](Week05/EXPERIMENTS.md) ·
+[Heavy-suite analysis](Week05/RESULTS_ANALYSIS.md) · [Diagnostic design](Week05/FOLLOWUP.md) ·
+[Correctness/overview method](Week05/CORRECTNESS_AND_BENCHMARK.md)
+
+## Serial reference illustration
+
+This is the Mandelbrot illustration supplied with the course project, not a runtime benchmark.
+
+![Mandelbrot reference illustration](Week05/Figure_1.png)
+
+## Working as a group and source credit
+
+Use a branch for each change and open a pull request. Keep each completed run in
+its own results directory; do not rewrite raw measurements when the code changes.
+Top-level scheduler logs, caches and virtual environments are ignored; archived
+run logs, figures and source snapshots are intentionally tracked.
+
+The reference, assignment and course framing originate from the
+[02616 student repository](https://gitlab.gbar.dtu.dk/dcc-teaching/02616/02616-student).
+The MPI programs and experiment tooling are the group's project work.
+`Week05/vendor/six.py` retains its original license header.

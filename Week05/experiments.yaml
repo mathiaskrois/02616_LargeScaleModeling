@@ -97,6 +97,23 @@
     "csv": "measurements.csv"
   },
   "preflight": {
-    "eight_host_repetitions": 30
+    "eight_host_repetitions": 30,
+    "correctness_cases": [
+      [
+        53,
+        47,
+        1
+      ],
+      [
+        19,
+        23,
+        125
+      ],
+      [
+        67,
+        1100,
+        31
+      ]
+    ]
   }
 }

@@ -1,0 +1,98 @@
+[
+  {
+    "rank": 0,
+    "mode": "original",
+    "compute_seconds": 0.9731822819449008,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 31,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 0.973431961145252,
+    "final_barrier_seconds": 0.00863805995322764
+  },
+  {
+    "rank": 1,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 2.9918737709522247e-06,
+    "final_barrier_seconds": 0.9823815729469061
+  },
+  {
+    "rank": 2,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.108987584710121e-06,
+    "final_barrier_seconds": 0.9823909790720791
+  },
+  {
+    "rank": 3,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.1890813261270523e-06,
+    "final_barrier_seconds": 0.9821372218430042
+  },
+  {
+    "rank": 4,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.2831449061632156e-06,
+    "final_barrier_seconds": 0.9767221501097083
+  },
+  {
+    "rank": 5,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.229128196835518e-06,
+    "final_barrier_seconds": 0.9766122160945088
+  },
+  {
+    "rank": 6,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.1439121812582016e-06,
+    "final_barrier_seconds": 0.9765564119443297
+  },
+  {
+    "rank": 7,
+    "mode": "original",
+    "compute_seconds": 0.0,
+    "send_seconds": 0.0,
+    "receive_seconds": 0.0,
+    "rows": 0,
+    "send_calls": 0,
+    "receive_calls": 0,
+    "algorithm_seconds": 3.6561395972967148e-06,
+    "final_barrier_seconds": 0.976822477998212
+  }
+]

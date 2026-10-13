@@ -32,7 +32,11 @@ def identity(row):
 
 def validated_medians(rows, config):
     """Reject missing, duplicate, failed or off-grid attempts before plotting."""
-    expected = {identity(normalized(row)) for row in measurements(config)}
+    if config.get('suite') == 'followup':
+        from run_followup import measurements as expected_measurements
+    else:
+        expected_measurements = measurements
+    expected = {identity(normalized(row)) for row in expected_measurements(config)}
     seen = set()
     groups = defaultdict(list)
     for raw in rows:
@@ -64,7 +68,12 @@ def plot_results(result_dir, output_dir=None):
     result_dir = Path(result_dir)
     config = json.loads((result_dir / 'experiments.yaml').read_text())
     with (result_dir / config['output']['csv']).open(newline='') as stream:
-        points = validated_medians(list(csv.DictReader(stream)), config)
+        rows = list(csv.DictReader(stream))
+        points = validated_medians(rows, config)
+    ranges = defaultdict(list)
+    for row in rows:
+        key = tuple(normalized(row)[k] for k in CONFIG_FIELDS if k != "repetition")
+        ranges[key].append(float(row["runtime_seconds"]))
     try:
         import six  # Required by dateutil in the cluster Matplotlib module.
     except ModuleNotFoundError:
@@ -90,7 +99,11 @@ def plot_results(result_dir, output_dir=None):
         ymax = max(p['median_seconds'] for p in subset)
         for ax, impl in zip(axes.flat, ORDER):
             series = sorted((p for p in subset if p['implementation'] == impl), key=lambda p: p[key])
-            ax.plot([p[key] for p in series], [p['median_seconds'] for p in series], marker='o')
+            samples = [ranges[tuple(p[k] for k in CONFIG_FIELDS if k != 'repetition')] for p in series]
+            lower = [p['median_seconds'] - min(v) for p, v in zip(series, samples)]
+            upper = [max(v) - p['median_seconds'] for p, v in zip(series, samples)]
+            ax.errorbar([p[key] for p in series], [p['median_seconds'] for p in series],
+                        yerr=[lower, upper], marker='o', capsize=4)
             ax.set_title(TITLES[impl])
             ax.set_xlim(xmin - (xmax-xmin)*0.04, xmax + (xmax-xmin)*0.04)
             ax.set_ylim(0, ymax * 1.1)
@@ -99,7 +112,7 @@ def plot_results(result_dir, output_dir=None):
             ax.grid(alpha=0.3)
             if experiment == 'nodes':
                 ax.set_xticks(config['experiments']['nodes']['values'])
-        fig.text(0.5, 0.025, caption + f"\nImage limits {defaults['xlim']}, {defaults['ylim']}; {defaults['iterations']} iterations; median of {defaults['repetitions']} repetitions.",
+        fig.text(0.5, 0.025, caption + f"\nImage limits {defaults['xlim']}, {defaults['ylim']}; {defaults['iterations']} iterations; median of {defaults['repetitions']} repetitions; bars show min–max.",
                  ha='center', fontsize=10)
         fig.tight_layout(rect=(0, 0.09, 1, 1))
         for extension in ['png', 'pdf']:

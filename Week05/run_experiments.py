@@ -82,7 +82,7 @@ def allocation(env, config):
         raise ValueError('No LSF allocation: submit the batch script')
     c = config['cluster']
     if len(slots) != c['hosts'] or any(n != c['slots_per_host'] for n in slots.values()):
-        raise ValueError(f'Need exactly eight distinct hosts with four slots each; got {dict(slots)}')
+        raise ValueError(f'Need {c["hosts"]} distinct hosts with {c["slots_per_host"]} slots each; got {dict(slots)}')
     return slots
 
 
@@ -178,14 +178,14 @@ def run(config, result_dir):
     reserve = config['pilot']['analysis_reserve_seconds']
     remaining = lambda: initial_remaining - (time.monotonic() - started) - reserve
     paths = [HERE / name for name in config['implementations'].values()]
-    paths += [Path(__file__), HERE / 'mpi_probe.py', HERE / 'plot_experiments.py', HERE / 'publish_results.py', HERE / 'experiments_job.sh', HERE / 'test_experiments.py', HERE / 'vendor' / 'six.py']
+    paths += [Path(__file__), HERE / 'mpi_probe.py', HERE / 'plot_experiments.py', HERE / 'publish_results.py', HERE / 'experiments_job.sh', HERE / 'test_experiments.py', HERE / 'mpi_correctness.py', HERE / 'Mandelbrot.py', HERE / 'vendor' / 'six.py']
     metadata = dict(job_id=os.environ['LSB_JOBID'], started_utc=datetime.now(timezone.utc).isoformat(),
                     hosts=hosts, allocated_slots=dict(slots), configuration=config,
                     seed=config['defaults']['seed'], python=sys.version,
                     modules=os.environ.get('LOADEDMODULES', '').split(':'),
                     versions={p: importlib.metadata.version(p) for p in ['numpy', 'mpi4py', 'matplotlib']},
                     source_hashes={str(p.name): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
-                    pilots=[], probes={}, launcher_stress=[], status='preflight', commands=[])
+                    pilots=[], probes={}, launcher_stress=[], correctness=[], status='preflight', commands=[])
     revision = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=HERE,
                               text=True, capture_output=True, check=False)
     metadata['git_commit'] = revision.stdout.strip() if revision.returncode == 0 else None
@@ -245,6 +245,38 @@ def run(config, result_dir):
             save()
             if repetition % 10 == 0:
                 print(f'Eight-host launcher checks passed: {repetition}', flush=True)
+        cases = config.get('preflight', {}).get('correctness_cases', [])
+        if cases:
+            import numpy as np
+            correctness_dir = result_dir / 'correctness'
+            correctness_dir.mkdir()
+            metadata['status'] = 'correctness'
+            save()
+            for case, (width, height, chunk) in enumerate(cases):
+                args = [chunk, f'{width}x{height}', config['defaults']['xlim'], config['defaults']['ylim']]
+                reference = correctness_dir / f'reference_{case}.npy'
+                os.environ['MANDELBROT_IMAGE_PATH'] = str(reference.resolve())
+                info = attempt(f'serial_reference_{case}', dict(nodes=2, ranks=1, ranks_per_host=1),
+                               HERE / 'mpi_correctness.py', [HERE / 'Mandelbrot.py', *args])
+                if info['exit_status']:
+                    raise RuntimeError(f'Serial reference failed: {info}')
+                expected = np.load(reference)
+                for impl, filename in config['implementations'].items():
+                    output = correctness_dir / f'{case}_{impl}.npy'
+                    os.environ['MANDELBROT_IMAGE_PATH'] = str(output.resolve())
+                    info = attempt(f'correctness_{case}_{impl}', dict(nodes=2, ranks=8, ranks_per_host=4),
+                                   HERE / 'mpi_correctness.py', [HERE / filename, *args])
+                    metadata['correctness'].append(dict(implementation=impl, width=width,
+                                                        height=height, chunk_size=chunk, **info))
+                    save()
+                    if info['exit_status']:
+                        raise RuntimeError(f'Correctness run failed: {impl}; {info}')
+                    if not np.array_equal(np.load(output), expected):
+                        raise RuntimeError(f'Image differs from serial reference: {impl}, case {case}')
+                    metadata['correctness'][-1]['validated'] = True
+                    save()
+            os.environ.pop('MANDELBROT_IMAGE_PATH', None)
+            print(f'All {len(metadata["correctness"])} serial-reference image checks passed', flush=True)
         for impl, filename in config['implementations'].items():
             for side in config['pilot']['sides']:
                 row = dict(implementation=impl, nodes=2, ranks=8, ranks_per_host=4, width=side)
