@@ -17,6 +17,7 @@ HERE=Path(__file__).resolve().parent
 class HeavyChunksTest(unittest.TestCase):
     def test_grid_and_legacy_source(self):
         config=read_config(HERE/'heavy_chunks.yaml');rows=measurements(config)
+        self.assertTrue(any(width > chunk and chunk*height*8 > 262144 for width,height,chunk in config['preflight']['correctness_cases']))
         self.assertEqual(len(rows),80);self.assertEqual(rows,measurements(config))
         self.assertEqual({r['chunk_size'] for r in rows},{1,3,11,23,46,93,187,375})
         self.assertEqual(len({r['implementation'] for r in rows}),2)
