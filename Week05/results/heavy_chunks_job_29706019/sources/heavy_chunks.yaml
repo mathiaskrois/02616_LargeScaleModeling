@@ -1,0 +1,71 @@
+{
+  "suite": "heavy_chunks",
+  "defaults": {
+    "ranks": 8,
+    "width": 3000,
+    "height": 3000,
+    "chunk_size": 10,
+    "xlim": "-2.2:0.75",
+    "ylim": "-1.3:1.3",
+    "iterations": 100,
+    "repetitions": 5,
+    "seed": 261613
+  },
+  "implementations": {
+    "static_blocking": "Mandelbrot_blocking_static_legacy.py",
+    "static_blocking_interleaved": "Mandelbrot_blocking_static.py"
+  },
+  "experiments": {
+    "threshold": [
+      1
+    ]
+  },
+  "profiled_implementations": [],
+  "correctness_extra_programs": {},
+  "cluster": {
+    "hosts": 2,
+    "slots_per_host": 4,
+    "walltime_seconds": 43200,
+    "mpi_version": "5.0.10",
+    "analysis_reserve_seconds": 900
+  },
+  "preflight": {
+    "placement_nodes": [
+      2
+    ],
+    "correctness_nodes": [
+      2
+    ],
+    "launcher_repetitions": 5,
+    "correctness_cases": [
+      [
+        53,
+        47,
+        1
+      ]
+    ]
+  },
+  "pilot": {
+    "nodes": [
+      2
+    ],
+    "sides": [
+      100,
+      3000
+    ],
+    "chunks": [
+      1
+    ],
+    "allowance_factor": 2
+  },
+  "additional_sources": [
+    "heavy_chunks.yaml",
+    "heavy_chunks_job.sh",
+    "analyse_heavy_chunks.py",
+    "test_heavy_chunks.py",
+    "CHUNK_SIZE_OBSERVATIONS.md"
+  ],
+  "output": {
+    "csv": "measurements.csv"
+  }
+}

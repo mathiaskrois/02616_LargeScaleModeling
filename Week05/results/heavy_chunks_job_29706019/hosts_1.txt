@@ -1,0 +1,1 @@
+n-62-28-28 slots=4 max_slots=4

@@ -10,19 +10,15 @@ three repetitions per configuration, and three figures exported as PNG and PDF.
 
 ### Why I expected chunk size 1 to be slow
 
-One-row chunks create many small messages, so expecting communication overhead
-is reasonable. However, each row contains 3000 pixels of computation and small
-chunks balance unequal row costs. Chunk 1 is not guaranteed to be the slowest.
-The original heavier plot actually started at **chunk 3**, not chunk 1.
+One-row chunks create many small messages, so expecting communication overhead is reasonable. Each row also contains substantial computation, and small chunks balance unequal row costs. The original heavy plot started at chunk 3, not 1. This new sweep adds chunk 1 and compares both versions freshly at chunk 1 under identical conditions. Other chunks retain their historical measurements.
 
-We will compare the **original** and **fixed receive-order** versions under the
-same heavier settings: **3000×3000**, eight ranks on two hosts, 100 iterations,
-**chunk 1 only**, and five repetitions per version (**10 timings**).
-Only the two chunk-1 points will contain new, comparable measurements. The original historical
-plot remains unchanged. The discarded small-dataset retest is not used.
+Job **29706019**: **10 successful measurements**; 3000×3000; eight ranks on the same two hosts; chunk 1 only; five repetitions. Both versions use blocking communication and identical pixel calculations.
 
-Read [the observation and experiment design](Week05/CHUNK_SIZE_OBSERVATIONS.md).
-The completed comparison plot and findings will be embedded here automatically.
+Chunk 1 medians: original **64.870 s**, fixed **36.871 s**. [Full comparison and interpretation](Week05/results/heavy_chunks_job_29706019/SUMMARY.md).
+
+![Original versus fixed heavier chunk-size plot](Week05/results/heavy_chunks_job_29706019/figures/chunk_size_comparison.png)
+
+[PDF](Week05/results/heavy_chunks_job_29706019/figures/chunk_size_comparison.pdf) · [Raw timings](Week05/results/heavy_chunks_job_29706019/measurements.csv)
 <!-- heavy-chunks:end -->
 
 <!-- followup:start -->
