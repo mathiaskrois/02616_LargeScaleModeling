@@ -6,7 +6,7 @@
 #BSUB -w "done(29706381)"
 #BSUB -R "span[ptile=4]"
 #BSUB -R "select[model == XeonE5_2650v4]"
-#BSUB -R "rusage[mem=1GB]"
+#BSUB -R "rusage[mem=2GB]"
 #BSUB -R "affinity[core(1)]"
 #BSUB -o mandelbrot_verification_%J.out
 #BSUB -e mandelbrot_verification_%J.err
