@@ -5,6 +5,7 @@ row scheduling for the Mandelbrot set. This README records the complete retained
 experiment history, the code changes, and the mistakes that shaped the investigation.
 
 [Benchmark overview](#correctness-and-compact-five-version-benchmark) ·
+[Overlaid comparison plots](#overlaid-comparison-plots) ·
 [All retained plots](#experiment-history-and-all-retained-plots) ·
 [Code development and mistakes](#code-development-and-mistakes) ·
 [Run the project](#running-and-reproducing-the-project)
@@ -32,6 +33,33 @@ CPU: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz. Serial benchmark timing omits on
 
 [PDF](Week05/results/verification_job_29710858/figures/benchmark_overview.pdf)
 <!-- five-versions:end -->
+
+## Overlaid comparison plots
+
+These three plots show the **revised implementations from heavy-data job 29706381**
+on common axes. Color, line style and markers identify the four implementations:
+blue solid circles = blocking static; orange dashed squares = nonblocking static;
+green dash-dot triangles = blocking dynamic; purple dotted diamonds = nonblocking dynamic.
+Points are medians of three repetitions; error bars show the observed min–max.
+The original four-panel figures remain in stage 4.
+
+### Physical nodes
+
+![Revised heavy-data comparison: Physical nodes](Week05/results/job_29706381/figures/overlaid/nodes.png)
+
+[Download PDF](Week05/results/job_29706381/figures/overlaid/nodes.pdf)
+
+### Chunk size
+
+![Revised heavy-data comparison: Chunk size](Week05/results/job_29706381/figures/overlaid/chunk_size.png)
+
+[Download PDF](Week05/results/job_29706381/figures/overlaid/chunk_size.pdf)
+
+### Image area
+
+![Revised heavy-data comparison: Image area](Week05/results/job_29706381/figures/overlaid/image_area.png)
+
+[Download PDF](Week05/results/job_29706381/figures/overlaid/image_area.pdf)
 
 ## Experiment history and all retained plots
 
@@ -98,6 +126,30 @@ intervals. [Written analysis](Week05/RESULTS_ANALYSIS.md) ·
 [Measurements](Week05/results/job_29618553/measurements.csv) ·
 [Metadata](Week05/results/job_29618553/metadata.json) ·
 [Measured source](Week05/results/job_29618553/sources/)
+
+### Original blocking-static heavy-data results for discussion
+
+These plots isolate **the old blocking-static implementation from job 29618553**,
+before receiving was moved into the computation loop. They retain the original
+measurements and show three-repetition medians with min–max bars.
+The chunk-size peak and steep area growth are evidence for the waiting problem
+discussed above and in stage 3. The first chunk size is **3 rows**, not 1.
+
+Use the matched stage-3 diagnostic to assess the code change: this old job used
+Xeon E5-2660 v3, while the revised full suite used E5-2650 v4. Their timing
+difference includes both code and execution-environment differences.
+
+![Old blocking static, heavy data: Physical nodes](Week05/results/job_29618553/figures/static_blocking/nodes.png)
+
+[Physical nodes PDF](Week05/results/job_29618553/figures/static_blocking/nodes.pdf)
+
+![Old blocking static, heavy data: Chunk size](Week05/results/job_29618553/figures/static_blocking/chunk_size.png)
+
+[Chunk size PDF](Week05/results/job_29618553/figures/static_blocking/chunk_size.pdf)
+
+![Old blocking static, heavy data: Image area](Week05/results/job_29618553/figures/static_blocking/image_area.png)
+
+[Image area PDF](Week05/results/job_29618553/figures/static_blocking/image_area.pdf)
 
 <details>
 <summary>View the heavier-suite plots with repetition ranges</summary>
@@ -380,3 +432,10 @@ The reference, assignment and course framing originate from the
 [02616 student repository](https://gitlab.gbar.dtu.dk/dcc-teaching/02616/02616-student).
 The MPI programs and experiment tooling are the group's project work.
 `Week05/vendor/six.py` retains its original license header.
+
+To reproduce the additional discussion/comparison figures from saved measurements:
+
+```sh
+python Week05/plot_comparisons.py Week05/results/job_29706381
+python Week05/plot_comparisons.py Week05/results/job_29618553 --implementation static_blocking
+```
