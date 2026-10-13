@@ -12,18 +12,25 @@ experiment history, the code changes, and the mistakes that shaped the investiga
 <!-- five-versions:start -->
 ## Correctness and compact five-version benchmark
 
-The full heavier rerun **29706381 finished successfully**: **240/240 measurements**,
-plus **12 exact serial-reference checks** before timing. Its new plots appear in
-stage 4 below.
+**72 full-image/chunk configurations passed exact `np.array_equal` checks** against the original serial Mandelbrot.py, covering every heavier image/chunk setting. All 15 benchmark outputs also matched, including 4500 row-chunk comparisons.
 
-The extended verification and five-version benchmark is running as job **29710858**.
-It compares every heavier image/chunk setting with the original `Mandelbrot.py`
-using `np.array_equal`, then benchmarks the serial reference and all four MPI
-versions at **3000×3000, chunk 10**, three times each on the same hosts.
+3000×3000; chunk 10; 100 iterations; median of three fresh sequential runs. Serial uses one rank; MPI uses eight ranks on the same two hosts.
 
-The five-row table will appear here automatically after all required checks pass:
-median runtime, observed min–max, serial-relative speedup, rank count and correctness.
-[Correctness and timing method](Week05/CORRECTNESS_AND_BENCHMARK.md).
+| Version | Ranks | Median (s) | Min–max (s) | Speedup | Exact image/chunks |
+|---|---:|---:|---|---:|---|
+| Original Mandelbrot.py | 1 | 310.794 | 301.691–329.171 | 1.00× | 3/3 passed |
+| Blocking static | 8 | 39.964 | 38.814–48.274 | 7.78× | 3/3 passed |
+| Nonblocking static | 8 | 38.667 | 38.414–42.916 | 8.04× | 3/3 passed |
+| Blocking dynamic | 8 | 42.018 | 40.967–42.971 | 7.40× | 3/3 passed |
+| Nonblocking dynamic | 8 | 42.419 | 41.521–42.770 | 7.33× | 3/3 passed |
+
+CPU: Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz. Serial benchmark timing omits only its plotting section; all versions export arrays. Speedups compare complete workflows.
+
+[Correctness evidence and methods](Week05/results/verification_job_29710858/SUMMARY.md) · [Raw benchmark records](Week05/results/verification_job_29710858/measurements.csv)
+
+![Five-version benchmark](Week05/results/verification_job_29710858/figures/benchmark_overview.png)
+
+[PDF](Week05/results/verification_job_29710858/figures/benchmark_overview.pdf)
 <!-- five-versions:end -->
 
 ## Experiment history and all retained plots
