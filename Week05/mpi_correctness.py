@@ -12,7 +12,13 @@ output = Path(os.environ['MANDELBROT_IMAGE_PATH']).resolve()
 sys.argv[0] = str(program)
 # Serial plotting writes Figure_1.png; keep it inside this job's correctness folder.
 os.chdir(output.parent)
-namespace = runpy.run_path(str(program), run_name='__main__')
+if os.environ.get('MANDELBROT_SERIAL_CALCULATION_ONLY') == '1':
+    if program.name != 'Mandelbrot.py':
+        raise ValueError('Plot-free calculation mode is only for the original serial source')
+    from verify_and_benchmark import serial_calculation_namespace
+    namespace = serial_calculation_namespace(program)
+else:
+    namespace = runpy.run_path(str(program), run_name='__main__')
 if MPI.COMM_WORLD.rank == 0:
     image = namespace.get('image')
     if image is None:

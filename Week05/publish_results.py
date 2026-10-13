@@ -21,6 +21,13 @@ def validate(directory):
     if metadata.get('status') != 'complete':
         raise ValueError('Only completed suites can be published')
     config = json.loads((directory / 'experiments.yaml').read_text())
+    if config.get('suite') == 'five_versions':
+        from verify_and_benchmark import validate_saved
+        validate_saved(directory)
+        for name in ('SUMMARY.md', 'figures/benchmark_overview.png', 'figures/benchmark_overview.pdf'):
+            if not (directory / name).is_file() or not (directory / name).stat().st_size:
+                raise ValueError(f'Missing five-version output: {name}')
+        return metadata, config, 5
     with (directory / config['output']['csv']).open(newline='') as stream:
         points = validated_medians(list(csv.DictReader(stream)), config)
     if config.get('suite') == 'followup':
@@ -40,6 +47,8 @@ def validate(directory):
 
 
 def update_readme(content, directory, metadata, config):
+    if config.get('suite') == 'five_versions':
+        return update_five_version_readme(content, directory, metadata)
     if config.get('suite') == 'followup':
         return update_followup_readme(content, directory, metadata)
     relative = f'Week05/results/{directory.name}'
@@ -83,6 +92,32 @@ def update_followup_readme(content, directory, metadata):
     return content[:position] + block + '\n\n' + content[position:]
 
 
+def update_five_version_readme(content, directory, metadata):
+    start,end='<!-- five-versions:start -->','<!-- five-versions:end -->'
+    relative=f'Week05/results/{directory.name}'
+    summary=(directory/'SUMMARY.md').read_text()
+    table=summary.split('<!-- overview-table:start -->',1)[1].split('<!-- overview-table:end -->',1)[0].strip()
+    block=(f'{start}\n## Correctness and compact five-version benchmark\n\n'
+        '**72 full-image/chunk configurations passed exact `np.array_equal` checks** '
+        'against the original serial Mandelbrot.py, covering every heavier image/chunk setting. '
+        'All 15 benchmark outputs also matched, including 4500 row-chunk comparisons.\n\n'
+        '3000×3000; chunk 10; 100 iterations; median of three fresh sequential runs. '
+        'Serial uses one rank; MPI uses eight ranks on the same two hosts.\n\n'
+        +table+'\n\n'
+        f'CPU: {metadata["cpu_model"]}. Serial benchmark timing omits only its plotting section; '
+        'all versions export arrays. Speedups compare complete workflows.\n\n'
+        f'[Correctness evidence and methods]({relative}/SUMMARY.md) · '
+        f'[Raw benchmark records]({relative}/measurements.csv)\n\n'
+        f'![Five-version benchmark]({relative}/figures/benchmark_overview.png)\n\n'
+        f'[PDF]({relative}/figures/benchmark_overview.pdf)\n{end}')
+    if start in content and end in content:
+        before,rest=content.split(start,1);_,after=rest.split(end,1)
+        return before+block+after
+    position=content.find(START)
+    if position==-1:position=len(content)
+    return content[:position]+block+'\n\n'+content[position:]
+
+
 def publish(directory, dry_run=False):
     directory = directory.resolve()
     repo = Path(__file__).resolve().parents[1]
@@ -90,7 +125,7 @@ def publish(directory, dry_run=False):
         raise ValueError('Results must be a job directory in this repository')
     metadata, config, count = validate(directory)
     if dry_run:
-        print(f'Validated job {metadata["job_id"]}: {count * config["defaults"]["repetitions"]} measurements, {count} medians, six figures')
+        print(f'Validated job {metadata["job_id"]}: {count * config["defaults"]["repetitions"]} measurements, {count} medians, validated figure exports')
         return
     env = dict(os.environ, GIT_TERMINAL_PROMPT='0')
     common = Path(subprocess.check_output(['git', 'rev-parse', '--git-common-dir'], cwd=repo, text=True).strip())

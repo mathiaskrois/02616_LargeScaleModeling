@@ -79,6 +79,18 @@ allocation. It generates all six plot exports and automatically publishes the ne
 job directory and README plot links. Completion need not take eight hours: the
 changed communication order may remove much of the previous waiting.
 
+## Correctness checks and the five-version overview
+
+The running full suite already compares each assembled MPI image with the
+original `Mandelbrot.py` using **`np.array_equal`**, on three preflight cases.
+All **12 checks passed** for job 29706381 before measurements started.
+
+A dependent job will extend this to every heavier image/chunk setting, including
+6000×6000 images, and check each row chunk too. It will then benchmark the original
+serial reference and all four MPI versions at **3000×3000, chunk 10**, three times
+on the same hosts, and publish a compact table of runtimes, ranges, speedups and
+correctness status. Read [the correctness and benchmark method](Week05/CORRECTNESS_AND_BENCHMARK.md).
+
 ## Start here
 
 ```sh
