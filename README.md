@@ -17,8 +17,8 @@ The original heavier plot actually started at **chunk 3**, not chunk 1.
 
 We will compare the **original** and **fixed receive-order** versions under the
 same heavier settings: **3000×3000**, eight ranks on two hosts, 100 iterations,
-chunks **1, 3, 11, 23, 46, 93, 187, 375**, and five repetitions (**80 timings**).
-Both curves will contain new, comparable measurements. The original historical
+**chunk 1 only**, and five repetitions per version (**10 timings**).
+Only the two chunk-1 points will contain new, comparable measurements. The original historical
 plot remains unchanged. The discarded small-dataset retest is not used.
 
 Read [the observation and experiment design](Week05/CHUNK_SIZE_OBSERVATIONS.md).

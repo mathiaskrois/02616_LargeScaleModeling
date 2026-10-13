@@ -17,9 +17,9 @@ HERE=Path(__file__).resolve().parent
 class HeavyChunksTest(unittest.TestCase):
     def test_grid_and_legacy_source(self):
         config=read_config(HERE/'heavy_chunks.yaml');rows=measurements(config)
-        self.assertTrue(any(width > chunk and chunk*height*8 > 262144 for width,height,chunk in config['preflight']['correctness_cases']))
-        self.assertEqual(len(rows),80);self.assertEqual(rows,measurements(config))
-        self.assertEqual({r['chunk_size'] for r in rows},{1,3,11,23,46,93,187,375})
+        self.assertTrue(all(chunk==1 for width,height,chunk in config['preflight']['correctness_cases']))
+        self.assertEqual(len(rows),10);self.assertEqual(rows,measurements(config))
+        self.assertEqual({r['chunk_size'] for r in rows},{1})
         self.assertEqual(len({r['implementation'] for r in rows}),2)
         for row in rows:self.assertEqual((row['nodes'],row['ranks'],row['ranks_per_host'],row['width'],row['height']),(2,8,4,3000,3000))
         self.assertEqual(dict(allocation({'LSB_MCPU_HOSTS':'n0 4 n1 4'},config)),{'n0':4,'n1':4})
@@ -38,13 +38,13 @@ class HeavyChunksTest(unittest.TestCase):
             with (directory/'measurements.csv').open('w',newline='') as stream:
                 writer=csv.DictWriter(stream,fieldnames=FIELDS+['profile_log']);writer.writeheader();writer.writerows(rows)
             analyse(directory)
-            self.assertEqual(validate(directory)[2],16)
+            self.assertEqual(validate(directory)[2],2)
             self.assertTrue((directory/'figures/chunk_size_comparison.png').stat().st_size>0)
             report=(directory/'SUMMARY.md').read_text();self.assertIn('expected chunk size 1',report);self.assertIn('3000×3000',report)
             metadata=json.loads((directory/'metadata.json').read_text())
             original='# Project\n<!-- heavy-chunks:start -->\nPending\n<!-- heavy-chunks:end -->\nHistorical plots\n'
             updated=update_readme(original,directory,metadata,config)
-            self.assertIn('Historical plots',updated);self.assertIn('80 successful',updated)
+            self.assertIn('Historical plots',updated);self.assertIn('10 successful',updated)
             self.assertEqual(update_readme(updated,directory,metadata,config),updated)
             (directory/'figures/chunk_size_comparison.pdf').unlink()
             with self.assertRaises(ValueError):validate(directory)

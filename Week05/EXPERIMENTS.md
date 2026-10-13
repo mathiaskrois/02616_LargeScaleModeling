@@ -148,4 +148,4 @@ for its measured conclusions; revised historical figures include min–max range
 
 The student's chunk-1 expectation is tested in a separate 3000×3000 comparison
 of original versus fixed blocking static. See [CHUNK_SIZE_OBSERVATIONS.md](CHUNK_SIZE_OBSERVATIONS.md).
-Both full curves are rerun; historical data is not substituted.
+Only chunk 1 is rerun for both versions; other measurements are unchanged.

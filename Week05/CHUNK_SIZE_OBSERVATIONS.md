@@ -41,24 +41,23 @@ instrumentation used in the previous diagnostic follow-up.
 - Original: `Mandelbrot_blocking_static_legacy.py`.
 - Fixed receive order: `Mandelbrot_blocking_static.py`.
 - Image: **3000×3000**, default limits, **100 iterations**.
-- Chunks: **1, 3, 11, 23, 46, 93, 187, 375**.
-- Five repetitions of each of 16 configurations: **80 measured launches**.
+- Chunk: **1 only**. No other chunk sizes are rerun.
+- Five repetitions per version: **10 measured launches**.
 - Five shuffled rounds, seed 261613; one allocation, no nested jobs.
 - Exact serial-reference checks precede timing; all logs and sources are archived.
 
-The first value is an explicit addition to the heavy grid to test the student's
-expectation. All other values match the completed heavier chunk sweep. Historical
+Chunk 1 is an explicit addition to the heavy grid to test the student's
+expectation. Other points retain the completed heavier sweep's measurements. Historical
 measurements and plots remain unchanged. No results from the discarded 1000×1000
 chunk-1 retest are used.
 
-The completed report will compare chunk 1 with the fastest chunk for each version,
-show the old/fixed ratio at each chunk, and include min–max ranges. It will distinguish
-measured findings from possible explanations. A higher chunk-1 runtime in the fixed
-version would support the communication-overhead expectation; similar runtimes
-would show that computation and fine load balancing outweigh that overhead here.
+The completed report will compare the original and fixed versions only at chunk 1,
+show their ratio and min–max ranges, and retain the historical original curve as
+context. This does not establish how chunk 1 compares with other chunks in the
+fixed implementation; that would require measurements the student has not requested.
 
 Submit only `heavy_chunks_job.sh` from Week05. It requests eight slots on two hosts,
 four per host, for 12 hours. The CPU model is pinned to Xeon E5-2660 v3 to match the
 original heavy suite; probes validate the model and unique physical cores. Open MPI
 5.0.10 is used for both versions. Conservative pilots guard the remaining budget.
-Analysis and GitHub publication run automatically after all 80 measurements succeed.
+Analysis and GitHub publication run automatically after all ten measurements succeed.
