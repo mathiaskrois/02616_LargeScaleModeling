@@ -134,7 +134,7 @@ else:
         for row in range(x, x + count):
             calculate_row(row)
         stats['compute_seconds'] += time.monotonic() - tick
-        stats['rows'] += count
+        stats['rows'] += int(count)
         stats['chunks'] += 1
         stats['chunk_starts'].append(x)
 

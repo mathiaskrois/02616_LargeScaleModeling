@@ -87,7 +87,9 @@ def analyse(directory):
                 ax.set_ylabel('Computation time (s)')
             if impl == list(config['implementations'])[-1]:
                 ax.set_xlabel('Rank')
-    fig.text(.5, .01, '3000×3000; 8 ranks on 2 hosts; median of 3 runs per rank. '
+    d = config['defaults']
+    fig.text(.5, .01, f'{d["width"]}×{d["height"]}; {d["ranks"]} ranks on {d["nodes"]} hosts; '
+             f'median of {d["repetitions"]} runs per rank. '
              'Dashed line: total computation time / 8 (perfect balance over 8 ranks).', ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .04, 1, 1)); save(fig, 'rank_compute')
 
@@ -104,8 +106,10 @@ def analyse(directory):
     ax.grid(axis='y', alpha=.3); ax.legend(frameon=False)
     fig.tight_layout(); save(fig, 'imbalance_ratio')
 
+    d = config['defaults']
+    setup = f'{d["width"]}×{d["height"]}; {d["ranks"]} ranks on {d["nodes"]} hosts'
     text = ['# Load-imbalance measurements', '',
-            f'{len(rows)} successful runs; 3000×3000; 8 ranks on 2 hosts; median of '
+            f'{len(rows)} successful runs; {setup}; median of '
             f'{config["defaults"]["repetitions"]} repetitions. Computation time excludes MPI calls.', '',
             '## Imbalance per chunk size', '',
             '| Implementation | Chunk rows | Runtime (s) | Max/mean over computing ranks | Slowest / (total/8) |',
