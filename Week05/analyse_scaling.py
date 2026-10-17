@@ -64,10 +64,24 @@ def analyse(directory):
     # Speedup and parallel efficiency, each relative to the same implementation on 1 rank.
     fig, (left, right) = plt.subplots(1, 2, figsize=(10, 4))
     left.plot(ranks, ranks, color='#52514e', linestyle='--', linewidth=1, label='Ideal ($S=P$)')
+    # Dynamic computes on P-1 workers, so its ideal is S = max(1, P-1).
+    workers = [max(1, p - 1) for p in ranks]
+    left.plot(ranks, workers, color=STYLE['dynamic_nonblocking'][0], linestyle=':', linewidth=1.2,
+              label='Ideal dynamic ($S=P-1$)')
+    right.plot(ranks, [w / p for w, p in zip(workers, ranks)], color=STYLE['dynamic_nonblocking'][0],
+               linestyle=':', linewidth=1.2)
     for impl, points in scaling.items():
         colour, marker = STYLE[impl]
-        left.plot(ranks, [p['speedup'] for p in points], color=colour, marker=marker, label=TITLES[impl])
-        right.plot(ranks, [p['efficiency'] for p in points], color=colour, marker=marker, label=TITLES[impl])
+        base = points[0]['median']
+        # Error bars: speedup range from the fastest and slowest of the repetitions at P ranks.
+        speed = [p['speedup'] for p in points]
+        speed_err = [[s - base / p['high'] for s, p in zip(speed, points)],
+                     [base / p['low'] - s for s, p in zip(speed, points)]]
+        left.errorbar(ranks, speed, yerr=speed_err, color=colour, marker=marker, capsize=3, label=TITLES[impl])
+        eff = [p['efficiency'] for p in points]
+        eff_err = [[e - base / p['high'] / p['ranks'] for e, p in zip(eff, points)],
+                   [base / p['low'] / p['ranks'] - e for e, p in zip(eff, points)]]
+        right.errorbar(ranks, eff, yerr=eff_err, color=colour, marker=marker, capsize=3, label=TITLES[impl])
     for ax in (left, right):
         ax.set_xscale('log', base=2); ax.set_xticks(ranks); ax.set_xticklabels([str(p) for p in ranks])
         ax.minorticks_off(); ax.set_xlabel('MPI ranks $P$'); ax.grid(alpha=.3)
@@ -76,7 +90,8 @@ def analyse(directory):
     right.axhline(1, color='#52514e', linestyle='--', linewidth=1)
     right.set_ylim(0, 1.15); right.set_ylabel('Parallel efficiency $T_1/(P\\,T_P)$')
     fig.text(.5, .01, f'{d["width"]}×{d["height"]}; chunk size {d["chunk_size"]}; up to {slots} ranks per host '
-             f'(16 ranks = 2 hosts, 64 = 8 hosts); median of {d["repetitions"]} runs.', ha='center', fontsize=9)
+             f'(16 ranks = 2 hosts, 64 = 8 hosts); median of {d["repetitions"]} runs, '
+             'error bars from the fastest and slowest run.', ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .05, 1, 1)); save(fig, 'speedup')
 
     # Fixed 8 ranks on 1/2/4/8 hosts for a small and a large image.
