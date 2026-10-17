@@ -63,13 +63,15 @@ def analyse(directory):
 
     # Speedup and parallel efficiency, each relative to the same implementation on 1 rank.
     fig, (left, right) = plt.subplots(1, 2, figsize=(10, 4))
-    left.plot(ranks, ranks, color='#52514e', linestyle='--', linewidth=1, label='Ideal ($S=P$)')
-    # Dynamic computes on P-1 workers, so its ideal is S = max(1, P-1).
+    # Ideal speedup = number of computing ranks: P for static; for dynamic rank 0 only
+    # manages when P > 1, so P - 1 workers compute (with P = 1, rank 0 computes alone).
     workers = [max(1, p - 1) for p in ranks]
-    left.plot(ranks, workers, color=STYLE['dynamic_nonblocking'][0], linestyle=':', linewidth=1.2,
-              label='Ideal dynamic ($S=P-1$)')
-    right.plot(ranks, [w / p for w, p in zip(workers, ranks)], color=STYLE['dynamic_nonblocking'][0],
-               linestyle=':', linewidth=1.2)
+    for ideal, impl, label in ((ranks, 'static_nonblocking', 'Ideal static ($S=P$)'),
+                               (workers, 'dynamic_nonblocking', 'Ideal dynamic ($S=P-1$)')):
+        colour = STYLE[impl][0]
+        left.plot(ranks, ideal, color=colour, linestyle='--', linewidth=1.8, alpha=.55, label=label)
+        right.plot(ranks, [w / p for w, p in zip(ideal, ranks)], color=colour, linestyle='--',
+                   linewidth=1.8, alpha=.55)
     for impl, points in scaling.items():
         colour, marker = STYLE[impl]
         base = points[0]['median']
@@ -87,7 +89,6 @@ def analyse(directory):
         ax.minorticks_off(); ax.set_xlabel('MPI ranks $P$'); ax.grid(alpha=.3)
     left.set_yscale('log', base=2); left.set_yticks(ranks); left.set_yticklabels([str(p) for p in ranks])
     left.set_ylabel('Speedup $T_1/T_P$'); left.legend(frameon=False)
-    right.axhline(1, color='#52514e', linestyle='--', linewidth=1)
     right.set_ylim(0, 1.15); right.set_ylabel('Parallel efficiency $T_1/(P\\,T_P)$')
     fig.text(.5, .01, f'{d["width"]}×{d["height"]}; chunk size {d["chunk_size"]}; up to {slots} ranks per host '
              f'(16 ranks = 2 hosts, 64 = 8 hosts); median of {d["repetitions"]} runs, '
