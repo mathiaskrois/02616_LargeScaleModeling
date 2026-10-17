@@ -137,7 +137,7 @@ def analyse(directory):
              '', '## Figures', '']
     for name in ('rank_compute', 'imbalance_ratio'):
         text += [f'![{name}](figures/{name}.png)', f'[PDF](figures/{name}.pdf)', '']
-    (directory / 'SUMMARY.md').write_text('\n'.join(text) + '\n')
+    (directory / 'SUMMARY.md').write_text('\n'.join(text) + '\n', encoding='utf-8')
     metadata_path = directory / 'metadata.json'
     metadata = json.loads(metadata_path.read_text())
     metadata.update(status='complete', analysis=dict(successful_records=len(rows),
