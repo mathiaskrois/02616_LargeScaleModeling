@@ -38,6 +38,8 @@ def summarise(config, rows, profiles):
         for chunk in config['chunk_sizes']:
             runs = [sorted(profiles[impl, chunk, rep], key=lambda r: r['rank']) for rep in reps]
             compute = [median(run[rank]['compute_seconds'] for run in runs) for rank in range(8)]
+            low = [min(run[rank]['compute_seconds'] for run in runs) for rank in range(8)]
+            high = [max(run[rank]['compute_seconds'] for run in runs) for rank in range(8)]
             chunks = [median(run[rank].get('chunks', 0) for run in runs) for rank in range(8)]
             # Static: all 8 ranks compute. Dynamic: only workers 1..7 compute.
             workers = range(8) if impl == 'static_blocking' else range(1, 8)
@@ -48,7 +50,7 @@ def summarise(config, rows, profiles):
             per_run = [ratios(run) for run in runs]
             runtime = median(float(r['runtime_seconds']) for r in rows
                              if r['implementation'] == impl and int(r['chunk_size']) == chunk)
-            result[impl, chunk] = dict(compute=compute, chunks=chunks, runtime=runtime,
+            result[impl, chunk] = dict(compute=compute, low=low, high=high, chunks=chunks, runtime=runtime,
                 max_over_mean=median(p[0] for p in per_run), max_over_ideal8=median(p[1] for p in per_run),
                 total_compute=median(sum(r['compute_seconds'] for r in run) for run in runs))
     return result
@@ -74,23 +76,38 @@ def analyse(directory):
             path = output / f'{name}.{suffix}'; fig.savefig(path, dpi=180); paths.append(path)
         plt.close(fig)
 
-    # Per-rank computation time: one panel per implementation and chunk size.
-    fig, axes = plt.subplots(2, len(chunks), figsize=(3 * len(chunks), 6.5), sharex=True, sharey=True)
-    for row_axes, impl in zip(axes, config['implementations']):
-        for ax, chunk in zip(row_axes, chunks):
+    # Per-rank computation time: one panel per chunk size, static and dynamic bars side by side.
+    colours = {'static_blocking': '#2a78d6', 'dynamic_blocking': '#eb6834'}
+    columns = 3
+    rows_ = -(-len(chunks) // columns)
+    fig, axes = plt.subplots(rows_, columns, figsize=(11, 3.4 * rows_), sharex=True, sharey=True)
+    width = 0.4
+    for ax, chunk in zip(axes.flat, chunks):
+        for offset, impl in zip((-width / 2, width / 2), config['implementations']):
             s = summary[impl, chunk]
-            ax.bar(range(8), s['compute'], color='#2a78d6')
-            ax.axhline(s['total_compute'] / 8, color='#52514e', linestyle='--', linewidth=1)
-            ax.set_title(f'{TITLES[impl]}\nchunk {chunk}', fontsize=9)
-            ax.set_xticks(range(8)); ax.grid(axis='y', alpha=.3)
-            if ax is row_axes[0]:
-                ax.set_ylabel('Computation time (s)')
-            if impl == list(config['implementations'])[-1]:
-                ax.set_xlabel('Rank')
+            ranks = [r + offset for r in range(8)]
+            ax.bar(ranks, s['compute'], width=width, color=colours[impl], label=TITLES[impl],
+                   yerr=[[m - lo for m, lo in zip(s['compute'], s['low'])],
+                         [hi - m for m, hi in zip(s['compute'], s['high'])]],
+                   error_kw=dict(elinewidth=.8, capsize=1.5, ecolor='#52514e'))
+        # Perfect balance: static spreads the work over 8 ranks, dynamic over 7 workers.
+        ax.axhline(summary['static_blocking', chunk]['total_compute'] / 8, color=colours['static_blocking'],
+                   linestyle='--', linewidth=1)
+        ax.axhline(summary['dynamic_blocking', chunk]['total_compute'] / 7, color=colours['dynamic_blocking'],
+                   linestyle='--', linewidth=1)
+        ax.set_title(f'Chunk size {chunk} rows', fontsize=10)
+        ax.set_xticks(range(8)); ax.grid(axis='y', alpha=.3); ax.set_axisbelow(True)
+    for ax in axes.flat[len(chunks):]:
+        ax.axis('off')
+    for ax in axes[:, 0]:
+        ax.set_ylabel('Computation time (s)')
+    for ax in axes[-1]:
+        ax.set_xlabel('Rank')
+    axes.flat[0].legend(frameon=False, fontsize=9, loc='upper left')
     d = config['defaults']
-    fig.text(.5, .01, f'{d["width"]}×{d["height"]}; {d["ranks"]} ranks on {d["nodes"]} hosts; '
-             f'median of {d["repetitions"]} runs per rank. '
-             'Dashed line: total computation time / 8 (perfect balance over 8 ranks).', ha='center', fontsize=9)
+    fig.text(.5, .01, f'{d["width"]}×{d["height"]}; {d["ranks"]} ranks on {d["nodes"]} hosts; bars show the median of '
+             f'{d["repetitions"]} runs, error bars min–max. Dashed lines: perfect balance '
+             '(total / 8 ranks for static, total / 7 workers for dynamic).', ha='center', fontsize=9)
     fig.tight_layout(rect=(0, .04, 1, 1)); save(fig, 'rank_compute')
 
     # Imbalance ratio: slowest rank versus perfect balance over 8 ranks.
