@@ -74,6 +74,8 @@ original exports without error bars are included in a separate archive below.
 | 3. Diagnostic follow-up | 29702836 | Original/interleaved versions, chunks 8–12, one/two hosts, per-rank timing | 175 measurements; about 2 h 52 min |
 | 4. Student's revised blocking-static code | 29706381 | Same full heavier grid, receiving after each round, exact preflight checks | 240 measurements; about 4 h 32 min |
 | 5. Extended correctness and serial baseline | 29710858 | All heavier image/chunk combinations; matched five-version benchmark | See the live overview above |
+| 6. Per-rank load imbalance | 29744615 | Computation time per rank, static vs dynamic, chunks 3–375 | 36 measurements; about 33 min |
+| 7. Strong scaling and one vs multiple nodes | 29744969 | 1–64 ranks; 8 ranks on 1/2/4/8 hosts for 300×300 and 3000×3000 | 90 measurements; about 1 h 26 min |
 
 ### 1. Initial suite — establish a baseline
 
@@ -286,6 +288,55 @@ are excluded from timing. The serial benchmark omits its plotting-only section t
 match the MPI calculation workflow; its original numerical statements are unchanged.
 The final table and evidence appear in the overview at the top after completion.
 
+### 6. Per-rank load imbalance
+
+**October 17, 2026; job 29744615.** 3000×3000; 8 ranks on two E5-2650 v4 hosts;
+chunks 3, 10, 46, 93, 187, 375; three repetitions. Timed copies of the blocking
+versions record each rank's computation time
+([static](Week05/Mandelbrot_static_profiled.py) in interleaved mode,
+[dynamic](Week05/Mandelbrot_dynamic_profiled.py)); both reproduced the serial
+image exactly before timing.
+
+- Small chunks: every static rank computes about 35 s, every dynamic worker about
+  41 s — the same work shared by 7 workers, since rank 0 only manages.
+- 375-row chunks (the block distribution): static rank 5 computes 85.9 s, rank 0
+  only 3.0 s. Dynamic ends up waiting for the same expensive chunk.
+- Single static ranks were occasionally ~15 s slower, most likely due to other jobs
+  on the shared hosts; dynamic workers finish within 0.1 s of each other.
+
+[Summary](Week05/results/imbalance_job_29744615/SUMMARY.md) ·
+[Measurements](Week05/results/imbalance_job_29744615/measurements.csv)
+
+![Computation time per rank](Week05/results/imbalance_job_29744615/figures/rank_compute.png)
+
+[PDF](Week05/results/imbalance_job_29744615/figures/rank_compute.pdf)
+
+### 7. Strong scaling and one vs multiple nodes
+
+**October 17, 2026; job 29744969.** Nonblocking static and dynamic only; chunk 10;
+three repetitions on eight E5-2650 v4 hosts. Hosts are filled with 8 ranks each
+(16 ranks = 2 hosts, 64 = 8 hosts).
+
+- Scaling at 3000×3000: speedup 35 (static) and 42 (dynamic) at 64 ranks. Dynamic
+  follows its ideal of P − 1 computing ranks up to 8–16 ranks (no speedup at 2
+  ranks: one worker does all the work). Beyond 16 ranks both flatten, mainly
+  because of a fixed launch cost of about 1.7 s, plus load imbalance with only
+  300 chunks.
+- Node placement with 8 ranks: for 3000×3000 the number of hosts makes no
+  difference (39.7–43.6 s). For 300×300, more than one host adds about 0.25 s
+  (+22–27 %), a start-up cost rather than data transfer (0.72 MB in total).
+
+[Summary](Week05/results/scaling_job_29744969/SUMMARY.md) ·
+[Measurements](Week05/results/scaling_job_29744969/measurements.csv)
+
+![Speedup and parallel efficiency](Week05/results/scaling_job_29744969/figures/speedup.png)
+
+[PDF](Week05/results/scaling_job_29744969/figures/speedup.pdf)
+
+![Run time on 1, 2, 4 and 8 hosts](Week05/results/scaling_job_29744969/figures/nodes.png)
+
+[PDF](Week05/results/scaling_job_29744969/figures/nodes.pdf)
+
 ## Code development and mistakes
 
 ### The receive-order change
@@ -336,6 +387,8 @@ trade-off. The old receive order was a performance weakness, not proof of wrong 
 | The first automatic publisher failed because an inner `shlex` import changed Python name scope. | Correct the import and test the complete clone/commit/push path against a local Git remote. | A dry run alone does not validate the actual publication path. |
 | Successful process exits did not establish numerical correctness for every tested image. | Add exact serial-reference comparisons; extend them across the heavier image/chunk combinations. | Runtime and correctness require separate evidence. |
 | The first follow-on job lost `PARENT_RESULTS_DIR` in the batch environment and stopped before checking images. | Resolve the saved parent directory locally by default, add a regression check, and restart as 29710858. | Test batch defaults without assuming exported variables survive submission. |
+| Load imbalance was first estimated from the saved images' iteration counts, a model rather than a measurement. | Add timers to static and dynamic and measure each rank's computation time (job 29744615). | The model explains the results; the measurement is the result. They agreed closely. |
+| The new profiled dynamic version wrote its row count as a NumPy integer, which JSON cannot store. | Found by running it locally with MS-MPI on 8 ranks before submission; convert to `int`. | Test new MPI code locally before it reaches the queue; the job's preflight would only have caught it after waiting. |
 
 The discarded point-replacement charts remain removed as requested. They are
 recorded here as a scope/provenance lesson; their results are not inserted into
@@ -408,10 +461,24 @@ inspect the batch log and retry the publisher without rerunning the calculations
 
 For historical comparisons use each job's **source snapshots**, not today's files.
 The initial suite's images and chunk grid differ from the heavier suite. The
-assignment's one-node comparison is supplied by the diagnostic follow-up, not
-by the original 2/4/8-host node grid.
+assignment's one-node comparison is supplied by job 29744969 (1/2/4/8 hosts, small
+and large image), not by the original 2/4/8-host node grid.
 
-[Assignment](Week05/Project.tex) · [Experiment design](Week05/EXPERIMENTS.md) ·
+The per-rank and scaling experiments have their own batch scripts. Each takes a
+smaller allocation, runs its own placement and correctness checks, and leaves the
+results in `results/<suite>_job_JOBID/` without publishing them automatically:
+
+```sh
+bsub < imbalance_job.sh   # 8 slots on 2 hosts, about 35 min
+bsub < scaling_job.sh     # 64 slots on 8 hosts, about 1.5 h
+python3 analyse_imbalance.py results/imbalance_job_JOBID   # redraw figures
+python3 analyse_scaling.py results/scaling_job_JOBID
+```
+
+New MPI code can be tested locally first with MS-MPI on Windows (conda-forge
+`msmpi` and `mpi4py`), e.g. `mpiexec -n 8 python Mandelbrot_dynamic_profiled.py 10 300x200`.
+
+[Experiment design](Week05/EXPERIMENTS.md) ·
 [Heavy-suite analysis](Week05/RESULTS_ANALYSIS.md) · [Diagnostic design](Week05/FOLLOWUP.md) ·
 [Correctness/overview method](Week05/CORRECTNESS_AND_BENCHMARK.md)
 
