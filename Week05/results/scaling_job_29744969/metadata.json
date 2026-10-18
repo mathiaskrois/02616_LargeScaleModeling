@@ -1,0 +1,3385 @@
+{
+  "job_id": "29744969",
+  "suite": "scaling",
+  "status": "complete",
+  "started_utc": "2026-10-17T09:49:53.841803+00:00",
+  "hosts": [
+    "n-62-21-82",
+    "n-62-21-84",
+    "n-62-21-87",
+    "n-62-21-78",
+    "n-62-21-80",
+    "n-62-21-105",
+    "n-62-21-79",
+    "n-62-21-81"
+  ],
+  "allocated_slots": {
+    "n-62-21-82": 8,
+    "n-62-21-84": 8,
+    "n-62-21-87": 8,
+    "n-62-21-78": 8,
+    "n-62-21-80": 8,
+    "n-62-21-105": 8,
+    "n-62-21-79": 8,
+    "n-62-21-81": 8
+  },
+  "configuration": {
+    "suite": "scaling",
+    "defaults": {
+      "width": 3000,
+      "height": 3000,
+      "chunk_size": 10,
+      "xlim": "-2.2:0.75",
+      "ylim": "-1.3:1.3",
+      "iterations": 100,
+      "repetitions": 3,
+      "seed": 261616
+    },
+    "implementations": {
+      "static_nonblocking": "Mandelbrot_nonblocking_static.py",
+      "dynamic_nonblocking": "Mandelbrot_nonblocking_dynamic.py"
+    },
+    "experiments": {
+      "scaling": {
+        "ranks": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ]
+      },
+      "nodes": {
+        "ranks": 8,
+        "hosts": [
+          1,
+          2,
+          4,
+          8
+        ],
+        "sides": [
+          300,
+          3000
+        ]
+      }
+    },
+    "cluster": {
+      "hosts": 8,
+      "slots_per_host": 8,
+      "walltime_seconds": 10800,
+      "mpi_version": "5.0.10",
+      "analysis_reserve_seconds": 300
+    },
+    "preflight": {
+      "correctness_cases": [
+        [
+          53,
+          47,
+          3
+        ],
+        [
+          31,
+          1100,
+          31
+        ],
+        [
+          700,
+          50,
+          10
+        ]
+      ],
+      "correctness_ranks": [
+        8,
+        64
+      ]
+    },
+    "output": {
+      "csv": "measurements.csv"
+    }
+  },
+  "seed": 261616,
+  "probes": [
+    {
+      "nodes": 1,
+      "runtime_seconds": 0.8666195069963578,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_1.out",
+      "stderr_log": "logs/probe_1.err",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-82",
+          "affinity": [
+            2
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "2"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-82",
+          "affinity": [
+            3
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "3"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-82",
+          "affinity": [
+            4
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "4"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-82",
+          "affinity": [
+            5
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "5"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-82",
+          "affinity": [
+            6
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "8"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-82",
+          "affinity": [
+            7
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-82",
+          "affinity": [
+            8
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-82",
+          "affinity": [
+            9
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "nodes": 2,
+      "runtime_seconds": 1.4660309970058734,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_2.out",
+      "stderr_log": "logs/probe_2.err",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-82",
+          "affinity": [
+            2
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "2"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-82",
+          "affinity": [
+            3
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "3"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-82",
+          "affinity": [
+            4
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "4"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-82",
+          "affinity": [
+            5
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "5"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-84",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-84",
+          "affinity": [
+            1
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "1"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-84",
+          "affinity": [
+            2
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "2"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-84",
+          "affinity": [
+            3
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "3"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "nodes": 4,
+      "runtime_seconds": 1.415886236994993,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_4.out",
+      "stderr_log": "logs/probe_4.err",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-82",
+          "affinity": [
+            2
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "2"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-82",
+          "affinity": [
+            3
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "3"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-84",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-84",
+          "affinity": [
+            1
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "1"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-87",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-87",
+          "affinity": [
+            1
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "1"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-78",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-78",
+          "affinity": [
+            1
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "1"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "nodes": 8,
+      "runtime_seconds": 1.515969956992194,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_8.out",
+      "stderr_log": "logs/probe_8.err",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-82",
+          "affinity": [
+            2
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "2"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-84",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-87",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-78",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-80",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-105",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-79",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-81",
+          "affinity": [
+            0
+          ],
+          "physical_cores": [
+            [
+              "0",
+              "0"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    }
+  ],
+  "correctness": [
+    {
+      "label": "correctness_0_8_static_nonblocking",
+      "runtime_seconds": 0.6651614739967044,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_8_static_nonblocking.out",
+      "stderr_log": "logs/correctness_0_8_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_0_8_dynamic_nonblocking",
+      "runtime_seconds": 0.6650895789935021,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_8_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_0_8_dynamic_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_0_64_static_nonblocking",
+      "runtime_seconds": 1.6165756569971563,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_64_static_nonblocking.out",
+      "stderr_log": "logs/correctness_0_64_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_0_64_dynamic_nonblocking",
+      "runtime_seconds": 1.3661072340037208,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_64_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_0_64_dynamic_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_8_static_nonblocking",
+      "runtime_seconds": 1.8171057340077823,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_8_static_nonblocking.out",
+      "stderr_log": "logs/correctness_1_8_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_8_dynamic_nonblocking",
+      "runtime_seconds": 1.716356728997198,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_8_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_1_8_dynamic_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_64_static_nonblocking",
+      "runtime_seconds": 2.467465424997499,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_64_static_nonblocking.out",
+      "stderr_log": "logs/correctness_1_64_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_64_dynamic_nonblocking",
+      "runtime_seconds": 2.41727754099702,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_64_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_1_64_dynamic_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_2_8_static_nonblocking",
+      "runtime_seconds": 0.8654612050013384,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_2_8_static_nonblocking.out",
+      "stderr_log": "logs/correctness_2_8_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_2_8_dynamic_nonblocking",
+      "runtime_seconds": 0.8660792899900116,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_2_8_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_2_8_dynamic_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_2_64_static_nonblocking",
+      "runtime_seconds": 1.4162882130040089,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_2_64_static_nonblocking.out",
+      "stderr_log": "logs/correctness_2_64_static_nonblocking.err",
+      "validated": true
+    },
+    {
+      "label": "correctness_2_64_dynamic_nonblocking",
+      "runtime_seconds": 1.4162768039968796,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_2_64_dynamic_nonblocking.out",
+      "stderr_log": "logs/correctness_2_64_dynamic_nonblocking.err",
+      "validated": true
+    }
+  ],
+  "commands": [
+    {
+      "label": "probe_1",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_2",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_4",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_8",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "reference_0",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_8_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_8_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_64_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_64_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "reference_1",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_8_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_8_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_64_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_64_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "reference_2",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot.py",
+        "10",
+        "700x50",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_2_8_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "700x50",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_2_8_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "700x50",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_2_64_static_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "700x50",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_2_64_dynamic_nonblocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "700x50",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_001_nodes_static_nonblocking_r1_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_002_scaling_static_nonblocking_r1_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_003_scaling_static_nonblocking_r1_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_004_nodes_static_nonblocking_r1_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_005_scaling_dynamic_nonblocking_r1_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_006_nodes_static_nonblocking_r1_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_007_nodes_static_nonblocking_r1_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_008_scaling_dynamic_nonblocking_r1_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_009_nodes_dynamic_nonblocking_r1_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_010_nodes_static_nonblocking_r1_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_011_nodes_dynamic_nonblocking_r1_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_012_scaling_static_nonblocking_r1_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_013_scaling_static_nonblocking_r1_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_014_scaling_dynamic_nonblocking_r1_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_015_scaling_dynamic_nonblocking_r1_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_016_scaling_static_nonblocking_r1_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_017_nodes_dynamic_nonblocking_r1_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_018_scaling_dynamic_nonblocking_r1_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_019_scaling_dynamic_nonblocking_r1_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_020_nodes_dynamic_nonblocking_r1_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_021_scaling_static_nonblocking_r1_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_022_nodes_dynamic_nonblocking_r1_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_023_nodes_static_nonblocking_r1_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_024_scaling_dynamic_nonblocking_r1_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_025_nodes_dynamic_nonblocking_r1_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_026_nodes_dynamic_nonblocking_r1_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_027_nodes_dynamic_nonblocking_r1_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_028_nodes_static_nonblocking_r1_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_029_scaling_static_nonblocking_r1_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_030_nodes_static_nonblocking_r1_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_031_nodes_static_nonblocking_r2_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_032_nodes_dynamic_nonblocking_r2_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_033_scaling_static_nonblocking_r2_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_034_scaling_dynamic_nonblocking_r2_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_035_nodes_dynamic_nonblocking_r2_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_036_nodes_static_nonblocking_r2_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_037_scaling_dynamic_nonblocking_r2_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_038_scaling_static_nonblocking_r2_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_039_nodes_static_nonblocking_r2_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_040_nodes_dynamic_nonblocking_r2_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_041_nodes_static_nonblocking_r2_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_042_nodes_static_nonblocking_r2_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_043_nodes_dynamic_nonblocking_r2_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_044_scaling_dynamic_nonblocking_r2_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_045_nodes_static_nonblocking_r2_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_046_scaling_dynamic_nonblocking_r2_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_047_nodes_dynamic_nonblocking_r2_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_048_scaling_static_nonblocking_r2_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_049_nodes_static_nonblocking_r2_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_050_nodes_static_nonblocking_r2_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_051_scaling_static_nonblocking_r2_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_052_nodes_dynamic_nonblocking_r2_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_053_scaling_dynamic_nonblocking_r2_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_054_nodes_dynamic_nonblocking_r2_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_055_scaling_dynamic_nonblocking_r2_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_056_nodes_dynamic_nonblocking_r2_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_057_scaling_dynamic_nonblocking_r2_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_058_scaling_static_nonblocking_r2_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_059_scaling_static_nonblocking_r2_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_060_scaling_static_nonblocking_r2_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_061_nodes_dynamic_nonblocking_r3_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_062_scaling_dynamic_nonblocking_r3_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_063_scaling_static_nonblocking_r3_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_064_scaling_static_nonblocking_r3_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_065_nodes_static_nonblocking_r3_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_066_nodes_dynamic_nonblocking_r3_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_067_nodes_static_nonblocking_r3_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_068_scaling_dynamic_nonblocking_r3_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_069_nodes_dynamic_nonblocking_r3_p8_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_070_scaling_dynamic_nonblocking_r3_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_071_nodes_static_nonblocking_r3_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_072_nodes_dynamic_nonblocking_r3_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_073_scaling_static_nonblocking_r3_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_074_nodes_dynamic_nonblocking_r3_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_075_scaling_dynamic_nonblocking_r3_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_076_nodes_dynamic_nonblocking_r3_p8_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_077_nodes_static_nonblocking_r3_p8_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_078_scaling_static_nonblocking_r3_p64_n8_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "64",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_079_nodes_dynamic_nonblocking_r3_p8_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_080_nodes_dynamic_nonblocking_r3_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_081_nodes_static_nonblocking_r3_p8_n4_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_082_scaling_dynamic_nonblocking_r3_p32_n4_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "32",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_4.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_083_scaling_dynamic_nonblocking_r3_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_084_scaling_static_nonblocking_r3_p16_n2_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "16",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_085_nodes_static_nonblocking_r3_p8_n8_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_8.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_086_nodes_static_nonblocking_r3_p8_n1_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:8:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_087_nodes_static_nonblocking_r3_p8_n2_w300",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_2.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "300x300",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_088_scaling_static_nonblocking_r3_p2_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "2",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:2:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_089_scaling_dynamic_nonblocking_r3_p4_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "4",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_dynamic.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_090_scaling_static_nonblocking_r3_p1_n1_w3000",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/scaling_job_29744969/hosts_1.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_nonblocking_static.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    }
+  ],
+  "modules": [
+    "openblas/0.3.31",
+    "sqlite3/3.51.2",
+    "gcc/14.3.0-binutils-2.44",
+    "python3/3.13.11",
+    "meson/1.10.0-python-3.13.11",
+    "numpy/2.4.1-python-3.13.11-openblas-0.3.31",
+    "mpi/5.0.10-gcc-14.3.0-binutils-2.44",
+    "mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10",
+    "scipy/1.17.0-python-3.13.11",
+    "freetype/2.14.1",
+    "matplotlib/3.10.8-numpy-2.4.1-python-3.13.11"
+  ],
+  "versions": {
+    "numpy": "2.4.1",
+    "mpi4py": "4.1.1",
+    "matplotlib": "3.10.8"
+  },
+  "source_hashes": {
+    "Mandelbrot.py": "4e1dc835047daa0980117ba0c707e7f9f5b2105efbb8c2673b7b7c231ae45ad7",
+    "Mandelbrot_nonblocking_dynamic.py": "f9f412c1173e859aa3dcde74c43f8059e45e16d184a541f18cb9518e9a85f13c",
+    "Mandelbrot_nonblocking_static.py": "6e627c7c35d0b5c9afbc18d787ea779e8fd250ce154252aa2fe3623dfab55c3c",
+    "analyse_scaling.py": "7d58617f3692e513dbd9abb21959199fb9e3ede4ef73d339b6f6ec62046c2ff4",
+    "mpi_correctness.py": "ad63c2f0e7a667276f7317973929f5632db93c956f209fcbb8ca662cc53a8520",
+    "mpi_probe.py": "fb21c0280c647355153656ea5b1f7721b256ed1e10de84c41e168836bbfaf764",
+    "run_experiments.py": "a78e574e18e963bf52762a5b75efa049eb29c6ce5a3b023738b3f34047d6ca87",
+    "run_scaling.py": "bf75ab4aba1194c99ef4de452630ec3d0db8aa3408358aa14bd19d581f944b3b",
+    "scaling.yaml": "bab0debfb49532a028828bd2dad21274ea831568e1eded4b940d152d59fdfde3",
+    "scaling_job.sh": "80ec013b5af25e4575b28171ea0a18150a9cc653b6fdd0acbde624330d2f2451",
+    "test_scaling.py": "2e19600bbf6688ebe36a9f35be1dfcf1f2a475a890e1789bc1756cadd43474ff",
+    "vendor/six.py": "c51c91f703d3d4b3696c923cb5fec213e05e75d9215393befac7f2fa6a3904df"
+  },
+  "git_commit": "e9af268fdd3eae92ae61cf7887eba5bad9b5eb7f",
+  "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+  "elapsed_seconds": 5142.892405646999,
+  "analysis": {
+    "successful_records": 90,
+    "figures": [
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\scaling_job_29744969\\figures\\speedup.png",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\scaling_job_29744969\\figures\\speedup.pdf",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\scaling_job_29744969\\figures\\nodes.png",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\scaling_job_29744969\\figures\\nodes.pdf"
+    ],
+    "report": "SUMMARY.md"
+  }
+}

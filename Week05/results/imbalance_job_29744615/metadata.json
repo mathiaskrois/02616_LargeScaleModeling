@@ -1,0 +1,1769 @@
+{
+  "job_id": "29744615",
+  "suite": "imbalance",
+  "status": "complete",
+  "started_utc": "2026-10-17T08:58:52.419032+00:00",
+  "hosts": [
+    "n-62-21-63",
+    "n-62-21-61"
+  ],
+  "allocated_slots": {
+    "n-62-21-63": 4,
+    "n-62-21-61": 4
+  },
+  "configuration": {
+    "suite": "imbalance",
+    "defaults": {
+      "ranks": 8,
+      "nodes": 2,
+      "width": 3000,
+      "height": 3000,
+      "xlim": "-2.2:0.75",
+      "ylim": "-1.3:1.3",
+      "iterations": 100,
+      "repetitions": 3,
+      "seed": 261615
+    },
+    "implementations": {
+      "static_blocking": "Mandelbrot_blocking_static_interleaved.py",
+      "dynamic_blocking": "Mandelbrot_dynamic_profiled.py"
+    },
+    "chunk_sizes": [
+      3,
+      10,
+      46,
+      93,
+      187,
+      375
+    ],
+    "cluster": {
+      "hosts": 2,
+      "slots_per_host": 4,
+      "walltime_seconds": 7200,
+      "mpi_version": "5.0.10",
+      "analysis_reserve_seconds": 300
+    },
+    "preflight": {
+      "launcher_repetitions": 3,
+      "correctness_cases": [
+        [
+          53,
+          47,
+          3
+        ],
+        [
+          31,
+          1100,
+          31
+        ]
+      ]
+    },
+    "output": {
+      "csv": "measurements.csv"
+    }
+  },
+  "seed": 261615,
+  "probes": [
+    {
+      "runtime_seconds": 2.142161991003377,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_00.out",
+      "stderr_log": "logs/probe_00.err",
+      "profile_log": "",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-63",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-63",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-63",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-63",
+          "affinity": [
+            22
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "12"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-61",
+          "affinity": [
+            18
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "8"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-61",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-61",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-61",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "runtime_seconds": 0.865991598002438,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_01.out",
+      "stderr_log": "logs/probe_01.err",
+      "profile_log": "",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-63",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-63",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-63",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-63",
+          "affinity": [
+            22
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "12"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-61",
+          "affinity": [
+            18
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "8"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-61",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-61",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-61",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "runtime_seconds": 0.8659211890044389,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_02.out",
+      "stderr_log": "logs/probe_02.err",
+      "profile_log": "",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-63",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-63",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-63",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-63",
+          "affinity": [
+            22
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "12"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-61",
+          "affinity": [
+            18
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "8"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-61",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-61",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-61",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    },
+    {
+      "runtime_seconds": 0.9158326370015857,
+      "exit_status": 0,
+      "stdout_log": "logs/probe_03.out",
+      "stderr_log": "logs/probe_03.err",
+      "profile_log": "",
+      "validated": true,
+      "ranks": [
+        {
+          "rank": 0,
+          "host": "n-62-21-63",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 1,
+          "host": "n-62-21-63",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 2,
+          "host": "n-62-21-63",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 3,
+          "host": "n-62-21-63",
+          "affinity": [
+            22
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "12"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 4,
+          "host": "n-62-21-61",
+          "affinity": [
+            18
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "8"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 5,
+          "host": "n-62-21-61",
+          "affinity": [
+            19
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "9"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 6,
+          "host": "n-62-21-61",
+          "affinity": [
+            20
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "10"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        },
+        {
+          "rank": 7,
+          "host": "n-62-21-61",
+          "affinity": [
+            21
+          ],
+          "physical_cores": [
+            [
+              "1",
+              "11"
+            ]
+          ],
+          "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+          "mpi_library_version": "Open MPI v5.0.10, package: Open MPI sebo@n-62-29-7 Distribution, ident: 5.0.10, repo rev: v5.0.10, Feb 23, 2026"
+        }
+      ]
+    }
+  ],
+  "correctness": [
+    {
+      "label": "correctness_0_static_blocking",
+      "runtime_seconds": 1.317267193000589,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_static_blocking.out",
+      "stderr_log": "logs/correctness_0_static_blocking.err",
+      "profile_log": "profiles/correctness_0_static_blocking.json",
+      "validated": true
+    },
+    {
+      "label": "correctness_0_dynamic_blocking",
+      "runtime_seconds": 1.066246810994926,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_0_dynamic_blocking.out",
+      "stderr_log": "logs/correctness_0_dynamic_blocking.err",
+      "profile_log": "profiles/correctness_0_dynamic_blocking.json",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_static_blocking",
+      "runtime_seconds": 2.118191781002679,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_static_blocking.out",
+      "stderr_log": "logs/correctness_1_static_blocking.err",
+      "profile_log": "profiles/correctness_1_static_blocking.json",
+      "validated": true
+    },
+    {
+      "label": "correctness_1_dynamic_blocking",
+      "runtime_seconds": 2.0679091720012366,
+      "exit_status": 0,
+      "stdout_log": "logs/correctness_1_dynamic_blocking.out",
+      "stderr_log": "logs/correctness_1_dynamic_blocking.err",
+      "profile_log": "profiles/correctness_1_dynamic_blocking.json",
+      "validated": true
+    }
+  ],
+  "commands": [
+    {
+      "label": "probe_00",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_01",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_02",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "probe_03",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_probe.py"
+      ]
+    },
+    {
+      "label": "reference_0",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts_serial.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_static_blocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_0_dynamic_blocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "3",
+        "53x47",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "reference_1",
+      "argv": [
+        "mpirun",
+        "-np",
+        "1",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts_serial.txt",
+        "--map-by",
+        "ppr:1:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_static_blocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "correctness_1_dynamic_blocking",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/mpi_correctness.py",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "31",
+        "31x1100",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_001_static_blocking_r1_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_002_dynamic_blocking_r1_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_003_static_blocking_r1_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_004_dynamic_blocking_r1_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_005_dynamic_blocking_r1_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_006_static_blocking_r1_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_007_dynamic_blocking_r1_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_008_dynamic_blocking_r1_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_009_static_blocking_r1_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_010_static_blocking_r1_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_011_dynamic_blocking_r1_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_012_static_blocking_r1_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_013_static_blocking_r2_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_014_static_blocking_r2_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_015_dynamic_blocking_r2_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_016_static_blocking_r2_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_017_dynamic_blocking_r2_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_018_static_blocking_r2_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_019_dynamic_blocking_r2_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_020_static_blocking_r2_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_021_dynamic_blocking_r2_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_022_dynamic_blocking_r2_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_023_static_blocking_r2_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_024_dynamic_blocking_r2_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_025_dynamic_blocking_r3_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_026_static_blocking_r3_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_027_static_blocking_r3_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_028_static_blocking_r3_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_029_dynamic_blocking_r3_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_030_static_blocking_r3_c375",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "375",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_031_static_blocking_r3_c46",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "46",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_032_dynamic_blocking_r3_c187",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "187",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_033_dynamic_blocking_r3_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_034_dynamic_blocking_r3_c3",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "3",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_035_static_blocking_r3_c10",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_blocking_static_interleaved.py",
+        "10",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    },
+    {
+      "label": "run_036_dynamic_blocking_r3_c93",
+      "argv": [
+        "mpirun",
+        "-np",
+        "8",
+        "--hostfile",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/results/imbalance_job_29744615/hosts.txt",
+        "--map-by",
+        "ppr:4:node",
+        "--rank-by",
+        "slot",
+        "--bind-to",
+        "core",
+        "--nooversubscribe",
+        "--report-bindings",
+        "/appl9/python/3.13.11/bin/python3",
+        "/zhome/6a/c/186992/02616_LargeScaleModeling/Week05/Mandelbrot_dynamic_profiled.py",
+        "93",
+        "3000x3000",
+        "-2.2:0.75",
+        "-1.3:1.3"
+      ]
+    }
+  ],
+  "modules": [
+    "openblas/0.3.31",
+    "sqlite3/3.51.2",
+    "gcc/14.3.0-binutils-2.44",
+    "python3/3.13.11",
+    "meson/1.10.0-python-3.13.11",
+    "numpy/2.4.1-python-3.13.11-openblas-0.3.31",
+    "mpi/5.0.10-gcc-14.3.0-binutils-2.44",
+    "mpi4py/4.1.1-python-3.13.11-openmpi-5.0.10",
+    "scipy/1.17.0-python-3.13.11",
+    "freetype/2.14.1",
+    "matplotlib/3.10.8-numpy-2.4.1-python-3.13.11"
+  ],
+  "versions": {
+    "numpy": "2.4.1",
+    "mpi4py": "4.1.1",
+    "matplotlib": "3.10.8"
+  },
+  "source_hashes": {
+    "Mandelbrot.py": "4e1dc835047daa0980117ba0c707e7f9f5b2105efbb8c2673b7b7c231ae45ad7",
+    "Mandelbrot_blocking_dynamic.py": "9eeed2b427b25ce865ef9931dd999f064b548f8afbac2277ae6fb9d8ff8976dc",
+    "Mandelbrot_blocking_static_interleaved.py": "2e678f70e28332f9b1a39b5661b9b48c7229720b4cf420dff35c9bad5a263ab8",
+    "Mandelbrot_dynamic_profiled.py": "590a330614979f7f02423ec4e3f1301ebd2f0597f53aa5bbe0dd95bf9f72a456",
+    "Mandelbrot_static_profiled.py": "52986e8c084169297ac135ff57113ff85d2bd3fd4fbb30022601443dea7e2ecf",
+    "analyse_imbalance.py": "683f1bf35e99070a03b5d921b80bbc2e46a440bdf1cd8054e370f5bc1a249beb",
+    "imbalance.yaml": "66e71a06a0c5933617eaffe6b86f545060ab15c1212ac7d22864f2ba12a679d4",
+    "imbalance_job.sh": "943caebc81de2108109874e03a17df61ecb4393163d68c0ce295dac6310af475",
+    "mpi_correctness.py": "ad63c2f0e7a667276f7317973929f5632db93c956f209fcbb8ca662cc53a8520",
+    "mpi_probe.py": "fb21c0280c647355153656ea5b1f7721b256ed1e10de84c41e168836bbfaf764",
+    "run_experiments.py": "a78e574e18e963bf52762a5b75efa049eb29c6ce5a3b023738b3f34047d6ca87",
+    "run_imbalance.py": "864b98f473ea07062ffc2acfa8c0560348ec299a2c9c37f8f5a1c3b33533beb9",
+    "test_imbalance.py": "e9d4dbbb3d65d76c1f029ab3ead7285981846d8a813abe65477f1a79961aa007",
+    "vendor/six.py": "c51c91f703d3d4b3696c923cb5fec213e05e75d9215393befac7f2fa6a3904df"
+  },
+  "git_commit": "2484bd4068e2c804303fe8e6f5b33d1ea84416d6",
+  "cpu_model": "Intel(R) Xeon(R) CPU E5-2650 v4 @ 2.20GHz",
+  "elapsed_seconds": 1995.2375822460017,
+  "analysis": {
+    "successful_records": 36,
+    "figures": [
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\imbalance_job_29744615\\figures\\rank_compute.png",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\imbalance_job_29744615\\figures\\rank_compute.pdf",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\imbalance_job_29744615\\figures\\imbalance_ratio.png",
+      "C:\\Users\\s223865\\OneDrive - Danmarks Tekniske Universitet\\Master\\3. sem\\Large Scale Modelling\\02616_LargeScaleModeling\\Week05\\results\\imbalance_job_29744615\\figures\\imbalance_ratio.pdf"
+    ],
+    "report": "SUMMARY.md"
+  }
+}

@@ -1,0 +1,1 @@
+n-62-21-82 slots=8 max_slots=8
